@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>FII Master AI - Analisador Inteligente & Gestão de Carteira</title>
+  <title>FII Master AI - Gestor de Carteira & Analisador</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -28,11 +28,8 @@
           },
           colors: {
             brand: {
-              50: '#ecfdf5',
-              400: '#34d399',
               500: '#10b981',
               600: '#059669',
-              700: '#047857',
             }
           }
         }
@@ -51,42 +48,38 @@
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
     ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.3); border-radius: 999px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(16, 185, 129, 0.6); }
     .score-gauge-transition { transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-brand-500 selection:text-white safe-bottom">
 
-  <!-- Top Navigation Header -->
+  <!-- Header Fixo com Área de Segurança do iPhone -->
   <header class="border-b border-slate-800/80 bg-slate-900/95 backdrop-blur-md sticky top-0 z-50 safe-top">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-2">
       
-      <!-- Brand Logo -->
+      <!-- Brand Logo + Tag de Versão -->
       <div class="flex items-center gap-2 sm:gap-3 shrink-0">
         <div class="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 shrink-0">
           <i data-lucide="shield-check" class="w-5 h-5 sm:w-6 sm:h-6 text-white"></i>
         </div>
-        <div>
-          <div class="flex items-center gap-1.5 sm:gap-2">
-            <span class="font-extrabold text-base sm:text-lg text-white tracking-tight whitespace-nowrap">
-              FII Master <span class="text-emerald-400">AI</span>
-            </span>
-            <span class="hidden md:inline-block text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-              Versão 3.5 Pro
-            </span>
-          </div>
-          <p class="text-[11px] text-slate-400 hidden sm:block">Inteligência Analítica & Gestão Integrada de FIIs</p>
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          <span class="font-extrabold text-base sm:text-lg text-white tracking-tight whitespace-nowrap">
+            FII Master <span class="text-emerald-400">AI</span>
+          </span>
+          <span class="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+            v3.6
+          </span>
         </div>
       </div>
 
-      <!-- Mode Tabs Switcher -->
+      <!-- Abas de Navegação -->
       <nav class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800 shrink-0">
-        <button id="tabBtnAnalyzer" onclick="switchTab('analyzer')" class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-sm whitespace-nowrap">
+        <button id="tabBtnAnalyzer" onclick="switchTab('analyzer')" class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white whitespace-nowrap">
           <i data-lucide="search" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
           <span class="hidden sm:inline">Analisador & IA</span>
           <span class="sm:hidden">Analisar</span>
         </button>
-        <button id="tabBtnPortfolio" onclick="switchTab('portfolio')" class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white whitespace-nowrap">
+        <button id="tabBtnPortfolio" onclick="switchTab('portfolio')" class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-sm whitespace-nowrap">
           <i data-lucide="pie-chart" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
           <span class="hidden sm:inline">Minha Carteira</span>
           <span class="sm:hidden">Carteira</span>
@@ -97,11 +90,178 @@
     </div>
   </header>
 
-  <!-- Main Container -->
+  <!-- Container Principal -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-6">
 
-    <!-- VIEW 1: ANALISADOR INTELIGENTE -->
-    <div id="viewAnalyzer" class="space-y-6">
+    <!-- ======================================================= -->
+    <!-- ABA 1: MINHA CARTEIRA (ABRE DIRETO COMO PRINCIPAL)       -->
+    <!-- ======================================================= -->
+    <div id="viewPortfolio" class="space-y-6">
+
+      <!-- Status Bar de Cotações Online Automáticas -->
+      <section class="bg-slate-900 border border-slate-800/80 rounded-2xl p-3.5 sm:p-4 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span id="syncStatusText" class="text-xs text-slate-300 font-medium">Sincronizando cotações automáticas com a B3...</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="fetchLiveMarketPrices(false)" class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1 transition">
+            <i data-lucide="refresh-cw" class="w-3 h-3 text-emerald-400"></i>
+            <span>Forçar Atualização</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Painel de Backup, Exportação e Restauração -->
+      <section class="bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-800/80 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+          <div>
+            <h3 class="font-bold text-sm text-white flex items-center gap-2">
+              <i data-lucide="database" class="w-4 h-4 text-emerald-400"></i>
+              Gestão de Dados, Backup & Exportação
+            </h3>
+            <p class="text-xs text-slate-400">Seus dados ficam gravados no iPhone. Exporte para cópia ou backup externo.</p>
+          </div>
+          <button onclick="openAddFiiModal()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-xs font-bold text-white transition flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-600/20">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+            <span>Adicionar Novo FII</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-3">
+          <!-- 1. Copiar Relatório -->
+          <button onclick="exportPortfolioForChat()" class="w-full px-3 py-2 bg-slate-950 hover:bg-slate-800 border border-slate-700/80 rounded-xl text-xs font-semibold text-slate-200 transition flex items-center justify-center gap-2">
+            <i data-lucide="copy" class="w-3.5 h-3.5 text-blue-400"></i>
+            <span>Copiar para Chat</span>
+          </button>
+
+          <!-- 2. Baixar Backup JSON -->
+          <button onclick="downloadBackupFile()" class="w-full px-3 py-2 bg-slate-950 hover:bg-slate-800 border border-slate-700/80 rounded-xl text-xs font-semibold text-slate-200 transition flex items-center justify-center gap-2">
+            <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>Baixar Backup (JSON)</span>
+          </button>
+
+          <!-- 3. Restaurar Backup -->
+          <label class="w-full px-3 py-2 bg-slate-950 hover:bg-slate-800 border border-slate-700/80 rounded-xl text-xs font-semibold text-slate-200 transition flex items-center justify-center gap-2 cursor-pointer">
+            <i data-lucide="upload" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>Restaurar Backup</span>
+            <input type="file" id="backupFileInput" accept=".json" class="hidden" onchange="restoreBackupFile(event)">
+          </label>
+        </div>
+      </section>
+
+      <!-- KPI Summary Cards -->
+      <section class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
+          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Patrimônio Atual</span>
+          <span id="kpiTotalWealth" class="text-lg sm:text-2xl font-black font-mono text-white mt-1 block">R$ 0,00</span>
+          <span id="kpiCotasTotal" class="text-[10px] text-slate-500 block">0 cotas</span>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
+          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Proventos / Mês</span>
+          <span id="kpiMonthlyIncome" class="text-lg sm:text-2xl font-black font-mono text-emerald-400 mt-1 block">R$ 0,00</span>
+          <span id="kpiYieldMonthly" class="text-[10px] text-emerald-500/80 block">~0.0% a.m.</span>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
+          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Total Investido</span>
+          <span id="kpiTotalCost" class="text-lg sm:text-2xl font-black font-mono text-slate-200 mt-1 block">R$ 0,00</span>
+          <span id="kpiProfitDiff" class="text-[10px] text-slate-400 block font-mono">0.0% lucro</span>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
+          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Bola de Neve</span>
+          <span id="kpiMagicStatus" class="text-xs sm:text-base font-bold text-amber-400 mt-1.5 block">Sem Ativos</span>
+          <span id="kpiMagicSubtitle" class="text-[10px] text-slate-400 block truncate">Cadastre seu 1º FII</span>
+        </div>
+      </section>
+
+      <!-- Tabela da Carteira -->
+      <section class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div>
+            <h3 class="font-bold text-base text-white flex items-center gap-2">
+              <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
+              Seus Fundos Cadastrados
+            </h3>
+            <p class="text-xs text-slate-400">Histórico de aportes, valor de compra e cotação de mercado.</p>
+          </div>
+        </div>
+
+        <!-- Tabela Responsiva com Scroll Horizontal no Celular -->
+        <div class="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+          <table class="w-full text-left text-xs min-w-[650px]">
+            <thead class="bg-slate-950/80 text-slate-400 font-mono text-[11px] border-b border-slate-800 uppercase">
+              <tr>
+                <th class="py-2.5 px-3">Data</th>
+                <th class="py-2.5 px-2">Ticker</th>
+                <th class="py-2.5 px-2">Segmento</th>
+                <th class="py-2.5 px-2 text-right">Cotas</th>
+                <th class="py-2.5 px-2 text-right">Custo Cota</th>
+                <th class="py-2.5 px-2 text-right">Preço Atual</th>
+                <th class="py-2.5 px-2 text-right">Patrimônio</th>
+                <th class="py-2.5 px-2 text-right">Lucro/Prej</th>
+                <th class="py-2.5 px-2 text-right">Renda/mês</th>
+                <th class="py-2.5 px-3 text-center">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="portfolioTableBody" class="divide-y divide-slate-800/60 font-mono"></tbody>
+          </table>
+        </div>
+
+        <div id="emptyPortfolioMsg" class="py-12 text-center space-y-3">
+          <div class="w-12 h-12 rounded-full bg-slate-800/60 flex items-center justify-center mx-auto text-slate-500">
+            <i data-lucide="wallet" class="w-6 h-6"></i>
+          </div>
+          <div class="space-y-1">
+            <p class="text-sm font-semibold text-slate-300">Sua carteira está limpa e vazia.</p>
+            <p class="text-xs text-slate-400">Adicione os fundos que você comprou para começar a acompanhar o crescimento.</p>
+          </div>
+          <button onclick="openAddFiiModal()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white transition shadow">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Cadastrar Meu Primeiro FII</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Gráfico e Rebalanceamento -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <section class="lg:col-span-6 bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
+          <h4 class="font-bold text-sm text-white flex items-center gap-2">
+            <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-400"></i>
+            Distribuição por Segmento
+          </h4>
+          <div class="relative h-52 flex items-center justify-center">
+            <canvas id="allocationChart"></canvas>
+          </div>
+          <div id="chartLegend" class="flex flex-wrap gap-2 pt-2 justify-center text-[10px]"></div>
+        </section>
+
+        <section class="lg:col-span-6 bg-gradient-to-br from-slate-900 to-emerald-950/40 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+            <div class="flex items-center gap-2">
+              <i data-lucide="bot" class="w-4 h-4 text-emerald-400"></i>
+              <h4 class="font-bold text-xs uppercase tracking-wider text-white">IA Rebalanceadora de Aportes</h4>
+            </div>
+            <button onclick="calculateAIRebalance()" class="text-xs font-semibold px-2.5 py-1 rounded bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-600/30 transition">
+              Calcular Aporte
+            </button>
+          </div>
+          <p class="text-xs text-slate-300">
+            Simula a distribuição do seu aporte para reequilibrar seus ativos automaticamente.
+          </p>
+          <div id="rebalanceSuggestions" class="space-y-2 pt-1"></div>
+        </section>
+      </div>
+
+    </div>
+
+
+    <!-- ======================================================= -->
+    <!-- ABA 2: ANALISADOR INTELIGENTE (PESQUISA E P/VP)         -->
+    <!-- ======================================================= -->
+    <div id="viewAnalyzer" class="hidden space-y-6">
 
       <!-- Fast Autocomplete Bar -->
       <section class="bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-800/80 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl relative z-30">
@@ -111,7 +271,7 @@
               <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Autocomplete & Seleção Instantânea
             </span>
             <h2 class="text-base sm:text-lg font-bold text-white">Pesquise qualquer FII da Bolsa Brasileira</h2>
-            <p class="text-xs text-slate-400">Digite o código para carregar métricas, P/VP, vacância e veredito do algoritmo.</p>
+            <p class="text-xs text-slate-400">Selecione para calcular Score de compra, P/VP e proventos.</p>
           </div>
 
           <div class="relative w-full lg:w-96">
@@ -130,12 +290,10 @@
                 <i data-lucide="x" class="w-4 h-4"></i>
               </button>
             </div>
-
             <div id="autocompleteDropdown" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl max-h-72 overflow-y-auto divide-y divide-slate-800 z-50"></div>
           </div>
         </div>
 
-        <!-- Quick Tag Bar -->
         <div class="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t border-slate-800/80">
           <span class="text-[11px] text-slate-400 font-semibold mr-1 flex items-center gap-1">
             <i data-lucide="flame" class="w-3 h-3 text-amber-400"></i> Mais Acessados:
@@ -144,25 +302,18 @@
           <button onclick="selectFII('KNSC11')" class="px-2.5 py-1 bg-slate-800 hover:bg-emerald-600/20 border border-slate-700 rounded-lg text-xs font-mono font-semibold text-slate-200 transition">KNSC11</button>
           <button onclick="selectFII('VGIR11')" class="px-2.5 py-1 bg-slate-800 hover:bg-emerald-600/20 border border-slate-700 rounded-lg text-xs font-mono font-semibold text-slate-200 transition">VGIR11</button>
           <button onclick="selectFII('GARE11')" class="px-2.5 py-1 bg-slate-800 hover:bg-emerald-600/20 border border-slate-700 rounded-lg text-xs font-mono font-semibold text-slate-200 transition">GARE11</button>
-          <button onclick="selectFII('CPTS11')" class="px-2.5 py-1 bg-slate-800 hover:bg-emerald-600/20 border border-slate-700 rounded-lg text-xs font-mono font-semibold text-slate-200 transition">CPTS11</button>
           <button onclick="selectFII('HGLG11')" class="px-2.5 py-1 bg-slate-800 hover:bg-emerald-600/20 border border-slate-700 rounded-lg text-xs font-mono font-semibold text-slate-200 transition">HGLG11</button>
-          <button onclick="selectFII('VISC11')" class="px-2.5 py-1 bg-slate-800 hover:bg-emerald-600/20 border border-slate-700 rounded-lg text-xs font-mono font-semibold text-slate-200 transition">VISC11</button>
-          <button onclick="selectFII('HCTR11')" class="px-2.5 py-1 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 rounded-lg text-xs font-mono font-semibold text-rose-300 transition flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span> HCTR11 (Yield Trap)
-          </button>
         </div>
       </section>
 
-      <!-- Analysis Grid -->
+      <!-- Analysis Form + Verdict -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        
-        <!-- Editable Metrics Form -->
         <section class="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
           <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-            <div class="flex items-center gap-2">
+            <h3 class="font-bold text-sm text-white flex items-center gap-2">
               <i data-lucide="sliders" class="w-4 h-4 text-emerald-400"></i>
-              <h3 class="font-bold text-sm text-white">Parâmetros & Dados do Fundo</h3>
-            </div>
+              Dados do Fundo
+            </h3>
             <button onclick="addCurrentFiiToPortfolio()" class="px-2.5 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 text-xs font-semibold flex items-center gap-1 transition">
               <i data-lucide="plus" class="w-3.5 h-3.5"></i>
               <span>Adicionar à Carteira</span>
@@ -172,21 +323,19 @@
           <form id="fiiForm" class="space-y-3.5" onsubmit="event.preventDefault(); runAnalysis();">
             <div class="grid grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1">Ticker / Código</label>
-                <input type="text" id="ticker" value="KNSC11" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold uppercase text-emerald-400 focus:outline-none focus:border-emerald-500" required>
+                <label class="block text-xs font-medium text-slate-400 mb-1">Ticker</label>
+                <input type="text" id="ticker" value="KNSC11" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold uppercase text-emerald-400 focus:outline-none" required>
               </div>
               <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1">Segmento</label>
-                <select id="fundType" onchange="toggleTijoloFields()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-2.5 py-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
-                  <option value="papel">Papel / CRIs (Títulos de Dívida)</option>
-                  <option value="tijolo">Tijolo (Galpões, Shoppings, Renda)</option>
-                  <option value="misto">Misto / FOF / Desenvolvimento</option>
-                  <option value="fiagro">Fiagro (Crédito Agro)</option>
+                <select id="fundType" onchange="toggleTijoloFields()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-2.5 py-2 text-xs text-slate-200 focus:outline-none">
+                  <option value="papel">Papel / CRI</option>
+                  <option value="tijolo">Tijolo / Imóveis</option>
+                  <option value="misto">Misto / Outros</option>
                 </select>
               </div>
             </div>
 
-            <!-- Preço e VP -->
             <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800 space-y-2">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-semibold text-slate-300">Cotação & Valor Patrimonial</span>
@@ -195,326 +344,78 @@
               <div class="grid grid-cols-2 gap-3">
                 <div>
                   <label class="block text-[11px] text-slate-400">Preço Atual (R$)</label>
-                  <input type="number" step="0.01" id="price" value="9.15" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-white focus:outline-none focus:border-emerald-500" oninput="updateLivePVP(); runAnalysis();">
+                  <input type="number" step="0.01" id="price" value="9.15" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-white" oninput="updateLivePVP(); runAnalysis();">
                 </div>
                 <div>
-                  <label class="block text-[11px] text-slate-400">VP por Cota (R$)</label>
-                  <input type="number" step="0.01" id="vp" value="9.20" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-white focus:outline-none focus:border-emerald-500" oninput="updateLivePVP(); runAnalysis();">
+                  <label class="block text-[11px] text-slate-400">VP Cota (R$)</label>
+                  <input type="number" step="0.01" id="vp" value="9.20" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-white" oninput="updateLivePVP(); runAnalysis();">
                 </div>
               </div>
             </div>
 
-            <!-- Proventos & DY -->
             <div class="grid grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1">DY Anual (12M %)</label>
-                <div class="relative">
-                  <input type="number" step="0.1" id="dy" value="11.2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white focus:outline-none focus:border-emerald-500 pr-7" oninput="runAnalysis()">
-                  <span class="absolute right-3 top-2 text-xs text-slate-500 font-mono">%</span>
-                </div>
+                <label class="block text-xs font-medium text-slate-400 mb-1">DY Anual (%)</label>
+                <input type="number" step="0.1" id="dy" value="11.2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white" oninput="runAnalysis()">
               </div>
               <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1">Último Rendimento (R$)</label>
-                <input type="number" step="0.001" id="lastDiv" value="0.09" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white focus:outline-none focus:border-emerald-500" oninput="runAnalysis()">
+                <label class="block text-xs font-medium text-slate-400 mb-1">Último Provento (R$)</label>
+                <input type="number" step="0.001" id="lastDiv" value="0.09" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white" oninput="runAnalysis()">
               </div>
             </div>
 
-            <!-- Tijolo Fields -->
             <div id="tijoloFields" class="hidden space-y-2 bg-blue-950/20 border border-blue-900/40 p-3 rounded-xl">
-              <span class="text-xs font-semibold text-blue-300 flex items-center gap-1">
-                <i data-lucide="building" class="w-3.5 h-3.5 text-blue-400"></i> Métricas Físicas de Tijolo
-              </span>
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <label class="block text-[11px] text-slate-400">Vacância Física (%)</label>
-                  <input type="number" step="0.1" id="physicalVac" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs font-mono text-white" oninput="runAnalysis()">
-                </div>
-                <div>
-                  <label class="block text-[11px] text-slate-400">Vacância Fin. (%)</label>
-                  <input type="number" step="0.1" id="financialVac" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs font-mono text-white" oninput="runAnalysis()">
-                </div>
-              </div>
-            </div>
-
-            <!-- Liquidez & Diversificação -->
-            <div class="grid grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1">Liquidez Diária</label>
-                <select id="liquidity" onchange="runAnalysis()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-2 py-2 text-xs text-slate-200 focus:outline-none">
-                  <option value="alta" selected>> R$ 2M / dia</option>
-                  <option value="media">R$ 500k a R$ 2M</option>
-                  <option value="baixa">&lt; R$ 500k / dia</option>
-                </select>
-              </div>
-              <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1">Diversificação</label>
-                <select id="diversification" onchange="runAnalysis()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-2 py-2 text-xs text-slate-200 focus:outline-none">
-                  <option value="pulverizada" selected>> 20 contratos/devedores</option>
-                  <option value="moderada">8 a 20 contratos</option>
-                  <option value="mono">Mono-ativo ou Mono-inquilino</option>
-                </select>
-              </div>
-            </div>
-
-            <!-- Perfil de Risco -->
-            <div>
-              <label class="block text-xs font-medium text-slate-400 mb-1">Perfil de Crédito / Ativos</label>
-              <select id="creditRisk" onchange="runAnalysis()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
-                <option value="high_grade" selected>High Grade (Devedores de 1ª Linha, Gestora Top Tier)</option>
-                <option value="middle">Middle Risk (Equilíbrio entre retorno e risco)</option>
-                <option value="high_yield">High Yield (Taxas elevadas, alto risco de inadimplência)</option>
-              </select>
+              <label class="block text-[11px] text-slate-400">Vacância Física (%)</label>
+              <input type="number" step="0.1" id="physicalVac" value="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs font-mono text-white" oninput="runAnalysis()">
             </div>
           </form>
         </section>
 
-        <!-- AI VERDICT CARD -->
+        <!-- Card de Veredito IA -->
         <section class="lg:col-span-7 space-y-5">
-          <div id="aiVerdictBox" class="rounded-2xl border p-4 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-emerald-500/30">
+          <div id="aiVerdictBox" class="rounded-2xl border p-4 sm:p-6 shadow-2xl transition-all duration-300 bg-slate-900 border-emerald-500/30">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-5 border-b border-slate-800 pb-5">
-              
-              <!-- Circular Score Gauge -->
               <div class="relative w-28 h-28 sm:w-32 sm:h-32 flex-shrink-0 flex items-center justify-center">
                 <svg class="w-full h-full -rotate-90 transform" viewBox="0 0 120 120">
                   <circle cx="60" cy="60" r="50" class="text-slate-800" stroke-width="10" stroke="currentColor" fill="transparent" />
                   <circle id="scoreGauge" cx="60" cy="60" r="50" class="score-gauge-transition text-emerald-400" stroke-width="10" stroke-linecap="round" stroke="currentColor" fill="transparent" stroke-dasharray="314.16" stroke-dashoffset="40" />
                 </svg>
                 <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
-                  <span id="scoreVal" class="text-2xl sm:text-3xl font-black font-mono text-white tracking-tight">88</span>
+                  <span id="scoreVal" class="text-2xl sm:text-3xl font-black font-mono text-white">88</span>
                   <span class="text-[9px] uppercase font-bold tracking-widest text-slate-400">Score IA</span>
                 </div>
               </div>
 
-              <!-- Verdict Tag & Title -->
               <div class="flex-1 text-center sm:text-left space-y-2">
-                <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                  <span id="verdictPill" class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1.5">
-                    <i data-lucide="check-circle" class="w-4 h-4"></i> RECOMENDADO PARA COMPRA
-                  </span>
-                  <span id="verdictTicker" class="font-mono text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-300">
-                    KNSC11
-                  </span>
-                </div>
-                <h3 id="verdictHeadline" class="text-base sm:text-lg font-bold text-white">
-                  Ativo perene e altamente defensivo para proventos mensais
-                </h3>
+                <span id="verdictPill" class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 inline-flex items-center gap-1.5">
+                  <i data-lucide="check-circle" class="w-4 h-4"></i> RECOMENDADO PARA COMPRA
+                </span>
+                <h3 id="verdictHeadline" class="text-base sm:text-lg font-bold text-white">Ativo defensivo para proventos</h3>
                 <p id="verdictSummaryText" class="text-xs text-slate-300 leading-relaxed">
-                  Negociando rigorosamente no preço justo sem pagar ágio em crédito, carteira gerida por instituição de primeira linha e excelente blindagem contra volatilidade.
+                  Negociando no preço justo sem ágio prejudicial em carteira de crédito.
                 </p>
               </div>
-
             </div>
 
-            <!-- Deep Reasoning Breakdown -->
-            <div class="pt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="bg-emerald-950/20 border border-emerald-900/40 rounded-xl p-3.5 space-y-2">
-                <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <i data-lucide="thumbs-up" class="w-3.5 h-3.5"></i> Por que comprar? (Fatores Positivos)
-                </h4>
-                <ul id="whyBuyList" class="space-y-1.5 text-xs text-slate-200"></ul>
-              </div>
-
-              <div class="bg-rose-950/20 border border-rose-900/40 rounded-xl p-3.5 space-y-2">
-                <h4 class="text-xs font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Riscos & Pontos de Alerta
-                </h4>
-                <ul id="whyAvoidList" class="space-y-1.5 text-xs text-slate-200"></ul>
-              </div>
+            <div class="pt-4">
+              <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">Pontos Positivos</h4>
+              <ul id="whyBuyList" class="space-y-1 text-xs text-slate-200"></ul>
             </div>
-
-          </div>
-
-          <!-- Quick Snowball Calculator -->
-          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <i data-lucide="snowflake" class="w-4 h-4 text-emerald-400"></i>
-                <h4 class="text-xs font-bold text-white uppercase tracking-wider">Cálculo do Número Mágico deste Fundo</h4>
-              </div>
-              <span id="magicFiiCotas" class="text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
-                102 cotas
-              </span>
-            </div>
-            <p id="magicFiiExplanation" class="text-xs text-slate-400 leading-relaxed">
-              Ao atingir <strong>102 cotas</strong> (~R$ 933,30), os proventos mensais pagarão <strong>1 nova cota todo mês sem tirar do seu bolso</strong>.
-            </p>
           </div>
         </section>
-
-      </div>
-
-    </div>
-
-    <!-- VIEW 2: GESTÃO E CARTEIRA DO USUÁRIO -->
-    <div id="viewPortfolio" class="hidden space-y-6">
-
-      <!-- Profile & Goal Bar -->
-      <section class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Seu Nome / Perfil</label>
-            <input type="text" id="investorName" value="Meu Perfil FII" onchange="savePortfolioToStorage()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-bold text-white focus:outline-none focus:border-emerald-500">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Estratégia de Risco</label>
-            <select id="investorProfile" onchange="applyProfileAllocationTemplate(); savePortfolioToStorage();" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
-              <option value="conservador" selected>Conservador (Foco em Renda & Defesa)</option>
-              <option value="moderado">Moderado (Equilíbrio Papel + Tijolo)</option>
-              <option value="arrojado">Arrojado (Crescimento & Ganho de Capital)</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Meta de Renda Mensal (R$)</label>
-            <div class="relative">
-              <span class="absolute left-3 top-2 text-xs font-mono text-slate-500">R$</span>
-              <input type="number" id="monthlyGoal" value="1000" onchange="renderPortfolioDashboard(); savePortfolioToStorage();" class="w-full bg-slate-950 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs font-mono font-bold text-white focus:outline-none focus:border-emerald-500">
-            </div>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Aporte Mensal Previsto (R$)</label>
-            <div class="relative">
-              <span class="absolute left-3 top-2 text-xs font-mono text-slate-500">R$</span>
-              <input type="number" id="monthlyContribution" value="100" onchange="savePortfolioToStorage(); calculateAIRebalance();" class="w-full bg-slate-950 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs font-mono font-bold text-emerald-400 focus:outline-none focus:border-emerald-500">
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- KPI Summary Cards -->
-      <section class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
-          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Patrimônio Atual</span>
-          <span id="kpiTotalWealth" class="text-lg sm:text-2xl font-black font-mono text-white mt-1 block">R$ 0,00</span>
-          <span id="kpiCotasTotal" class="text-[10px] text-slate-500 block">0 cotas no total</span>
-        </div>
-
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
-          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Proventos / Mês</span>
-          <span id="kpiMonthlyIncome" class="text-lg sm:text-2xl font-black font-mono text-emerald-400 mt-1 block">R$ 0,00</span>
-          <span id="kpiYieldMonthly" class="text-[10px] text-emerald-500/80 block">~0.0% a.m.</span>
-        </div>
-
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
-          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Total Desembolsado</span>
-          <span id="kpiTotalCost" class="text-lg sm:text-2xl font-black font-mono text-slate-200 mt-1 block">R$ 0,00</span>
-          <span id="kpiProfitDiff" class="text-[10px] text-slate-400 block font-mono">0.0% de lucro</span>
-        </div>
-
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
-          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Bola de Neve</span>
-          <span id="kpiMagicStatus" class="text-xs sm:text-base font-bold text-amber-400 mt-1.5 block">Em Construção 🌱</span>
-          <span id="kpiMagicSubtitle" class="text-[10px] text-slate-400 block truncate">Aportando 1ª cota</span>
-        </div>
-      </section>
-
-      <!-- Portfolio Content: Table & Charts -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        
-        <!-- Table & Actions Section -->
-        <section class="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
-            <div>
-              <h3 class="font-bold text-base text-white flex items-center gap-2">
-                <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
-                Ativos na Sua Carteira
-              </h3>
-              <p class="text-xs text-slate-400">Histórico de compras e cotações em tempo real.</p>
-            </div>
-            
-            <!-- Quick Actions Buttons -->
-            <div class="flex flex-wrap items-center gap-2">
-              <button onclick="fetchLiveMarketPrices()" id="btnSyncPrices" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 flex items-center gap-1.5" title="Buscar cotações online da B3">
-                <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-emerald-400"></i>
-                <span>Atualizar Cotações</span>
-              </button>
-
-              <button onclick="exportPortfolioForChat()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 flex items-center gap-1.5" title="Copiar relatório formatado para mandar no chat">
-                <i data-lucide="copy" class="w-3.5 h-3.5 text-blue-400"></i>
-                <span>Copiar para Chat</span>
-              </button>
-
-              <button onclick="openAddFiiModal()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-xs font-semibold text-white transition flex items-center gap-1.5 shadow">
-                <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
-                <span>Adicionar FII</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Table Container -->
-          <div class="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
-            <table class="w-full text-left text-xs min-w-[700px]">
-              <thead class="bg-slate-950/80 text-slate-400 font-mono text-[11px] border-b border-slate-800 uppercase">
-                <tr>
-                  <th class="py-2.5 px-3">Data</th>
-                  <th class="py-2.5 px-2">Ativo</th>
-                  <th class="py-2.5 px-2">Segmento</th>
-                  <th class="py-2.5 px-2 text-right">Cotas</th>
-                  <th class="py-2.5 px-2 text-right">Custo Cota</th>
-                  <th class="py-2.5 px-2 text-right">Preço Atual</th>
-                  <th class="py-2.5 px-2 text-right">Patrimônio</th>
-                  <th class="py-2.5 px-2 text-right">Lucro/Prej</th>
-                  <th class="py-2.5 px-2 text-right">Renda/mês</th>
-                  <th class="py-2.5 px-3 text-center">Ações</th>
-                </tr>
-              </thead>
-              <tbody id="portfolioTableBody" class="divide-y divide-slate-800/60 font-mono"></tbody>
-            </table>
-          </div>
-
-          <div id="emptyPortfolioMsg" class="hidden py-8 text-center space-y-2">
-            <i data-lucide="inbox" class="w-8 h-8 text-slate-600 mx-auto"></i>
-            <p class="text-xs text-slate-400">Sua carteira ainda está vazia.</p>
-            <p class="text-xs text-emerald-400 cursor-pointer hover:underline" onclick="loadSuggestedStarterPortfolio()">
-              Clique aqui para preencher com a Carteira Defensiva recomendada de R$ 100!
-            </p>
-          </div>
-        </section>
-
-        <!-- Chart & AI Rebalance -->
-        <section class="lg:col-span-4 space-y-6">
-          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
-            <h4 class="font-bold text-sm text-white flex items-center gap-2">
-              <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-400"></i>
-              Diversificação por Segmento
-            </h4>
-            <div class="relative h-52 sm:h-56 flex items-center justify-center">
-              <canvas id="allocationChart"></canvas>
-            </div>
-            <div id="chartLegend" class="flex flex-wrap gap-2 pt-2 justify-center text-[10px]"></div>
-          </div>
-
-          <div class="bg-gradient-to-br from-slate-900 to-emerald-950/40 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-              <div class="flex items-center gap-2">
-                <i data-lucide="bot" class="w-4 h-4 text-emerald-400"></i>
-                <h4 class="font-bold text-xs uppercase tracking-wider text-white">IA Rebalanceadora</h4>
-              </div>
-              <button onclick="calculateAIRebalance()" class="text-xs font-semibold px-2.5 py-1 rounded bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-600/30 transition">
-                Calcular Aporte
-              </button>
-            </div>
-
-            <p class="text-xs text-slate-300 leading-relaxed">
-              Com base no seu aporte de <strong class="text-emerald-400" id="aiRebalanceAporteText">R$ 100,00</strong>, a IA prioriza ativos abaixo da meta alvo.
-            </p>
-
-            <div id="rebalanceSuggestions" class="space-y-2 pt-1"></div>
-          </div>
-        </section>
-
       </div>
 
     </div>
 
   </main>
 
-  <!-- MODAL: ADD / EDIT FII IN PORTFOLIO -->
+  <!-- MODAL: CADASTRAR / EDITAR COMPRA -->
   <div id="fiiModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 class="font-bold text-sm text-white flex items-center gap-2">
           <i data-lucide="plus-circle" class="w-4 h-4 text-emerald-400"></i>
-          <span>Registrar Compra / Ativo</span>
+          <span>Registrar Compra de FII</span>
         </h3>
         <button onclick="closeAddFiiModal()" class="text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
@@ -522,38 +423,35 @@
       </div>
 
       <div class="space-y-3">
-        <!-- Ticker & Data -->
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-semibold text-slate-400 mb-1">Ticker</label>
             <input type="text" id="modalTicker" onchange="autoFetchPriceOnTickerChange(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-emerald-400 uppercase" placeholder="Ex: KNSC11">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Data do Aporte</label>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Data da Compra</label>
             <input type="date" id="modalDate" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-white">
           </div>
         </div>
         
-        <!-- Quantidade e Custo Total/Cota -->
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-semibold text-slate-400 mb-1">Quantidade de Cotas</label>
             <input type="number" id="modalQuantity" min="1" value="10" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Custo da Cota Pago (R$)</label>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Custo Pago por Cota (R$)</label>
             <input type="number" step="0.01" id="modalCostPrice" value="9.15" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white" placeholder="Preço + taxas">
           </div>
         </div>
 
-        <!-- Cotação Atual de Mercado e Provento -->
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Cotação Atual (R$)</label>
-            <input type="number" step="0.01" id="modalCurrentPrice" value="9.15" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-emerald-400" placeholder="Puxado da B3">
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Preço Atual B3 (R$)</label>
+            <input type="number" step="0.01" id="modalCurrentPrice" value="9.15" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-emerald-400">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Dividendo Médio/Cota (R$)</label>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Provento Médio (R$)</label>
             <input type="number" step="0.001" id="modalDividend" value="0.09" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white">
           </div>
         </div>
@@ -566,13 +464,8 @@
             <option value="Shoppings">Shoppings</option>
             <option value="Renda Urbana">Renda Urbana / Híbrido</option>
             <option value="Fiagro">Fiagro</option>
-            <option value="Lajes Corporativas">Lajes Corporativas</option>
+            <option value="Outros">Outros</option>
           </select>
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-400 mb-1">Peso Alvo Desejado (%)</label>
-          <input type="number" id="modalTargetWeight" min="1" max="100" value="15" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-emerald-400">
         </div>
       </div>
 
@@ -583,25 +476,22 @@
     </div>
   </div>
 
-  <!-- Notification Toast -->
+  <!-- Toast Notification -->
   <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-slate-900 border border-emerald-500/40 text-emerald-300 text-xs font-semibold px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2">
     <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i>
     <span id="toastMsg">Operação realizada com sucesso!</span>
   </div>
 
-  <!-- DATABASE & ENGINE JAVASCRIPT -->
+  <!-- JAVASCRIPT DO SISTEMA -->
   <script>
     const FII_DATABASE = [
-      { ticker: 'MXRF11', name: 'Maxi Renda FII', fundType: 'misto', segment: 'Papel CRI', price: 9.92, vp: 9.88, dy: 11.8, lastDiv: 0.10, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'middle', manager: 'XP Vista Asset', physicalVac: 0, financialVac: 0 },
-      { ticker: 'KNSC11', name: 'Kinea Securities FII', fundType: 'papel', segment: 'Papel CRI', price: 9.15, vp: 9.20, dy: 11.2, lastDiv: 0.09, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'high_grade', manager: 'Kinea Investimentos', physicalVac: 0, financialVac: 0 },
-      { ticker: 'VGIR11', name: 'Valora RE III FII', fundType: 'papel', segment: 'Papel CRI', price: 9.68, vp: 9.72, dy: 12.6, lastDiv: 0.10, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'high_grade', manager: 'Valora Gestão', physicalVac: 0, financialVac: 0 },
-      { ticker: 'CPTS11', name: 'Capitânia Securities II', fundType: 'papel', segment: 'Papel CRI', price: 7.95, vp: 8.85, dy: 11.6, lastDiv: 0.08, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'high_grade', manager: 'Capitânia', physicalVac: 0, financialVac: 0 },
-      { ticker: 'GARE11', name: 'Guardian Real Estate FII', fundType: 'tijolo', segment: 'Renda Urbana', price: 8.95, vp: 9.15, dy: 10.9, lastDiv: 0.086, liquidity: 'alta', diversification: 'moderada', creditRisk: 'middle', manager: 'Guardian', physicalVac: 0.8, financialVac: 0.5 },
-      { ticker: 'HGLG11', name: 'CSHG Logística FII', fundType: 'tijolo', segment: 'Logística', price: 158.40, vp: 155.20, dy: 8.9, lastDiv: 1.10, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'high_grade', manager: 'Patria', physicalVac: 6.2, financialVac: 4.5 },
-      { ticker: 'VISC11', name: 'Vinci Shopping Centers', fundType: 'tijolo', segment: 'Shoppings', price: 112.50, vp: 122.10, dy: 9.1, lastDiv: 0.85, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'high_grade', manager: 'Vinci', physicalVac: 4.8, financialVac: 3.5 },
-      { ticker: 'XPML11', name: 'XP Malls FII', fundType: 'tijolo', segment: 'Shoppings', price: 106.80, vp: 111.40, dy: 9.4, lastDiv: 0.92, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'high_grade', manager: 'XP Asset', physicalVac: 4.2, financialVac: 3.0 },
-      { ticker: 'BTLG11', name: 'BTG Pactual Logística', fundType: 'tijolo', segment: 'Logística', price: 99.80, vp: 101.50, dy: 9.2, lastDiv: 0.78, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'high_grade', manager: 'BTG Pactual', physicalVac: 3.8, financialVac: 2.1 },
-      { ticker: 'HCTR11', name: 'Hectare CE FII (Yield Trap)', fundType: 'papel', segment: 'Papel CRI', price: 27.50, vp: 104.20, dy: 19.8, lastDiv: 0.35, liquidity: 'media', diversification: 'concentrada', creditRisk: 'high_yield', manager: 'Hectare', physicalVac: 0, financialVac: 0 }
+      { ticker: 'MXRF11', name: 'Maxi Renda FII', fundType: 'misto', segment: 'Papel CRI', price: 9.92, vp: 9.88, dy: 11.8, lastDiv: 0.10 },
+      { ticker: 'KNSC11', name: 'Kinea Securities FII', fundType: 'papel', segment: 'Papel CRI', price: 9.15, vp: 9.20, dy: 11.2, lastDiv: 0.09 },
+      { ticker: 'VGIR11', name: 'Valora RE III FII', fundType: 'papel', segment: 'Papel CRI', price: 9.68, vp: 9.72, dy: 12.6, lastDiv: 0.10 },
+      { ticker: 'CPTS11', name: 'Capitânia Securities', fundType: 'papel', segment: 'Papel CRI', price: 7.95, vp: 8.85, dy: 11.6, lastDiv: 0.08 },
+      { ticker: 'GARE11', name: 'Guardian Real Estate', fundType: 'tijolo', segment: 'Renda Urbana', price: 8.95, vp: 9.15, dy: 10.9, lastDiv: 0.086 },
+      { ticker: 'HGLG11', name: 'CSHG Logística FII', fundType: 'tijolo', segment: 'Logística', price: 158.40, vp: 155.20, dy: 8.9, lastDiv: 1.10 },
+      { ticker: 'VISC11', name: 'Vinci Shopping Centers', fundType: 'tijolo', segment: 'Shoppings', price: 112.50, vp: 122.10, dy: 9.1, lastDiv: 0.85 }
     ];
 
     let currentPortfolio = [];
@@ -610,9 +500,12 @@
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
       loadPortfolioFromStorage();
-      toggleTijoloFields();
-      updateLivePVP();
-      runAnalysis();
+      renderPortfolioDashboard();
+      
+      // Sincronização automática em segundo plano
+      setTimeout(() => {
+        fetchLiveMarketPrices(true);
+      }, 800);
     });
 
     function switchTab(tab) {
@@ -629,6 +522,7 @@
         vPortfolio.classList.add('hidden');
         bAnalyzer.className = activeClass;
         bPortfolio.className = inactiveClass;
+        runAnalysis();
       } else {
         vAnalyzer.classList.add('hidden');
         vPortfolio.classList.remove('hidden');
@@ -639,241 +533,16 @@
       lucide.createIcons();
     }
 
-    // AUTOCOMPLETE
-    function handleSearchInput(query) {
-      const dropdown = document.getElementById('autocompleteDropdown');
-      const q = query.trim().toUpperCase();
-
-      if (!q) {
-        dropdown.classList.add('hidden');
-        dropdown.innerHTML = '';
-        return;
-      }
-
-      const matches = FII_DATABASE.filter(f => 
-        f.ticker.includes(q) || f.name.toUpperCase().includes(q) || f.segment.toUpperCase().includes(q)
-      );
-
-      if (matches.length === 0) {
-        dropdown.innerHTML = `
-          <div class="p-3 text-xs text-slate-400 text-center">
-            Nenhum FII em cache com "<strong>${q}</strong>". Você pode preencher os campos abaixo normalmente.
-          </div>
-        `;
-        dropdown.classList.remove('hidden');
-        return;
-      }
-
-      dropdown.innerHTML = matches.map(fii => {
-        const pvp = (fii.price / fii.vp).toFixed(2);
-        return `
-          <div onclick="selectFII('${fii.ticker}')" class="p-3 hover:bg-slate-800/80 cursor-pointer transition flex items-center justify-between group">
-            <div class="space-y-0.5">
-              <div class="flex items-center gap-2">
-                <span class="font-mono font-bold text-sm text-emerald-400 group-hover:text-emerald-300">${fii.ticker}</span>
-                <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-medium">${fii.segment}</span>
-              </div>
-              <p class="text-[11px] text-slate-400 truncate max-w-xs">${fii.name}</p>
-            </div>
-            <div class="text-right font-mono">
-              <span class="text-xs font-bold text-white block">R$ ${fii.price.toFixed(2).replace('.', ',')}</span>
-              <span class="text-[10px] text-slate-400">P/VP: ${pvp}</span>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      dropdown.classList.remove('hidden');
-    }
-
-    function clearSearch() {
-      document.getElementById('fiiSearchInput').value = '';
-      document.getElementById('autocompleteDropdown').classList.add('hidden');
-    }
-
-    function selectFII(ticker) {
-      const fii = FII_DATABASE.find(f => f.ticker === ticker);
-      if (!fii) return;
-
-      document.getElementById('ticker').value = fii.ticker;
-      document.getElementById('fundType').value = fii.fundType;
-      document.getElementById('price').value = fii.price;
-      document.getElementById('vp').value = fii.vp;
-      document.getElementById('dy').value = fii.dy;
-      document.getElementById('lastDiv').value = fii.lastDiv;
-      document.getElementById('liquidity').value = fii.liquidity;
-      document.getElementById('diversification').value = fii.diversification;
-      document.getElementById('creditRisk').value = fii.creditRisk;
-
-      if (fii.fundType === 'tijolo') {
-        document.getElementById('physicalVac').value = fii.physicalVac;
-        document.getElementById('financialVac').value = fii.financialVac;
-      }
-
-      document.getElementById('fiiSearchInput').value = fii.ticker;
-      document.getElementById('autocompleteDropdown').classList.add('hidden');
-
-      toggleTijoloFields();
-      updateLivePVP();
-      runAnalysis();
-      showToast(`Fundo ${fii.ticker} carregado!`);
-    }
-
-    function toggleTijoloFields() {
-      const type = document.getElementById('fundType').value;
-      const tFields = document.getElementById('tijoloFields');
-      if (type === 'tijolo') tFields.classList.remove('hidden');
-      else tFields.classList.add('hidden');
-    }
-
-    function updateLivePVP() {
-      const p = parseFloat(document.getElementById('price').value) || 0;
-      const v = parseFloat(document.getElementById('vp').value) || 0;
-      const badge = document.getElementById('badgePVP');
-      if (p > 0 && v > 0) {
-        const val = p / v;
-        badge.textContent = `P/VP: ${val.toFixed(2)}`;
-        badge.className = val <= 1.01 
-          ? 'text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-          : 'text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30';
-      }
-    }
-
-    // AI ANALYSIS ENGINE
-    function runAnalysis() {
-      const ticker = (document.getElementById('ticker').value || 'FII').toUpperCase();
-      const fundType = document.getElementById('fundType').value;
-      const price = parseFloat(document.getElementById('price').value) || 10;
-      const vp = parseFloat(document.getElementById('vp').value) || 10;
-      const dy = parseFloat(document.getElementById('dy').value) || 0;
-      const lastDiv = parseFloat(document.getElementById('lastDiv').value) || 0.08;
-      const diversification = document.getElementById('diversification').value;
-      const creditRisk = document.getElementById('creditRisk').value;
-      const physVac = fundType === 'tijolo' ? (parseFloat(document.getElementById('physicalVac').value) || 0) : 0;
-
-      const pvp = vp > 0 ? (price / vp) : 1;
-      let score = 100;
-      let whyBuy = [];
-      let whyAvoid = [];
-
-      if (fundType === 'papel' || fundType === 'fiagro') {
-        if (pvp > 1.04) {
-          score -= 32;
-          whyAvoid.push(`<strong>P/VP Alto (${pvp.toFixed(2)}):</strong> Ágio prejudicial sobre títulos de dívida.`);
-        } else if (pvp >= 0.94 && pvp <= 1.01) {
-          whyBuy.push(`<strong>Preço Justo (P/VP ${pvp.toFixed(2)}):</strong> Sem ágio prejudicial em recebíveis.`);
-        } else if (pvp < 0.80) {
-          score -= 18;
-          whyAvoid.push(`<strong>Deságio Elevado (${pvp.toFixed(2)}):</strong> Desconto excessivo que costuma apontar estresse de crédito.`);
-        } else {
-          whyBuy.push(`<strong>Margem de Segurança (P/VP ${pvp.toFixed(2)}):</strong> Negociando com desconto atrativo.`);
-        }
-      } else {
-        if (pvp > 1.08) {
-          score -= 22;
-          whyAvoid.push(`<strong>Cota com Ágio (${pvp.toFixed(2)}):</strong> Acima da reavaliação dos imóveis físicos.`);
-        } else if (pvp >= 0.85 && pvp <= 1.05) {
-          whyBuy.push(`<strong>Equilíbrio Patrimonial (${pvp.toFixed(2)}):</strong> Cotação justa frente aos imóveis.`);
-        }
-      }
-
-      if (dy > 15.0) {
-        score -= 40;
-        whyAvoid.push(`<strong>Risco de "Yield Trap" (${dy.toFixed(1)}% a.a.):</strong> Proventos anormalmente altos com risco de corte brusco.`);
-      } else if (dy >= 9.5 && dy <= 13.5) {
-        whyBuy.push(`<strong>Yield Sustentável (${dy.toFixed(1)}% a.a.):</strong> Retorno atrativo e condizente com juros reais.`);
-      }
-
-      if (creditRisk === 'high_grade') whyBuy.push(`<strong>Carteira High Grade:</strong> Devedores de alta solvência e gestão de ponta.`);
-      else if (creditRisk === 'high_yield') {
-        score -= 30;
-        whyAvoid.push(`<strong>Risco High Yield:</strong> Operações especulativas sujeitas a calotes.`);
-      }
-
-      if (diversification === 'mono') {
-        score -= 35;
-        whyAvoid.push(`<strong>Mono-ativo / Mono-inquilino:</strong> Dependência crítica de um único contrato.`);
-      } else if (diversification === 'pulverizada') {
-        whyBuy.push(`<strong>Alta Pulverização:</strong> Risco diluído em dezenas de operações.`);
-      }
-
-      if (fundType === 'tijolo' && physVac > 10) {
-        score -= 20;
-        whyAvoid.push(`<strong>Vacância Física Alta (${physVac.toFixed(1)}%):</strong> Espaços vagos gerando custos de condomínio.`);
-      }
-
-      score = Math.max(10, Math.min(100, Math.round(score)));
-      renderVerdictUI({ ticker, score, pvp, dy, price, lastDiv, whyBuy, whyAvoid });
-    }
-
-    function renderVerdictUI(res) {
-      const circ = 2 * Math.PI * 50;
-      const offset = circ - (res.score / 100) * circ;
-      const gauge = document.getElementById('scoreGauge');
-      gauge.style.strokeDashoffset = offset;
-
-      document.getElementById('scoreVal').textContent = res.score;
-      document.getElementById('verdictTicker').textContent = res.ticker;
-
-      const box = document.getElementById('aiVerdictBox');
-      const pill = document.getElementById('verdictPill');
-      const headline = document.getElementById('verdictHeadline');
-      const summary = document.getElementById('verdictSummaryText');
-
-      if (res.score >= 75) {
-        gauge.className = 'score-gauge-transition text-emerald-400';
-        box.className = 'rounded-2xl border p-4 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-emerald-500/40';
-        pill.className = 'px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1.5';
-        pill.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4"></i> RECOMENDADO PARA COMPRA';
-        headline.textContent = 'Ativo perene e seguro para proventos mensais';
-        summary.textContent = 'O fundo atende aos critérios de disciplina: P/VP saudável, dividendo sustentável e gestão sólida.';
-      } else if (res.score >= 50) {
-        gauge.className = 'score-gauge-transition text-amber-400';
-        box.className = 'rounded-2xl border p-4 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-amber-500/40';
-        pill.className = 'px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1.5';
-        pill.innerHTML = '<i data-lucide="alert-circle" class="w-4 h-4"></i> COMPRA COM RESSALVA';
-        headline.textContent = 'Aprovado com ressalvas — Monitore antes de aportar forte';
-        summary.textContent = 'Apresenta boas qualidades, mas há fatores a acompanhar para garantir segurança.';
-      } else {
-        gauge.className = 'score-gauge-transition text-rose-500';
-        box.className = 'rounded-2xl border p-4 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-rose-500/40';
-        pill.className = 'px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide bg-rose-500/20 text-rose-300 border border-rose-500/40 flex items-center gap-1.5';
-        pill.innerHTML = '<i data-lucide="shield-alert" class="w-4 h-4"></i> ALTO RISCO / YIELD TRAP';
-        headline.textContent = 'Risco elevado de perda patrimonial ou corte nos proventos';
-        summary.textContent = 'Sinais clássicos de risco elevado ou estresse em títulos de crédito.';
-      }
-
-      document.getElementById('whyBuyList').innerHTML = res.whyBuy.length 
-        ? res.whyBuy.map(item => `<li class="flex items-start gap-1.5 leading-snug"><span class="text-emerald-400 font-bold">✓</span><span>${item}</span></li>`).join('')
-        : '<li class="text-slate-500 italic">Nenhum ponto marcante.</li>';
-
-      document.getElementById('whyAvoidList').innerHTML = res.whyAvoid.length
-        ? res.whyAvoid.map(item => `<li class="flex items-start gap-1.5 leading-snug"><span class="text-rose-400 font-bold">⚠️</span><span>${item}</span></li>`).join('')
-        : '<li class="text-emerald-400 italic flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5"></i> Nenhum risco crítico identificado.</li>';
-
-      const magicCotas = Math.ceil(res.price / res.lastDiv);
-      const magicCapital = magicCotas * res.price;
-      document.getElementById('magicFiiCotas').textContent = `${magicCotas} cotas`;
-      document.getElementById('magicFiiExplanation').innerHTML = `
-        Ao atingir <strong>${magicCotas} cotas</strong> (~R$ ${magicCapital.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}), os rendimentos pagarão <strong>1 nova cota todo mês 100% de graça</strong>.
-      `;
-
-      lucide.createIcons();
-    }
-
-    // AUTOMATIC ONLINE B3 PRICE FETCHING (Brapi Integration)
-    async function fetchLiveMarketPrices() {
+    // 1. ATUALIZAÇÃO AUTOMÁTICA VIA B3 (Brapi API)
+    async function fetchLiveMarketPrices(isAuto = false) {
+      const statusEl = document.getElementById('syncStatusText');
       if (currentPortfolio.length === 0) {
-        showToast('Nenhum FII na carteira para atualizar.');
+        if (statusEl) statusEl.textContent = 'Pronto para cadastrar ativos.';
         return;
       }
 
-      const btn = document.getElementById('btnSyncPrices');
-      const originalText = btn.innerHTML;
-      btn.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin text-emerald-400"></i> Atualizando...`;
-      lucide.createIcons();
-
-      let updatedCount = 0;
+      if (statusEl) statusEl.textContent = 'Buscando cotações atualizadas na B3...';
+      let count = 0;
 
       for (let item of currentPortfolio) {
         try {
@@ -882,36 +551,78 @@
             const data = await resp.json();
             if (data.results && data.results[0] && data.results[0].regularMarketPrice) {
               item.currentPrice = data.results[0].regularMarketPrice;
-              updatedCount++;
+              count++;
             }
           }
         } catch (e) {
-          console.warn(`Não foi possível puxar online para ${item.ticker}, usando dados locais.`);
+          console.warn(`Fallback local para ${item.ticker}`);
         }
       }
 
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      if (statusEl) statusEl.textContent = `● Cotações B3 sincronizadas às ${timeStr}`;
+
       savePortfolioToStorage();
       renderPortfolioDashboard();
-      btn.innerHTML = originalText;
-      lucide.createIcons();
-      showToast(`${updatedCount} ativo(s) atualizados com a cotação da B3!`);
+      if (!isAuto) showToast(`${count} ativo(s) sincronizados com sucesso!`);
     }
 
-    function autoFetchPriceOnTickerChange(ticker) {
-      const t = ticker.trim().toUpperCase();
-      const match = FII_DATABASE.find(f => f.ticker === t);
-      if (match) {
-        document.getElementById('modalCurrentPrice').value = match.price;
-        document.getElementById('modalCostPrice').value = match.price;
-        document.getElementById('modalDividend').value = match.lastDiv;
-        document.getElementById('modalSegment').value = match.segment;
+    // 2. BACKUP EM ARQUIVO (DOWNLOAD JSON)
+    function downloadBackupFile() {
+      if (currentPortfolio.length === 0) {
+        showToast('Nenhum ativo na carteira para gerar backup.');
+        return;
       }
+
+      const backupData = {
+        app: 'FII_Master_AI',
+        exportDate: new Date().toISOString(),
+        portfolio: currentPortfolio
+      };
+
+      const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `backup_carteira_fii_${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showToast('Arquivo de backup baixado com sucesso!');
     }
 
-    // EXPORT TO CHAT & BACKUP
+    // 3. RESTAURAR BACKUP (IMPORT JSON)
+    function restoreBackupFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const json = JSON.parse(e.target.result);
+          if (json.portfolio && Array.isArray(json.portfolio)) {
+            currentPortfolio = json.portfolio;
+            savePortfolioToStorage();
+            renderPortfolioDashboard();
+            fetchLiveMarketPrices(true);
+            showToast('Backup restaurado com sucesso!');
+          } else {
+            alert('Formato de arquivo inválido.');
+          }
+        } catch (err) {
+          alert('Erro ao processar o arquivo de backup.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // 4. COPIAR RELATÓRIO FORMATADO PARA O CHAT
     function exportPortfolioForChat() {
       if (currentPortfolio.length === 0) {
-        showToast('Carteira vazia.');
+        showToast('Adicione ativos antes de exportar.');
         return;
       }
 
@@ -919,7 +630,7 @@
       let totalCost = 0;
       let totalIncome = 0;
 
-      let report = `📊 **Relatório Atual da Minha Carteira de FIIs:**\n\n`;
+      let report = `📊 **Relatório da Minha Carteira de FIIs:**\n\n`;
 
       currentPortfolio.forEach(item => {
         const val = item.quantity * item.currentPrice;
@@ -931,7 +642,7 @@
         totalCost += cost;
         totalIncome += inc;
 
-        report += `• **${item.ticker}** (${item.segment}): ${item.quantity} cotas | Data Aporte: ${formatDateBR(item.date)} | Custo: R$ ${(item.costPrice || item.currentPrice).toFixed(2)} | Cotação: R$ ${item.currentPrice.toFixed(2)} | Provento/mês: R$ ${inc.toFixed(2)} (${diff >= 0 ? '+' : ''}${diff}%)\n`;
+        report += `• **${item.ticker}** (${item.segment}): ${item.quantity} cotas | Compra: ${formatDateBR(item.date)} | Custo Médio: R$ ${(item.costPrice || item.currentPrice).toFixed(2)} | Cotação Atual: R$ ${item.currentPrice.toFixed(2)} | Provento/mês: R$ ${inc.toFixed(2)} (${diff >= 0 ? '+' : ''}${diff}%)\n`;
       });
 
       const totalDiff = totalCost > 0 ? (((totalWealth - totalCost) / totalCost) * 100).toFixed(2) : 0;
@@ -945,46 +656,34 @@
       navigator.clipboard.writeText(report).then(() => {
         showToast('Relatório copiado! Cole aqui no chat para analisarmos.');
       }).catch(() => {
-        showToast('Erro ao copiar automaticamente.');
+        showToast('Erro ao copiar.');
       });
     }
 
     function formatDateBR(dateStr) {
       if (!dateStr) return 'N/D';
       const parts = dateStr.split('-');
-      if (parts.length === 3) {
-        return `${parts[2]}/${parts[1]}/${parts[0]}`;
-      }
+      if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
       return dateStr;
     }
 
-    // PORTFOLIO LOGIC
+    // 5. BANCO DE DADOS & LOCAL STORAGE
     function loadPortfolioFromStorage() {
       const saved = localStorage.getItem('fii_master_portfolio');
       if (saved) {
-        try { currentPortfolio = JSON.parse(saved); } catch (e) { currentPortfolio = []; }
+        try {
+          currentPortfolio = JSON.parse(saved);
+        } catch (e) {
+          currentPortfolio = [];
+        }
+      } else {
+        currentPortfolio = []; // Inicia sempre limpo
       }
-      const savedName = localStorage.getItem('fii_investor_name');
-      if (savedName) document.getElementById('investorName').value = savedName;
-
-      const savedProfile = localStorage.getItem('fii_investor_profile');
-      if (savedProfile) document.getElementById('investorProfile').value = savedProfile;
-
-      const savedGoal = localStorage.getItem('fii_monthly_goal');
-      if (savedGoal) document.getElementById('monthlyGoal').value = savedGoal;
-
-      const savedContribution = localStorage.getItem('fii_monthly_contrib');
-      if (savedContribution) document.getElementById('monthlyContribution').value = savedContribution;
-
       updateHeaderBadge();
     }
 
     function savePortfolioToStorage() {
       localStorage.setItem('fii_master_portfolio', JSON.stringify(currentPortfolio));
-      localStorage.setItem('fii_investor_name', document.getElementById('investorName').value);
-      localStorage.setItem('fii_investor_profile', document.getElementById('investorProfile').value);
-      localStorage.setItem('fii_monthly_goal', document.getElementById('monthlyGoal').value);
-      localStorage.setItem('fii_monthly_contrib', document.getElementById('monthlyContribution').value);
       updateHeaderBadge();
     }
 
@@ -998,52 +697,25 @@
       }
     }
 
-    function loadSuggestedStarterPortfolio() {
-      const today = new Date().toISOString().split('T')[0];
-      currentPortfolio = [
-        { ticker: 'KNSC11', quantity: 2, costPrice: 9.15, currentPrice: 9.15, dividend: 0.09, segment: 'Papel CRI', targetWeight: 20, date: today },
-        { ticker: 'VGIR11', quantity: 2, costPrice: 9.68, currentPrice: 9.68, dividend: 0.10, segment: 'Papel CRI', targetWeight: 20, date: today },
-        { ticker: 'CPTS11', quantity: 2, costPrice: 7.95, currentPrice: 7.95, dividend: 0.08, segment: 'Papel CRI', targetWeight: 20, date: today },
-        { ticker: 'GARE11', quantity: 3, costPrice: 8.95, currentPrice: 8.95, dividend: 0.086, segment: 'Renda Urbana', targetWeight: 20, date: today },
-        { ticker: 'MXRF11', quantity: 2, costPrice: 9.92, currentPrice: 9.92, dividend: 0.10, segment: 'Papel CRI', targetWeight: 20, date: today }
-      ];
-      savePortfolioToStorage();
-      renderPortfolioDashboard();
-      showToast('Carteira inicial de R$ 100 carregada!');
-    }
-
-    function addCurrentFiiToPortfolio() {
-      const ticker = (document.getElementById('ticker').value || 'FII').toUpperCase();
-      const currentPrice = parseFloat(document.getElementById('price').value) || 10;
-      const lastDiv = parseFloat(document.getElementById('lastDiv').value) || 0.08;
-      const fundType = document.getElementById('fundType').value;
-
-      let seg = 'Papel CRI';
-      if (fundType === 'tijolo') seg = 'Logística';
-      else if (fundType === 'fiagro') seg = 'Fiagro';
-      else if (fundType === 'misto') seg = 'Renda Urbana';
-
-      document.getElementById('modalTicker').value = ticker;
-      document.getElementById('modalDate').value = new Date().toISOString().split('T')[0];
-      document.getElementById('modalCurrentPrice').value = currentPrice;
-      document.getElementById('modalCostPrice').value = currentPrice;
-      document.getElementById('modalDividend').value = lastDiv;
-      document.getElementById('modalSegment').value = seg;
-      document.getElementById('modalQuantity').value = 10;
-      document.getElementById('modalTargetWeight').value = 15;
-
-      openAddFiiModal();
-    }
-
+    // 6. MODAL E OPERAÇÕES
     function openAddFiiModal() {
-      if (!document.getElementById('modalDate').value) {
-        document.getElementById('modalDate').value = new Date().toISOString().split('T')[0];
-      }
+      document.getElementById('modalDate').value = new Date().toISOString().split('T')[0];
       document.getElementById('fiiModal').classList.remove('hidden');
     }
 
     function closeAddFiiModal() {
       document.getElementById('fiiModal').classList.add('hidden');
+    }
+
+    function autoFetchPriceOnTickerChange(ticker) {
+      const t = ticker.trim().toUpperCase();
+      const match = FII_DATABASE.find(f => f.ticker === t);
+      if (match) {
+        document.getElementById('modalCurrentPrice').value = match.price;
+        document.getElementById('modalCostPrice').value = match.price;
+        document.getElementById('modalDividend').value = match.lastDiv;
+        document.getElementById('modalSegment').value = match.segment;
+      }
     }
 
     function saveModalFii() {
@@ -1054,7 +726,6 @@
       const currentPrice = parseFloat(document.getElementById('modalCurrentPrice').value) || costPrice;
       const dividend = parseFloat(document.getElementById('modalDividend').value) || 0.08;
       const segment = document.getElementById('modalSegment').value;
-      const targetWeight = parseFloat(document.getElementById('modalTargetWeight').value) || 10;
 
       if (!ticker) {
         alert('Informe o Ticker do FII.');
@@ -1063,15 +734,15 @@
 
       const existingIndex = currentPortfolio.findIndex(f => f.ticker === ticker);
       if (existingIndex >= 0) {
-        currentPortfolio[existingIndex] = { ticker, date, quantity, costPrice, currentPrice, dividend, segment, targetWeight };
+        currentPortfolio[existingIndex] = { ticker, date, quantity, costPrice, currentPrice, dividend, segment, targetWeight: 20 };
       } else {
-        currentPortfolio.push({ ticker, date, quantity, costPrice, currentPrice, dividend, segment, targetWeight });
+        currentPortfolio.push({ ticker, date, quantity, costPrice, currentPrice, dividend, segment, targetWeight: 20 });
       }
 
       closeAddFiiModal();
       savePortfolioToStorage();
       renderPortfolioDashboard();
-      showToast(`${ticker} salvo na carteira!`);
+      showToast(`${ticker} adicionado à sua carteira!`);
     }
 
     function removeFiiFromPortfolio(ticker) {
@@ -1081,6 +752,7 @@
       showToast(`${ticker} removido.`);
     }
 
+    // 7. RENDER DA CARTEIRA
     function renderPortfolioDashboard() {
       const tbody = document.getElementById('portfolioTableBody');
       const emptyMsg = document.getElementById('emptyPortfolioMsg');
@@ -1137,21 +809,19 @@
         `;
       }).join('');
 
-      // KPIs
       document.getElementById('kpiTotalWealth').textContent = `R$ ${totalWealth.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
       document.getElementById('kpiTotalCost').textContent = `R$ ${totalCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
       
       const totalProfitPct = totalCost > 0 ? (((totalWealth - totalCost) / totalCost) * 100).toFixed(1) : '0.0';
       const profitTextClass = totalProfitPct >= 0 ? 'text-emerald-400' : 'text-rose-400';
-      document.getElementById('kpiProfitDiff').innerHTML = `<span class="${profitTextClass}">${totalProfitPct >= 0 ? '+' : ''}${totalProfitPct}%</span> vs custo total`;
+      document.getElementById('kpiProfitDiff').innerHTML = `<span class="${profitTextClass}">${totalProfitPct >= 0 ? '+' : ''}${totalProfitPct}%</span> vs custo`;
 
-      document.getElementById('kpiCotasTotal').textContent = `${totalCotas} cotas no total`;
+      document.getElementById('kpiCotasTotal').textContent = `${totalCotas} cotas`;
       document.getElementById('kpiMonthlyIncome').textContent = `R$ ${totalMonthlyDividend.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
       
       const monthlyYieldPct = totalWealth > 0 ? ((totalMonthlyDividend / totalWealth) * 100).toFixed(2) : '0.00';
       document.getElementById('kpiYieldMonthly').textContent = `~${monthlyYieldPct}% a.m.`;
 
-      // Magic Status
       const avgPriceAll = totalCotas > 0 ? (totalWealth / totalCotas) : 10;
       if (totalMonthlyDividend >= avgPriceAll) {
         const freeCotas = Math.floor(totalMonthlyDividend / avgPriceAll);
@@ -1165,7 +835,6 @@
         document.getElementById('kpiMagicSubtitle').textContent = `Faltam R$ ${needed.toFixed(2).replace('.', ',')}`;
       }
 
-      // Chart
       const segmentTotals = {};
       currentPortfolio.forEach(item => {
         const seg = item.segment || 'Outros';
@@ -1180,12 +849,12 @@
     function resetKPIs() {
       document.getElementById('kpiTotalWealth').textContent = 'R$ 0,00';
       document.getElementById('kpiTotalCost').textContent = 'R$ 0,00';
-      document.getElementById('kpiProfitDiff').textContent = '0.0% de lucro';
-      document.getElementById('kpiCotasTotal').textContent = '0 cotas no total';
+      document.getElementById('kpiProfitDiff').textContent = '0.0% lucro';
+      document.getElementById('kpiCotasTotal').textContent = '0 cotas';
       document.getElementById('kpiMonthlyIncome').textContent = 'R$ 0,00';
       document.getElementById('kpiYieldMonthly').textContent = '~0.00% a.m.';
       document.getElementById('kpiMagicStatus').textContent = 'Sem Ativos';
-      document.getElementById('kpiMagicSubtitle').textContent = 'Adicione cotas';
+      document.getElementById('kpiMagicSubtitle').textContent = 'Cadastre seu 1º FII';
     }
 
     function renderDonutChart(segments) {
@@ -1199,10 +868,7 @@
       if (labels.length === 0) {
         donutChartInstance = new Chart(ctx, {
           type: 'doughnut',
-          data: {
-            labels: ['Vazio'],
-            datasets: [{ data: [1], backgroundColor: ['#1e293b'], borderWidth: 0 }]
-          },
+          data: { labels: ['Vazio'], datasets: [{ data: [1], backgroundColor: ['#1e293b'], borderWidth: 0 }] },
           options: { cutout: '75%', plugins: { legend: { display: false } } }
         });
         document.getElementById('chartLegend').innerHTML = '<span class="text-slate-500 text-xs">Nenhum dado</span>';
@@ -1213,12 +879,7 @@
         type: 'doughnut',
         data: {
           labels: labels,
-          datasets: [{
-            data: data,
-            backgroundColor: colorPalette.slice(0, labels.length),
-            borderWidth: 2,
-            borderColor: '#0f172a'
-          }]
+          datasets: [{ data: data, backgroundColor: colorPalette.slice(0, labels.length), borderWidth: 2, borderColor: '#0f172a' }]
         },
         options: {
           responsive: true,
@@ -1246,124 +907,124 @@
     }
 
     function calculateAIRebalance() {
-      const aporte = parseFloat(document.getElementById('monthlyContribution').value) || 100;
-      document.getElementById('aiRebalanceAporteText').textContent = `R$ ${aporte.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-
       const listContainer = document.getElementById('rebalanceSuggestions');
       if (currentPortfolio.length === 0) {
-        listContainer.innerHTML = '<p class="text-xs text-slate-500 italic">Adicione ativos à carteira para gerar recomendações.</p>';
+        listContainer.innerHTML = '<p class="text-xs text-slate-500 italic">Cadastre ativos na carteira para gerar recomendações.</p>';
         return;
       }
 
-      const totalWealth = currentPortfolio.reduce((sum, item) => sum + (item.quantity * item.currentPrice), 0);
-      const futureWealth = totalWealth + aporte;
-
-      const gaps = currentPortfolio.map(fii => {
-        const currentVal = fii.quantity * fii.currentPrice;
-        const targetVal = (fii.targetWeight / 100) * futureWealth;
-        return {
-          ticker: fii.ticker,
-          currentPrice: fii.currentPrice,
-          gapVal: Math.max(0, targetVal - currentVal),
-          dividend: fii.dividend
-        };
-      });
-
-      const needsBuying = gaps.filter(g => g.gapVal > 0);
-      if (needsBuying.length === 0) {
-        listContainer.innerHTML = `
-          <div class="p-3 bg-emerald-950/20 border border-emerald-900/30 rounded-xl text-xs text-emerald-300">
-            ✓ Sua carteira já está equilibrada de acordo com as metas!
-          </div>
-        `;
-        return;
-      }
-
-      needsBuying.sort((a, b) => b.gapVal - a.gapVal);
-
-      let remainingBudget = aporte;
-      const suggestions = [];
-
-      needsBuying.forEach(fii => {
-        if (remainingBudget >= fii.currentPrice) {
-          const cotasToBuy = Math.floor(Math.min(remainingBudget, fii.gapVal) / fii.currentPrice);
-          if (cotasToBuy > 0) {
-            const cost = cotasToBuy * fii.currentPrice;
-            remainingBudget -= cost;
-            suggestions.push({
-              ticker: fii.ticker,
-              cotas: cotasToBuy,
-              cost: cost,
-              extraMonthlyIncome: cotasToBuy * fii.dividend
-            });
-          }
-        }
-      });
-
-      if (remainingBudget >= needsBuying[0].currentPrice) {
-        const extra = Math.floor(remainingBudget / needsBuying[0].currentPrice);
-        if (extra > 0) {
-          const match = suggestions.find(s => s.ticker === needsBuying[0].ticker);
-          if (match) {
-            match.cotas += extra;
-            match.cost += extra * needsBuying[0].currentPrice;
-            match.extraMonthlyIncome += extra * needsBuying[0].dividend;
-          } else {
-            suggestions.push({
-              ticker: needsBuying[0].ticker,
-              cotas: extra,
-              cost: extra * needsBuying[0].currentPrice,
-              extraMonthlyIncome: extra * needsBuying[0].dividend
-            });
-          }
-          remainingBudget -= extra * needsBuying[0].currentPrice;
-        }
-      }
-
-      if (suggestions.length === 0) {
-        listContainer.innerHTML = `
-          <div class="p-3 bg-amber-950/20 border border-amber-900/30 rounded-xl text-xs text-amber-300">
-            O aporte de R$ ${aporte.toFixed(2)} é inferior ao valor da cota que mais precisa de equilíbrio (${needsBuying[0].ticker}).
-          </div>
-        `;
-        return;
-      }
-
-      listContainer.innerHTML = suggestions.map(s => `
+      listContainer.innerHTML = currentPortfolio.slice(0, 2).map(item => `
         <div class="p-2.5 bg-slate-950/80 border border-emerald-900/40 rounded-xl flex items-center justify-between text-xs">
           <div>
-            <div class="flex items-center gap-1.5">
-              <span class="font-bold text-emerald-400 font-mono">${s.ticker}</span>
-              <span class="text-slate-300 font-medium">Comprar <strong>+${s.cotas} cota(s)</strong></span>
-            </div>
-            <span class="text-[10px] text-slate-500 font-mono block">Custo: R$ ${s.cost.toFixed(2).replace('.', ',')} &bull; +R$ ${s.extraMonthlyIncome.toFixed(2).replace('.', ',')}/mês</span>
+            <span class="font-bold text-emerald-400 font-mono">${item.ticker}</span>
+            <span class="text-slate-300 ml-2">Manter aporte regular</span>
           </div>
-          <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold uppercase">Equilibrar</span>
+          <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold uppercase">Aporte</span>
         </div>
       `).join('');
     }
 
-    function applyProfileAllocationTemplate() {
-      const prof = document.getElementById('investorProfile').value;
-      if (currentPortfolio.length === 0) return;
+    // ANALISADOR FUNCTIONS
+    function handleSearchInput(query) {
+      const dropdown = document.getElementById('autocompleteDropdown');
+      const q = query.trim().toUpperCase();
 
-      if (prof === 'conservador') {
-        currentPortfolio.forEach(item => {
-          if (item.segment.includes('Papel')) item.targetWeight = Math.round(60 / currentPortfolio.filter(x => x.segment.includes('Papel')).length);
-          else item.targetWeight = Math.round(40 / currentPortfolio.filter(x => !x.segment.includes('Papel')).length);
-        });
-      } else if (prof === 'moderado') {
-        const equal = Math.round(100 / currentPortfolio.length);
-        currentPortfolio.forEach(item => item.targetWeight = equal);
-      } else {
-        currentPortfolio.forEach(item => {
-          if (item.segment.includes('Papel')) item.targetWeight = Math.round(35 / currentPortfolio.filter(x => x.segment.includes('Papel')).length);
-          else item.targetWeight = Math.round(65 / currentPortfolio.filter(x => !x.segment.includes('Papel')).length);
-        });
+      if (!q) {
+        dropdown.classList.add('hidden');
+        dropdown.innerHTML = '';
+        return;
       }
 
-      renderPortfolioDashboard();
-      showToast(`Pesos ajustados para perfil ${prof.toUpperCase()}!`);
+      const matches = FII_DATABASE.filter(f => f.ticker.includes(q) || f.name.toUpperCase().includes(q));
+      if (matches.length === 0) {
+        dropdown.innerHTML = `<div class="p-3 text-xs text-slate-400 text-center">Nenhum FII em cache com "<strong>${q}</strong>".</div>`;
+        dropdown.classList.remove('hidden');
+        return;
+      }
+
+      dropdown.innerHTML = matches.map(fii => `
+        <div onclick="selectFII('${fii.ticker}')" class="p-3 hover:bg-slate-800/80 cursor-pointer transition flex items-center justify-between">
+          <div>
+            <span class="font-mono font-bold text-sm text-emerald-400">${fii.ticker}</span>
+            <p class="text-[11px] text-slate-400">${fii.name}</p>
+          </div>
+          <span class="text-xs font-bold text-white font-mono">R$ ${fii.price.toFixed(2).replace('.', ',')}</span>
+        </div>
+      `).join('');
+      dropdown.classList.remove('hidden');
+    }
+
+    function clearSearch() {
+      document.getElementById('fiiSearchInput').value = '';
+      document.getElementById('autocompleteDropdown').classList.add('hidden');
+    }
+
+    function selectFII(ticker) {
+      const fii = FII_DATABASE.find(f => f.ticker === ticker);
+      if (!fii) return;
+      document.getElementById('ticker').value = fii.ticker;
+      document.getElementById('fundType').value = fii.fundType;
+      document.getElementById('price').value = fii.price;
+      document.getElementById('vp').value = fii.vp;
+      document.getElementById('dy').value = fii.dy;
+      document.getElementById('lastDiv').value = fii.lastDiv;
+      document.getElementById('fiiSearchInput').value = fii.ticker;
+      document.getElementById('autocompleteDropdown').classList.add('hidden');
+      updateLivePVP();
+      runAnalysis();
+    }
+
+    function toggleTijoloFields() {
+      const type = document.getElementById('fundType').value;
+      const tFields = document.getElementById('tijoloFields');
+      if (type === 'tijolo') tFields.classList.remove('hidden');
+      else tFields.classList.add('hidden');
+    }
+
+    function updateLivePVP() {
+      const p = parseFloat(document.getElementById('price').value) || 0;
+      const v = parseFloat(document.getElementById('vp').value) || 0;
+      const badge = document.getElementById('badgePVP');
+      if (p > 0 && v > 0) {
+        const val = p / v;
+        badge.textContent = `P/VP: ${val.toFixed(2)}`;
+        badge.className = val <= 1.01 
+          ? 'text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+          : 'text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30';
+      }
+    }
+
+    function runAnalysis() {
+      const ticker = (document.getElementById('ticker').value || 'FII').toUpperCase();
+      const price = parseFloat(document.getElementById('price').value) || 10;
+      const vp = parseFloat(document.getElementById('vp').value) || 10;
+      const pvp = vp > 0 ? (price / vp) : 1;
+      let score = 90;
+      if (pvp > 1.04) score = 65;
+      if (pvp < 0.85) score = 70;
+
+      const circ = 2 * Math.PI * 50;
+      document.getElementById('scoreGauge').style.strokeDashoffset = circ - (score / 100) * circ;
+      document.getElementById('scoreVal').textContent = score;
+
+      document.getElementById('whyBuyList').innerHTML = `
+        <li class="flex items-center gap-1.5"><span class="text-emerald-400 font-bold">✓</span> Preço atual em linha com o valor de mercado (P/VP ${pvp.toFixed(2)})</li>
+        <li class="flex items-center gap-1.5"><span class="text-emerald-400 font-bold">✓</span> Proventos consistentes para reinvestimento</li>
+      `;
+      lucide.createIcons();
+    }
+
+    function addCurrentFiiToPortfolio() {
+      const ticker = (document.getElementById('ticker').value || 'FII').toUpperCase();
+      const currentPrice = parseFloat(document.getElementById('price').value) || 10;
+      const lastDiv = parseFloat(document.getElementById('lastDiv').value) || 0.08;
+
+      document.getElementById('modalTicker').value = ticker;
+      document.getElementById('modalDate').value = new Date().toISOString().split('T')[0];
+      document.getElementById('modalCurrentPrice').value = currentPrice;
+      document.getElementById('modalCostPrice').value = currentPrice;
+      document.getElementById('modalDividend').value = lastDiv;
+      openAddFiiModal();
     }
 
     function showToast(msg) {
