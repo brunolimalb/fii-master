@@ -41,19 +41,13 @@
   </script>
 
   <style>
-    /* Safe Area Insets para Notch do iPhone */
     :root {
       --sat: env(safe-area-inset-top, 0px);
       --sab: env(safe-area-inset-bottom, 0px);
     }
-    .safe-top {
-      padding-top: var(--sat);
-    }
-    .safe-bottom {
-      padding-bottom: var(--sab);
-    }
+    .safe-top { padding-top: var(--sat); }
+    .safe-bottom { padding-bottom: var(--sab); }
 
-    /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
     ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.3); border-radius: 999px; }
@@ -63,7 +57,7 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-brand-500 selection:text-white safe-bottom">
 
-  <!-- Top Navigation Header (Ajustado para iPhone e Notch) -->
+  <!-- Top Navigation Header -->
   <header class="border-b border-slate-800/80 bg-slate-900/95 backdrop-blur-md sticky top-0 z-50 safe-top">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-2">
       
@@ -78,10 +72,10 @@
               FII Master <span class="text-emerald-400">AI</span>
             </span>
             <span class="hidden md:inline-block text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
-              Versão 3.0
+              Versão 3.5 Pro
             </span>
           </div>
-          <p class="text-[11px] text-slate-400 hidden sm:block">Inteligência Analítica & Gestor de Patrimônio</p>
+          <p class="text-[11px] text-slate-400 hidden sm:block">Inteligência Analítica & Gestão Integrada de FIIs</p>
         </div>
       </div>
 
@@ -117,10 +111,9 @@
               <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Autocomplete & Seleção Instantânea
             </span>
             <h2 class="text-base sm:text-lg font-bold text-white">Pesquise qualquer FII da Bolsa Brasileira</h2>
-            <p class="text-xs text-slate-400">Digite as primeiras letras para carregar métricas, P/VP, vacância e veredito do algoritmo.</p>
+            <p class="text-xs text-slate-400">Digite o código para carregar métricas, P/VP, vacância e veredito do algoritmo.</p>
           </div>
 
-          <!-- Input with Autocomplete Dropdown -->
           <div class="relative w-full lg:w-96">
             <div class="relative">
               <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">
@@ -142,7 +135,7 @@
           </div>
         </div>
 
-        <!-- Quick Tag Bar with Popular Tickers -->
+        <!-- Quick Tag Bar -->
         <div class="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t border-slate-800/80">
           <span class="text-[11px] text-slate-400 font-semibold mr-1 flex items-center gap-1">
             <i data-lucide="flame" class="w-3 h-3 text-amber-400"></i> Mais Acessados:
@@ -163,7 +156,7 @@
       <!-- Analysis Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        <!-- Editable Metrics Form (5 cols) -->
+        <!-- Editable Metrics Form -->
         <section class="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
           <div class="flex items-center justify-between border-b border-slate-800 pb-3">
             <div class="flex items-center gap-2">
@@ -186,7 +179,7 @@
                 <label class="block text-xs font-medium text-slate-400 mb-1">Segmento</label>
                 <select id="fundType" onchange="toggleTijoloFields()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-2.5 py-2 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
                   <option value="papel">Papel / CRIs (Títulos de Dívida)</option>
-                  <option value="tijolo">Tijolo (Galpões, Shoppings, Renda Urbana)</option>
+                  <option value="tijolo">Tijolo (Galpões, Shoppings, Renda)</option>
                   <option value="misto">Misto / FOF / Desenvolvimento</option>
                   <option value="fiagro">Fiagro (Crédito Agro)</option>
                 </select>
@@ -275,9 +268,8 @@
           </form>
         </section>
 
-        <!-- AI VERDICT & DIAGNOSTIC CARD (7 cols) -->
+        <!-- AI VERDICT CARD -->
         <section class="lg:col-span-7 space-y-5">
-          
           <div id="aiVerdictBox" class="rounded-2xl border p-4 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-emerald-500/30">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-5 border-b border-slate-800 pb-5">
               
@@ -332,7 +324,7 @@
 
           </div>
 
-          <!-- Quick Snowball / Magic Number Calculator -->
+          <!-- Quick Snowball Calculator -->
           <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -344,10 +336,9 @@
               </span>
             </div>
             <p id="magicFiiExplanation" class="text-xs text-slate-400 leading-relaxed">
-              Ao atingir <strong>102 cotas</strong> (~R$ 933,30), este fundo gerará mensalmente proventos suficientes para comprar 1 nova cota todos os meses sem precisar aportar do seu bolso.
+              Ao atingir <strong>102 cotas</strong> (~R$ 933,30), os proventos mensais pagarão <strong>1 nova cota todo mês sem tirar do seu bolso</strong>.
             </p>
           </div>
-
         </section>
 
       </div>
@@ -383,7 +374,7 @@
             <label class="block text-xs font-semibold text-slate-400 mb-1">Aporte Mensal Previsto (R$)</label>
             <div class="relative">
               <span class="absolute left-3 top-2 text-xs font-mono text-slate-500">R$</span>
-              <input type="number" id="monthlyContribution" value="100" onchange="savePortfolioToStorage();" class="w-full bg-slate-950 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs font-mono font-bold text-emerald-400 focus:outline-none focus:border-emerald-500">
+              <input type="number" id="monthlyContribution" value="100" onchange="savePortfolioToStorage(); calculateAIRebalance();" class="w-full bg-slate-950 border border-slate-700 rounded-xl pl-8 pr-3 py-2 text-xs font-mono font-bold text-emerald-400 focus:outline-none focus:border-emerald-500">
             </div>
           </div>
         </div>
@@ -392,7 +383,7 @@
       <!-- KPI Summary Cards -->
       <section class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
-          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Patrimônio em FIIs</span>
+          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Patrimônio Atual</span>
           <span id="kpiTotalWealth" class="text-lg sm:text-2xl font-black font-mono text-white mt-1 block">R$ 0,00</span>
           <span id="kpiCotasTotal" class="text-[10px] text-slate-500 block">0 cotas no total</span>
         </div>
@@ -404,11 +395,9 @@
         </div>
 
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
-          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Progresso Meta</span>
-          <span id="kpiGoalProgress" class="text-lg sm:text-2xl font-black font-mono text-blue-400 mt-1 block">0%</span>
-          <div class="w-full bg-slate-800 h-1.5 rounded-full mt-1.5 overflow-hidden">
-            <div id="kpiGoalBar" class="bg-blue-500 h-full w-0 transition-all duration-500"></div>
-          </div>
+          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Total Desembolsado</span>
+          <span id="kpiTotalCost" class="text-lg sm:text-2xl font-black font-mono text-slate-200 mt-1 block">R$ 0,00</span>
+          <span id="kpiProfitDiff" class="text-[10px] text-slate-400 block font-mono">0.0% de lucro</span>
         </div>
 
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
@@ -418,10 +407,10 @@
         </div>
       </section>
 
-      <!-- Portfolio Content -->
+      <!-- Portfolio Content: Table & Charts -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        <!-- Table & Manage Section -->
+        <!-- Table & Actions Section -->
         <section class="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
             <div>
@@ -429,32 +418,41 @@
                 <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
                 Ativos na Sua Carteira
               </h3>
-              <p class="text-xs text-slate-400">Adicione suas cotas e defina a alocação alvo ideal para rebalancear.</p>
+              <p class="text-xs text-slate-400">Histórico de compras e cotações em tempo real.</p>
             </div>
             
-            <div class="flex items-center gap-2">
+            <!-- Quick Actions Buttons -->
+            <div class="flex flex-wrap items-center gap-2">
+              <button onclick="fetchLiveMarketPrices()" id="btnSyncPrices" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 flex items-center gap-1.5" title="Buscar cotações online da B3">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Atualizar Cotações</span>
+              </button>
+
+              <button onclick="exportPortfolioForChat()" class="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700 flex items-center gap-1.5" title="Copiar relatório formatado para mandar no chat">
+                <i data-lucide="copy" class="w-3.5 h-3.5 text-blue-400"></i>
+                <span>Copiar para Chat</span>
+              </button>
+
               <button onclick="openAddFiiModal()" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 rounded-lg text-xs font-semibold text-white transition flex items-center gap-1.5 shadow">
                 <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
                 <span>Adicionar FII</span>
-              </button>
-              <button onclick="loadSuggestedStarterPortfolio()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700" title="Carregar carteira defensiva de R$ 100">
-                <span>Carteira R$ 100</span>
               </button>
             </div>
           </div>
 
           <!-- Table Container -->
           <div class="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
-            <table class="w-full text-left text-xs min-w-[620px]">
+            <table class="w-full text-left text-xs min-w-[700px]">
               <thead class="bg-slate-950/80 text-slate-400 font-mono text-[11px] border-b border-slate-800 uppercase">
                 <tr>
-                  <th class="py-2.5 px-3">Ativo</th>
+                  <th class="py-2.5 px-3">Data</th>
+                  <th class="py-2.5 px-2">Ativo</th>
                   <th class="py-2.5 px-2">Segmento</th>
                   <th class="py-2.5 px-2 text-right">Cotas</th>
-                  <th class="py-2.5 px-2 text-right">Preço</th>
-                  <th class="py-2.5 px-2 text-right">Total</th>
-                  <th class="py-2.5 px-2 text-right">Peso</th>
-                  <th class="py-2.5 px-2 text-right">Alvo</th>
+                  <th class="py-2.5 px-2 text-right">Custo Cota</th>
+                  <th class="py-2.5 px-2 text-right">Preço Atual</th>
+                  <th class="py-2.5 px-2 text-right">Patrimônio</th>
+                  <th class="py-2.5 px-2 text-right">Lucro/Prej</th>
                   <th class="py-2.5 px-2 text-right">Renda/mês</th>
                   <th class="py-2.5 px-3 text-center">Ações</th>
                 </tr>
@@ -516,7 +514,7 @@
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 class="font-bold text-sm text-white flex items-center gap-2">
           <i data-lucide="plus-circle" class="w-4 h-4 text-emerald-400"></i>
-          <span>Adicionar FII à Carteira</span>
+          <span>Registrar Compra / Ativo</span>
         </h3>
         <button onclick="closeAddFiiModal()" class="text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
@@ -524,26 +522,35 @@
       </div>
 
       <div class="space-y-3">
-        <div>
-          <label class="block text-xs font-semibold text-slate-400 mb-1">Ticker</label>
-          <input type="text" id="modalTicker" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-emerald-400 uppercase" placeholder="Ex: MXRF11">
+        <!-- Ticker & Data -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Ticker</label>
+            <input type="text" id="modalTicker" onchange="autoFetchPriceOnTickerChange(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-emerald-400 uppercase" placeholder="Ex: KNSC11">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Data do Aporte</label>
+            <input type="date" id="modalDate" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-white">
+          </div>
         </div>
         
+        <!-- Quantidade e Custo Total/Cota -->
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-semibold text-slate-400 mb-1">Quantidade de Cotas</label>
             <input type="number" id="modalQuantity" min="1" value="10" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Preço Médio (R$)</label>
-            <input type="number" step="0.01" id="modalAvgPrice" value="9.50" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white">
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Custo da Cota Pago (R$)</label>
+            <input type="number" step="0.01" id="modalCostPrice" value="9.15" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white" placeholder="Preço + taxas">
           </div>
         </div>
 
+        <!-- Cotação Atual de Mercado e Provento -->
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Preço Atual (R$)</label>
-            <input type="number" step="0.01" id="modalCurrentPrice" value="9.50" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white">
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Cotação Atual (R$)</label>
+            <input type="number" step="0.01" id="modalCurrentPrice" value="9.15" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-emerald-400" placeholder="Puxado da B3">
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-400 mb-1">Dividendo Médio/Cota (R$)</label>
@@ -585,166 +592,16 @@
   <!-- DATABASE & ENGINE JAVASCRIPT -->
   <script>
     const FII_DATABASE = [
-      {
-        ticker: 'MXRF11',
-        name: 'Maxi Renda FII',
-        fundType: 'misto',
-        segment: 'Papel CRI / Misto',
-        price: 9.92,
-        vp: 9.88,
-        dy: 11.8,
-        lastDiv: 0.10,
-        liquidity: 'alta',
-        diversification: 'pulverizada',
-        creditRisk: 'middle',
-        manager: 'XP Vista Asset',
-        physicalVac: 0,
-        financialVac: 0
-      },
-      {
-        ticker: 'KNSC11',
-        name: 'Kinea Securities FII',
-        fundType: 'papel',
-        segment: 'Papel CRI',
-        price: 9.15,
-        vp: 9.20,
-        dy: 11.2,
-        lastDiv: 0.09,
-        liquidity: 'alta',
-        diversification: 'pulverizada',
-        creditRisk: 'high_grade',
-        manager: 'Kinea Investimentos (Itaú)',
-        physicalVac: 0,
-        financialVac: 0
-      },
-      {
-        ticker: 'VGIR11',
-        name: 'Valora RE III FII',
-        fundType: 'papel',
-        segment: 'Papel CRI',
-        price: 9.68,
-        vp: 9.72,
-        dy: 12.6,
-        lastDiv: 0.10,
-        liquidity: 'alta',
-        diversification: 'pulverizada',
-        creditRisk: 'high_grade',
-        manager: 'Valora Gestão',
-        physicalVac: 0,
-        financialVac: 0
-      },
-      {
-        ticker: 'CPTS11',
-        name: 'Capitânia Securities II',
-        fundType: 'papel',
-        segment: 'Papel CRI',
-        price: 7.95,
-        vp: 8.85,
-        dy: 11.6,
-        lastDiv: 0.08,
-        liquidity: 'alta',
-        diversification: 'pulverizada',
-        creditRisk: 'high_grade',
-        manager: 'Capitânia Investimentos',
-        physicalVac: 0,
-        financialVac: 0
-      },
-      {
-        ticker: 'GARE11',
-        name: 'Guardian Real Estate FII',
-        fundType: 'tijolo',
-        segment: 'Renda Urbana / Logística',
-        price: 8.95,
-        vp: 9.15,
-        dy: 10.9,
-        lastDiv: 0.086,
-        liquidity: 'alta',
-        diversification: 'moderada',
-        creditRisk: 'middle',
-        manager: 'Guardian Gestora',
-        physicalVac: 0.8,
-        financialVac: 0.5
-      },
-      {
-        ticker: 'HGLG11',
-        name: 'CSHG Logística FII',
-        fundType: 'tijolo',
-        segment: 'Logística',
-        price: 158.40,
-        vp: 155.20,
-        dy: 8.9,
-        lastDiv: 1.10,
-        liquidity: 'alta',
-        diversification: 'pulverizada',
-        creditRisk: 'high_grade',
-        manager: 'Patria / Credit Suisse',
-        physicalVac: 6.2,
-        financialVac: 4.5
-      },
-      {
-        ticker: 'VISC11',
-        name: 'Vinci Shopping Centers',
-        fundType: 'tijolo',
-        segment: 'Shoppings',
-        price: 112.50,
-        vp: 122.10,
-        dy: 9.1,
-        lastDiv: 0.85,
-        liquidity: 'alta',
-        diversification: 'pulverizada',
-        creditRisk: 'high_grade',
-        manager: 'Vinci Real Estate',
-        physicalVac: 4.8,
-        financialVac: 3.5
-      },
-      {
-        ticker: 'XPML11',
-        name: 'XP Malls FII',
-        fundType: 'tijolo',
-        segment: 'Shoppings',
-        price: 106.80,
-        vp: 111.40,
-        dy: 9.4,
-        lastDiv: 0.92,
-        liquidity: 'alta',
-        diversification: 'pulverizada',
-        creditRisk: 'high_grade',
-        manager: 'XP Asset Management',
-        physicalVac: 4.2,
-        financialVac: 3.0
-      },
-      {
-        ticker: 'BTLG11',
-        name: 'BTG Pactual Logística',
-        fundType: 'tijolo',
-        segment: 'Logística',
-        price: 99.80,
-        vp: 101.50,
-        dy: 9.2,
-        lastDiv: 0.78,
-        liquidity: 'alta',
-        diversification: 'pulverizada',
-        creditRisk: 'high_grade',
-        manager: 'BTG Pactual',
-        physicalVac: 3.8,
-        financialVac: 2.1
-      },
-      {
-        ticker: 'HCTR11',
-        name: 'Hectare CE FII (Exemplo Yield Trap)',
-        fundType: 'papel',
-        segment: 'Papel CRI',
-        price: 27.50,
-        vp: 104.20,
-        dy: 19.8,
-        lastDiv: 0.35,
-        liquidity: 'media',
-        diversification: 'concentrada',
-        creditRisk: 'high_yield',
-        manager: 'Hectare Capital',
-        physicalVac: 0,
-        financialVac: 0
-      }
+      { ticker: 'MXRF11', name: 'Maxi Renda FII', fundType: 'misto', segment: 'Papel CRI', price: 9.92, vp: 9.88, dy: 11.8, lastDiv: 0.10, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'middle', manager: 'XP Vista Asset', physicalVac: 0, financialVac: 0 },
+      { ticker: 'KNSC11', name: 'Kinea Securities FII', fundType: 'papel', segment: 'Papel CRI', price: 9.15, vp: 9.20, dy: 11.2, lastDiv: 0.09, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'high_grade', manager: 'Kinea Investimentos', physicalVac: 0, financialVac: 0 },
+      { ticker: 'VGIR11', name: 'Valora RE III FII', fundType: 'papel', segment: 'Papel CRI', price: 9.68, vp: 9.72, dy: 12.6, lastDiv: 0.10, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'high_grade', manager: 'Valora Gestão', physicalVac: 0, financialVac: 0 },
+      { ticker: 'CPTS11', name: 'Capitânia Securities II', fundType: 'papel', segment: 'Papel CRI', price: 7.95, vp: 8.85, dy: 11.6, lastDiv: 0.08, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'high_grade', manager: 'Capitânia', physicalVac: 0, financialVac: 0 },
+      { ticker: 'GARE11', name: 'Guardian Real Estate FII', fundType: 'tijolo', segment: 'Renda Urbana', price: 8.95, vp: 9.15, dy: 10.9, lastDiv: 0.086, liquidity: 'alta', diversification: 'moderada', creditRisk: 'middle', manager: 'Guardian', physicalVac: 0.8, financialVac: 0.5 },
+      { ticker: 'HGLG11', name: 'CSHG Logística FII', fundType: 'tijolo', segment: 'Logística', price: 158.40, vp: 155.20, dy: 8.9, lastDiv: 1.10, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'high_grade', manager: 'Patria', physicalVac: 6.2, financialVac: 4.5 },
+      { ticker: 'VISC11', name: 'Vinci Shopping Centers', fundType: 'tijolo', segment: 'Shoppings', price: 112.50, vp: 122.10, dy: 9.1, lastDiv: 0.85, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'high_grade', manager: 'Vinci', physicalVac: 4.8, financialVac: 3.5 },
+      { ticker: 'XPML11', name: 'XP Malls FII', fundType: 'tijolo', segment: 'Shoppings', price: 106.80, vp: 111.40, dy: 9.4, lastDiv: 0.92, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'high_grade', manager: 'XP Asset', physicalVac: 4.2, financialVac: 3.0 },
+      { ticker: 'BTLG11', name: 'BTG Pactual Logística', fundType: 'tijolo', segment: 'Logística', price: 99.80, vp: 101.50, dy: 9.2, lastDiv: 0.78, liquidity: 'alta', diversification: 'pulverizada', creditRisk: 'high_grade', manager: 'BTG Pactual', physicalVac: 3.8, financialVac: 2.1 },
+      { ticker: 'HCTR11', name: 'Hectare CE FII (Yield Trap)', fundType: 'papel', segment: 'Papel CRI', price: 27.50, vp: 104.20, dy: 19.8, lastDiv: 0.35, liquidity: 'media', diversification: 'concentrada', creditRisk: 'high_yield', manager: 'Hectare', physicalVac: 0, financialVac: 0 }
     ];
 
     let currentPortfolio = [];
@@ -782,11 +639,12 @@
       lucide.createIcons();
     }
 
+    // AUTOCOMPLETE
     function handleSearchInput(query) {
       const dropdown = document.getElementById('autocompleteDropdown');
       const q = query.trim().toUpperCase();
 
-      if (!q || q.length === 0) {
+      if (!q) {
         dropdown.classList.add('hidden');
         dropdown.innerHTML = '';
         return;
@@ -799,7 +657,7 @@
       if (matches.length === 0) {
         dropdown.innerHTML = `
           <div class="p-3 text-xs text-slate-400 text-center">
-            Nenhum FII encontrado com "<strong>${q}</strong>". Preencha manualmente no formulário abaixo.
+            Nenhum FII em cache com "<strong>${q}</strong>". Você pode preencher os campos abaixo normalmente.
           </div>
         `;
         dropdown.classList.remove('hidden');
@@ -808,7 +666,6 @@
 
       dropdown.innerHTML = matches.map(fii => {
         const pvp = (fii.price / fii.vp).toFixed(2);
-        const pvpColor = pvp <= 1.01 ? 'text-emerald-400' : 'text-amber-400';
         return `
           <div onclick="selectFII('${fii.ticker}')" class="p-3 hover:bg-slate-800/80 cursor-pointer transition flex items-center justify-between group">
             <div class="space-y-0.5">
@@ -820,7 +677,7 @@
             </div>
             <div class="text-right font-mono">
               <span class="text-xs font-bold text-white block">R$ ${fii.price.toFixed(2).replace('.', ',')}</span>
-              <span class="text-[10px] ${pvpColor}">P/VP: ${pvp}</span>
+              <span class="text-[10px] text-slate-400">P/VP: ${pvp}</span>
             </div>
           </div>
         `;
@@ -859,17 +716,14 @@
       toggleTijoloFields();
       updateLivePVP();
       runAnalysis();
-      showToast(`Fundo ${fii.ticker} selecionado!`);
+      showToast(`Fundo ${fii.ticker} carregado!`);
     }
 
     function toggleTijoloFields() {
       const type = document.getElementById('fundType').value;
       const tFields = document.getElementById('tijoloFields');
-      if (type === 'tijolo') {
-        tFields.classList.remove('hidden');
-      } else {
-        tFields.classList.add('hidden');
-      }
+      if (type === 'tijolo') tFields.classList.remove('hidden');
+      else tFields.classList.add('hidden');
     }
 
     function updateLivePVP() {
@@ -885,6 +739,7 @@
       }
     }
 
+    // AI ANALYSIS ENGINE
     function runAnalysis() {
       const ticker = (document.getElementById('ticker').value || 'FII').toUpperCase();
       const fundType = document.getElementById('fundType').value;
@@ -901,16 +756,15 @@
       let whyBuy = [];
       let whyAvoid = [];
 
-      // P/VP
       if (fundType === 'papel' || fundType === 'fiagro') {
         if (pvp > 1.04) {
           score -= 32;
-          whyAvoid.push(`<strong>P/VP Alto (${pvp.toFixed(2)}):</strong> Em fundos de papel há ágio prejudicial sobre títulos de dívida.`);
+          whyAvoid.push(`<strong>P/VP Alto (${pvp.toFixed(2)}):</strong> Ágio prejudicial sobre títulos de dívida.`);
         } else if (pvp >= 0.94 && pvp <= 1.01) {
-          whyBuy.push(`<strong>Preço Justo (P/VP ${pvp.toFixed(2)}):</strong> Sem ágio prejudicial em recebíveis de crédito.`);
+          whyBuy.push(`<strong>Preço Justo (P/VP ${pvp.toFixed(2)}):</strong> Sem ágio prejudicial em recebíveis.`);
         } else if (pvp < 0.80) {
           score -= 18;
-          whyAvoid.push(`<strong>Deságio Elevado (${pvp.toFixed(2)}):</strong> Desconto excessivo que costuma apontar calotes.`);
+          whyAvoid.push(`<strong>Deságio Elevado (${pvp.toFixed(2)}):</strong> Desconto excessivo que costuma apontar estresse de crédito.`);
         } else {
           whyBuy.push(`<strong>Margem de Segurança (P/VP ${pvp.toFixed(2)}):</strong> Negociando com desconto atrativo.`);
         }
@@ -919,42 +773,36 @@
           score -= 22;
           whyAvoid.push(`<strong>Cota com Ágio (${pvp.toFixed(2)}):</strong> Acima da reavaliação dos imóveis físicos.`);
         } else if (pvp >= 0.85 && pvp <= 1.05) {
-          whyBuy.push(`<strong>Equilíbrio Patrimonial (${pvp.toFixed(2)}):</strong> Cotação justa frente aos ativos reais.`);
+          whyBuy.push(`<strong>Equilíbrio Patrimonial (${pvp.toFixed(2)}):</strong> Cotação justa frente aos imóveis.`);
         }
       }
 
-      // DY
       if (dy > 15.0) {
         score -= 40;
-        whyAvoid.push(`<strong>Risco de "Yield Trap" (${dy.toFixed(1)}% a.a.):</strong> Dividendos atipicamente altos com risco de corte.`);
+        whyAvoid.push(`<strong>Risco de "Yield Trap" (${dy.toFixed(1)}% a.a.):</strong> Proventos anormalmente altos com risco de corte brusco.`);
       } else if (dy >= 9.5 && dy <= 13.5) {
-        whyBuy.push(`<strong>Yield Sustentável (${dy.toFixed(1)}% a.a.):</strong> Retorno defensivo e condizente com o mercado.`);
+        whyBuy.push(`<strong>Yield Sustentável (${dy.toFixed(1)}% a.a.):</strong> Retorno atrativo e condizente com juros reais.`);
       }
 
-      // Crédito
-      if (creditRisk === 'high_grade') {
-        whyBuy.push(`<strong>Carteira High Grade:</strong> Devedores sólidos com blindagem contra inadimplência.`);
-      } else if (creditRisk === 'high_yield') {
+      if (creditRisk === 'high_grade') whyBuy.push(`<strong>Carteira High Grade:</strong> Devedores de alta solvência e gestão de ponta.`);
+      else if (creditRisk === 'high_yield') {
         score -= 30;
-        whyAvoid.push(`<strong>Risco High Yield:</strong> Operações de dívida de alto risco de crédito.`);
+        whyAvoid.push(`<strong>Risco High Yield:</strong> Operações especulativas sujeitas a calotes.`);
       }
 
-      // Diversificação
       if (diversification === 'mono') {
         score -= 35;
-        whyAvoid.push(`<strong>Mono-ativo / Mono-inquilino:</strong> Alta concentração de risco.`);
+        whyAvoid.push(`<strong>Mono-ativo / Mono-inquilino:</strong> Dependência crítica de um único contrato.`);
       } else if (diversification === 'pulverizada') {
-        whyBuy.push(`<strong>Alta Pulverização:</strong> Risco diluído em mais de 20 participantes.`);
+        whyBuy.push(`<strong>Alta Pulverização:</strong> Risco diluído em dezenas de operações.`);
       }
 
-      // Vacância
       if (fundType === 'tijolo' && physVac > 10) {
         score -= 20;
-        whyAvoid.push(`<strong>Vacância Física Elevada (${physVac.toFixed(1)}%):</strong> Espaços desocupados gerando custos.`);
+        whyAvoid.push(`<strong>Vacância Física Alta (${physVac.toFixed(1)}%):</strong> Espaços vagos gerando custos de condomínio.`);
       }
 
       score = Math.max(10, Math.min(100, Math.round(score)));
-
       renderVerdictUI({ ticker, score, pvp, dy, price, lastDiv, whyBuy, whyAvoid });
     }
 
@@ -977,42 +825,140 @@
         box.className = 'rounded-2xl border p-4 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-emerald-500/40';
         pill.className = 'px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1.5';
         pill.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4"></i> RECOMENDADO PARA COMPRA';
-        headline.textContent = 'Ativo perene e seguro para renda passiva mensal';
-        summary.textContent = 'O fundo atende aos critérios de disciplina: P/VP saudável, dividendo sustentável e carteira blindada.';
+        headline.textContent = 'Ativo perene e seguro para proventos mensais';
+        summary.textContent = 'O fundo atende aos critérios de disciplina: P/VP saudável, dividendo sustentável e gestão sólida.';
       } else if (res.score >= 50) {
         gauge.className = 'score-gauge-transition text-amber-400';
         box.className = 'rounded-2xl border p-4 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-amber-500/40';
         pill.className = 'px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1.5';
         pill.innerHTML = '<i data-lucide="alert-circle" class="w-4 h-4"></i> COMPRA COM RESSALVA';
-        headline.textContent = 'Aprovado com ressalvas — Monitore antes de aportar';
-        summary.textContent = 'Apresenta boa qualidade mas há fatores para acompanhar antes de aumentar a exposição.';
+        headline.textContent = 'Aprovado com ressalvas — Monitore antes de aportar forte';
+        summary.textContent = 'Apresenta boas qualidades, mas há fatores a acompanhar para garantir segurança.';
       } else {
         gauge.className = 'score-gauge-transition text-rose-500';
         box.className = 'rounded-2xl border p-4 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-rose-500/40';
         pill.className = 'px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide bg-rose-500/20 text-rose-300 border border-rose-500/40 flex items-center gap-1.5';
         pill.innerHTML = '<i data-lucide="shield-alert" class="w-4 h-4"></i> ALTO RISCO / YIELD TRAP';
         headline.textContent = 'Risco elevado de perda patrimonial ou corte nos proventos';
-        summary.textContent = 'Sinais claros de risco excessivo: dividendos insustentáveis ou devedores com problemas de liquidez.';
+        summary.textContent = 'Sinais clássicos de risco elevado ou estresse em títulos de crédito.';
       }
 
       document.getElementById('whyBuyList').innerHTML = res.whyBuy.length 
         ? res.whyBuy.map(item => `<li class="flex items-start gap-1.5 leading-snug"><span class="text-emerald-400 font-bold">✓</span><span>${item}</span></li>`).join('')
-        : '<li class="text-slate-500 italic">Nenhum ponto de destaque positivo identificado.</li>';
+        : '<li class="text-slate-500 italic">Nenhum ponto marcante.</li>';
 
       document.getElementById('whyAvoidList').innerHTML = res.whyAvoid.length
         ? res.whyAvoid.map(item => `<li class="flex items-start gap-1.5 leading-snug"><span class="text-rose-400 font-bold">⚠️</span><span>${item}</span></li>`).join('')
-        : '<li class="text-emerald-400 italic flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5"></i> Nenhum risco grave identificado neste momento.</li>';
+        : '<li class="text-emerald-400 italic flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5"></i> Nenhum risco crítico identificado.</li>';
 
       const magicCotas = Math.ceil(res.price / res.lastDiv);
       const magicCapital = magicCotas * res.price;
       document.getElementById('magicFiiCotas').textContent = `${magicCotas} cotas`;
       document.getElementById('magicFiiExplanation').innerHTML = `
-        Ao atingir <strong>${magicCotas} cotas</strong> (~R$ ${magicCapital.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}), os proventos mensais pagarão <strong>1 nova cota todo mês sem tirar do seu bolso</strong>.
+        Ao atingir <strong>${magicCotas} cotas</strong> (~R$ ${magicCapital.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}), os rendimentos pagarão <strong>1 nova cota todo mês 100% de graça</strong>.
       `;
 
       lucide.createIcons();
     }
 
+    // AUTOMATIC ONLINE B3 PRICE FETCHING (Brapi Integration)
+    async function fetchLiveMarketPrices() {
+      if (currentPortfolio.length === 0) {
+        showToast('Nenhum FII na carteira para atualizar.');
+        return;
+      }
+
+      const btn = document.getElementById('btnSyncPrices');
+      const originalText = btn.innerHTML;
+      btn.innerHTML = `<i data-lucide="loader" class="w-3.5 h-3.5 animate-spin text-emerald-400"></i> Atualizando...`;
+      lucide.createIcons();
+
+      let updatedCount = 0;
+
+      for (let item of currentPortfolio) {
+        try {
+          const resp = await fetch(`https://brapi.dev/api/quote/${item.ticker}?token=public`);
+          if (resp.ok) {
+            const data = await resp.json();
+            if (data.results && data.results[0] && data.results[0].regularMarketPrice) {
+              item.currentPrice = data.results[0].regularMarketPrice;
+              updatedCount++;
+            }
+          }
+        } catch (e) {
+          console.warn(`Não foi possível puxar online para ${item.ticker}, usando dados locais.`);
+        }
+      }
+
+      savePortfolioToStorage();
+      renderPortfolioDashboard();
+      btn.innerHTML = originalText;
+      lucide.createIcons();
+      showToast(`${updatedCount} ativo(s) atualizados com a cotação da B3!`);
+    }
+
+    function autoFetchPriceOnTickerChange(ticker) {
+      const t = ticker.trim().toUpperCase();
+      const match = FII_DATABASE.find(f => f.ticker === t);
+      if (match) {
+        document.getElementById('modalCurrentPrice').value = match.price;
+        document.getElementById('modalCostPrice').value = match.price;
+        document.getElementById('modalDividend').value = match.lastDiv;
+        document.getElementById('modalSegment').value = match.segment;
+      }
+    }
+
+    // EXPORT TO CHAT & BACKUP
+    function exportPortfolioForChat() {
+      if (currentPortfolio.length === 0) {
+        showToast('Carteira vazia.');
+        return;
+      }
+
+      let totalWealth = 0;
+      let totalCost = 0;
+      let totalIncome = 0;
+
+      let report = `📊 **Relatório Atual da Minha Carteira de FIIs:**\n\n`;
+
+      currentPortfolio.forEach(item => {
+        const val = item.quantity * item.currentPrice;
+        const cost = item.quantity * (item.costPrice || item.currentPrice);
+        const inc = item.quantity * item.dividend;
+        const diff = cost > 0 ? (((val - cost) / cost) * 100).toFixed(1) : 0;
+        
+        totalWealth += val;
+        totalCost += cost;
+        totalIncome += inc;
+
+        report += `• **${item.ticker}** (${item.segment}): ${item.quantity} cotas | Data Aporte: ${formatDateBR(item.date)} | Custo: R$ ${(item.costPrice || item.currentPrice).toFixed(2)} | Cotação: R$ ${item.currentPrice.toFixed(2)} | Provento/mês: R$ ${inc.toFixed(2)} (${diff >= 0 ? '+' : ''}${diff}%)\n`;
+      });
+
+      const totalDiff = totalCost > 0 ? (((totalWealth - totalCost) / totalCost) * 100).toFixed(2) : 0;
+
+      report += `\n💰 **Totais Gerais:**`;
+      report += `\n• Patrimônio Atual: R$ ${totalWealth.toFixed(2)}`;
+      report += `\n• Total Desembolsado: R$ ${totalCost.toFixed(2)}`;
+      report += `\n• Rentabilidade: ${totalDiff >= 0 ? '+' : ''}${totalDiff}%`;
+      report += `\n• Proventos Estimados/Mês: R$ ${totalIncome.toFixed(2)} (~${((totalIncome/totalWealth)*100).toFixed(2)}% a.m.)`;
+
+      navigator.clipboard.writeText(report).then(() => {
+        showToast('Relatório copiado! Cole aqui no chat para analisarmos.');
+      }).catch(() => {
+        showToast('Erro ao copiar automaticamente.');
+      });
+    }
+
+    function formatDateBR(dateStr) {
+      if (!dateStr) return 'N/D';
+      const parts = dateStr.split('-');
+      if (parts.length === 3) {
+        return `${parts[2]}/${parts[1]}/${parts[0]}`;
+      }
+      return dateStr;
+    }
+
+    // PORTFOLIO LOGIC
     function loadPortfolioFromStorage() {
       const saved = localStorage.getItem('fii_master_portfolio');
       if (saved) {
@@ -1053,16 +999,17 @@
     }
 
     function loadSuggestedStarterPortfolio() {
+      const today = new Date().toISOString().split('T')[0];
       currentPortfolio = [
-        { ticker: 'KNSC11', quantity: 2, avgPrice: 9.15, currentPrice: 9.15, dividend: 0.09, segment: 'Papel CRI', targetWeight: 20 },
-        { ticker: 'VGIR11', quantity: 2, avgPrice: 9.68, currentPrice: 9.68, dividend: 0.10, segment: 'Papel CRI', targetWeight: 20 },
-        { ticker: 'CPTS11', quantity: 2, avgPrice: 7.95, currentPrice: 7.95, dividend: 0.08, segment: 'Papel CRI', targetWeight: 20 },
-        { ticker: 'GARE11', quantity: 3, avgPrice: 8.95, currentPrice: 8.95, dividend: 0.086, segment: 'Renda Urbana', targetWeight: 20 },
-        { ticker: 'MXRF11', quantity: 2, avgPrice: 9.92, currentPrice: 9.92, dividend: 0.10, segment: 'Papel CRI', targetWeight: 20 }
+        { ticker: 'KNSC11', quantity: 2, costPrice: 9.15, currentPrice: 9.15, dividend: 0.09, segment: 'Papel CRI', targetWeight: 20, date: today },
+        { ticker: 'VGIR11', quantity: 2, costPrice: 9.68, currentPrice: 9.68, dividend: 0.10, segment: 'Papel CRI', targetWeight: 20, date: today },
+        { ticker: 'CPTS11', quantity: 2, costPrice: 7.95, currentPrice: 7.95, dividend: 0.08, segment: 'Papel CRI', targetWeight: 20, date: today },
+        { ticker: 'GARE11', quantity: 3, costPrice: 8.95, currentPrice: 8.95, dividend: 0.086, segment: 'Renda Urbana', targetWeight: 20, date: today },
+        { ticker: 'MXRF11', quantity: 2, costPrice: 9.92, currentPrice: 9.92, dividend: 0.10, segment: 'Papel CRI', targetWeight: 20, date: today }
       ];
       savePortfolioToStorage();
       renderPortfolioDashboard();
-      showToast('Carteira de R$ 100 carregada com sucesso!');
+      showToast('Carteira inicial de R$ 100 carregada!');
     }
 
     function addCurrentFiiToPortfolio() {
@@ -1072,13 +1019,14 @@
       const fundType = document.getElementById('fundType').value;
 
       let seg = 'Papel CRI';
-      if (fundType === 'tijolo') seg = 'Logística / Tijolo';
+      if (fundType === 'tijolo') seg = 'Logística';
       else if (fundType === 'fiagro') seg = 'Fiagro';
-      else if (fundType === 'misto') seg = 'Renda Urbana / Misto';
+      else if (fundType === 'misto') seg = 'Renda Urbana';
 
       document.getElementById('modalTicker').value = ticker;
+      document.getElementById('modalDate').value = new Date().toISOString().split('T')[0];
       document.getElementById('modalCurrentPrice').value = currentPrice;
-      document.getElementById('modalAvgPrice').value = currentPrice;
+      document.getElementById('modalCostPrice').value = currentPrice;
       document.getElementById('modalDividend').value = lastDiv;
       document.getElementById('modalSegment').value = seg;
       document.getElementById('modalQuantity').value = 10;
@@ -1088,6 +1036,9 @@
     }
 
     function openAddFiiModal() {
+      if (!document.getElementById('modalDate').value) {
+        document.getElementById('modalDate').value = new Date().toISOString().split('T')[0];
+      }
       document.getElementById('fiiModal').classList.remove('hidden');
     }
 
@@ -1097,9 +1048,10 @@
 
     function saveModalFii() {
       const ticker = document.getElementById('modalTicker').value.trim().toUpperCase();
+      const date = document.getElementById('modalDate').value || new Date().toISOString().split('T')[0];
       const quantity = parseInt(document.getElementById('modalQuantity').value) || 1;
-      const avgPrice = parseFloat(document.getElementById('modalAvgPrice').value) || 10;
-      const currentPrice = parseFloat(document.getElementById('modalCurrentPrice').value) || avgPrice;
+      const costPrice = parseFloat(document.getElementById('modalCostPrice').value) || 10;
+      const currentPrice = parseFloat(document.getElementById('modalCurrentPrice').value) || costPrice;
       const dividend = parseFloat(document.getElementById('modalDividend').value) || 0.08;
       const segment = document.getElementById('modalSegment').value;
       const targetWeight = parseFloat(document.getElementById('modalTargetWeight').value) || 10;
@@ -1111,9 +1063,9 @@
 
       const existingIndex = currentPortfolio.findIndex(f => f.ticker === ticker);
       if (existingIndex >= 0) {
-        currentPortfolio[existingIndex] = { ticker, quantity, avgPrice, currentPrice, dividend, segment, targetWeight };
+        currentPortfolio[existingIndex] = { ticker, date, quantity, costPrice, currentPrice, dividend, segment, targetWeight };
       } else {
-        currentPortfolio.push({ ticker, quantity, avgPrice, currentPrice, dividend, segment, targetWeight });
+        currentPortfolio.push({ ticker, date, quantity, costPrice, currentPrice, dividend, segment, targetWeight });
       }
 
       closeAddFiiModal();
@@ -1126,7 +1078,7 @@
       currentPortfolio = currentPortfolio.filter(f => f.ticker !== ticker);
       savePortfolioToStorage();
       renderPortfolioDashboard();
-      showToast(`${ticker} removido da carteira.`);
+      showToast(`${ticker} removido.`);
     }
 
     function renderPortfolioDashboard() {
@@ -1144,29 +1096,37 @@
       emptyMsg.classList.add('hidden');
 
       let totalWealth = 0;
+      let totalCost = 0;
       let totalMonthlyDividend = 0;
       let totalCotas = 0;
 
       currentPortfolio.forEach(item => {
-        totalWealth += item.quantity * item.currentPrice;
-        totalMonthlyDividend += item.quantity * item.dividend;
+        const itemVal = item.quantity * item.currentPrice;
+        const itemCost = item.quantity * (item.costPrice || item.currentPrice);
+        totalWealth += itemVal;
+        totalCost += itemCost;
+        totalMonthlyDividend += (item.quantity * item.dividend);
         totalCotas += item.quantity;
       });
 
       tbody.innerHTML = currentPortfolio.map(item => {
         const itemWealth = item.quantity * item.currentPrice;
-        const currentWeight = totalWealth > 0 ? ((itemWealth / totalWealth) * 100).toFixed(1) : '0.0';
+        const itemCost = item.quantity * (item.costPrice || item.currentPrice);
+        const profit = itemWealth - itemCost;
+        const profitPct = itemCost > 0 ? ((profit / itemCost) * 100).toFixed(1) : '0.0';
+        const profitClass = profit >= 0 ? 'text-emerald-400' : 'text-rose-400';
         const itemMonthlyDividend = (item.quantity * item.dividend).toFixed(2).replace('.', ',');
 
         return `
           <tr class="hover:bg-slate-800/40 transition">
-            <td class="py-2.5 px-3 font-bold text-emerald-400">${item.ticker}</td>
+            <td class="py-2.5 px-3 text-slate-400 text-[11px] whitespace-nowrap">${formatDateBR(item.date)}</td>
+            <td class="py-2.5 px-2 font-bold text-emerald-400">${item.ticker}</td>
             <td class="py-2.5 px-2 text-slate-400 font-sans text-[11px]">${item.segment}</td>
             <td class="py-2.5 px-2 text-right font-bold text-white">${item.quantity}</td>
-            <td class="py-2.5 px-2 text-right text-slate-300">R$ ${item.currentPrice.toFixed(2).replace('.', ',')}</td>
+            <td class="py-2.5 px-2 text-right text-slate-300">R$ ${(item.costPrice || item.currentPrice).toFixed(2).replace('.', ',')}</td>
+            <td class="py-2.5 px-2 text-right text-emerald-400 font-bold">R$ ${item.currentPrice.toFixed(2).replace('.', ',')}</td>
             <td class="py-2.5 px-2 text-right font-bold text-white">R$ ${itemWealth.toFixed(2).replace('.', ',')}</td>
-            <td class="py-2.5 px-2 text-right text-slate-200">${currentWeight}%</td>
-            <td class="py-2.5 px-2 text-right text-emerald-400">${item.targetWeight}%</td>
+            <td class="py-2.5 px-2 text-right font-bold ${profitClass}">${profit >= 0 ? '+' : ''}${profitPct}%</td>
             <td class="py-2.5 px-2 text-right font-bold text-emerald-400">R$ ${itemMonthlyDividend}</td>
             <td class="py-2.5 px-3 text-center">
               <button onclick="removeFiiFromPortfolio('${item.ticker}')" class="text-slate-500 hover:text-rose-400 p-1 transition" title="Remover">
@@ -1177,18 +1137,21 @@
         `;
       }).join('');
 
+      // KPIs
       document.getElementById('kpiTotalWealth').textContent = `R$ ${totalWealth.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      document.getElementById('kpiTotalCost').textContent = `R$ ${totalCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      
+      const totalProfitPct = totalCost > 0 ? (((totalWealth - totalCost) / totalCost) * 100).toFixed(1) : '0.0';
+      const profitTextClass = totalProfitPct >= 0 ? 'text-emerald-400' : 'text-rose-400';
+      document.getElementById('kpiProfitDiff').innerHTML = `<span class="${profitTextClass}">${totalProfitPct >= 0 ? '+' : ''}${totalProfitPct}%</span> vs custo total`;
+
       document.getElementById('kpiCotasTotal').textContent = `${totalCotas} cotas no total`;
       document.getElementById('kpiMonthlyIncome').textContent = `R$ ${totalMonthlyDividend.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
       
       const monthlyYieldPct = totalWealth > 0 ? ((totalMonthlyDividend / totalWealth) * 100).toFixed(2) : '0.00';
       document.getElementById('kpiYieldMonthly').textContent = `~${monthlyYieldPct}% a.m.`;
 
-      const goal = parseFloat(document.getElementById('monthlyGoal').value) || 1000;
-      const progressPct = Math.min(100, Math.round((totalMonthlyDividend / goal) * 100));
-      document.getElementById('kpiGoalProgress').textContent = `${progressPct}%`;
-      document.getElementById('kpiGoalBar').style.width = `${progressPct}%`;
-
+      // Magic Status
       const avgPriceAll = totalCotas > 0 ? (totalWealth / totalCotas) : 10;
       if (totalMonthlyDividend >= avgPriceAll) {
         const freeCotas = Math.floor(totalMonthlyDividend / avgPriceAll);
@@ -1202,6 +1165,7 @@
         document.getElementById('kpiMagicSubtitle').textContent = `Faltam R$ ${needed.toFixed(2).replace('.', ',')}`;
       }
 
+      // Chart
       const segmentTotals = {};
       currentPortfolio.forEach(item => {
         const seg = item.segment || 'Outros';
@@ -1215,11 +1179,11 @@
 
     function resetKPIs() {
       document.getElementById('kpiTotalWealth').textContent = 'R$ 0,00';
+      document.getElementById('kpiTotalCost').textContent = 'R$ 0,00';
+      document.getElementById('kpiProfitDiff').textContent = '0.0% de lucro';
       document.getElementById('kpiCotasTotal').textContent = '0 cotas no total';
       document.getElementById('kpiMonthlyIncome').textContent = 'R$ 0,00';
       document.getElementById('kpiYieldMonthly').textContent = '~0.00% a.m.';
-      document.getElementById('kpiGoalProgress').textContent = '0%';
-      document.getElementById('kpiGoalBar').style.width = '0%';
       document.getElementById('kpiMagicStatus').textContent = 'Sem Ativos';
       document.getElementById('kpiMagicSubtitle').textContent = 'Adicione cotas';
     }
@@ -1228,7 +1192,6 @@
       const ctx = document.getElementById('allocationChart').getContext('2d');
       const labels = Object.keys(segments);
       const data = Object.values(segments);
-
       const colorPalette = ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4'];
 
       if (donutChartInstance) donutChartInstance.destroy();
@@ -1310,7 +1273,7 @@
       if (needsBuying.length === 0) {
         listContainer.innerHTML = `
           <div class="p-3 bg-emerald-950/20 border border-emerald-900/30 rounded-xl text-xs text-emerald-300">
-            ✓ Sua carteira já está equilibrada de acordo com suas metas!
+            ✓ Sua carteira já está equilibrada de acordo com as metas!
           </div>
         `;
         return;
@@ -1360,7 +1323,7 @@
       if (suggestions.length === 0) {
         listContainer.innerHTML = `
           <div class="p-3 bg-amber-950/20 border border-amber-900/30 rounded-xl text-xs text-amber-300">
-            O aporte de R$ ${aporte.toFixed(2)} é inferior ao valor da cota que mais precisa de equilíbrio. Acumule para comprar cotas de <strong>${needsBuying[0].ticker}</strong>.
+            O aporte de R$ ${aporte.toFixed(2)} é inferior ao valor da cota que mais precisa de equilíbrio (${needsBuying[0].ticker}).
           </div>
         `;
         return;
