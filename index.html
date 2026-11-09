@@ -808,18 +808,59 @@
     // ==========================================
     // 2. BUSCA DE COTAÇÕES NA B3 (Brapi API)
     // ==========================================
+// BUSCA DE COTAÇÃO EM TEMPO REAL NA B3 (Via Brapi)
     async function fetchLiveB3Quote(ticker) {
+      const cleanTicker = ticker.trim().toUpperCase();
+      // Cole aqui a sua chave copiada da Brapi:
+      const brapiToken = 'qrAT7vay7c44qrGPKU1RAY';
+
+      // 1ª Tentativa: Conexão direta com sua chave
       try {
-        const resp = await fetch(`https://brapi.dev/api/quote/${ticker}?token=public`);
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 4000);
+        
+        const resp = await fetch(`https://brapi.dev/api/quote/${cleanTicker}?token=${brapiToken}`, {
+          signal: controller.signal
+        });
+        clearTimeout(timeout);
+
         if (resp.ok) {
           const data = await resp.json();
-          if (data.results && data.results[0] && data.results[0].regularMarketPrice) {
+          if (data.results && data.results[0] && typeof data.results[0].regularMarketPrice === 'number') {
             return data.results[0].regularMarketPrice;
           }
         }
       } catch (err) {
-        console.warn('Erro ao consultar cotação da B3 para', ticker, err);
+        console.warn('Conexão direta falhou, tentando rota alternativa...');
       }
+
+      // 2ª Tentativa: Proxy CORS (evita bloqueios de navegadores como Brave e Safari)
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 4000);
+        const targetUrl = encodeURIComponent(`https://brapi.dev/api/quote/${cleanTicker}?token=${brapiToken}`);
+        
+        const resp = await fetch(`https://api.allorigins.win/raw?url=${targetUrl}`, {
+          signal: controller.signal
+        });
+        clearTimeout(timeout);
+
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data.results && data.results[0] && typeof data.results[0].regularMarketPrice === 'number') {
+            return data.results[0].regularMarketPrice;
+          }
+        }
+      } catch (err) {
+        console.warn('Proxy também não respondeu.');
+      }
+
+      // 3ª Tentativa: Recuperação do cache local de segurança
+      const localMatch = FII_DATABASE.find(f => f.ticker === cleanTicker);
+      if (localMatch && localMatch.price) {
+        return localMatch.price;
+      }
+
       return null;
     }
 
