@@ -53,11 +53,11 @@
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-brand-500 selection:text-white safe-bottom">
 
-  <!-- Header Fixo com Área de Segurança do iPhone -->
+  <!-- Header Fixo -->
   <header class="border-b border-slate-800/80 bg-slate-900/95 backdrop-blur-md sticky top-0 z-50 safe-top">
     <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-2">
       
-      <!-- Brand Logo + Tag de Versão -->
+      <!-- Brand Logo -->
       <div class="flex items-center gap-2 sm:gap-3 shrink-0">
         <div class="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 shrink-0">
           <i data-lucide="shield-check" class="w-5 h-5 sm:w-6 sm:h-6 text-white"></i>
@@ -67,7 +67,7 @@
             FII Master <span class="text-emerald-400">AI</span>
           </span>
           <span class="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-            v3.6
+            v3.8
           </span>
         </div>
       </div>
@@ -94,54 +94,148 @@
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-6">
 
     <!-- ======================================================= -->
-    <!-- ABA 1: MINHA CARTEIRA (ABRE DIRETO COMO PRINCIPAL)       -->
+    <!-- ABA 1: MINHA CARTEIRA                                   -->
     <!-- ======================================================= -->
     <div id="viewPortfolio" class="space-y-6">
 
-      <!-- Status Bar de Cotações Online Automáticas -->
-      <section class="bg-slate-900 border border-slate-800/80 rounded-2xl p-3.5 sm:p-4 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div class="flex items-center gap-2">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span id="syncStatusText" class="text-xs text-slate-300 font-medium">Sincronizando cotações automáticas com a B3...</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <button onclick="fetchLiveMarketPrices(false)" class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1 transition">
-            <i data-lucide="refresh-cw" class="w-3 h-3 text-emerald-400"></i>
-            <span>Forçar Atualização</span>
-          </button>
+      <!-- ONBOARDING: CRIAÇÃO DO PERFIL (Exibido se não houver perfil salvo) -->
+      <section id="profileOnboardingCard" class="hidden bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/40 border border-emerald-500/30 rounded-3xl p-5 sm:p-8 shadow-2xl relative overflow-hidden">
+        <div class="max-w-2xl mx-auto space-y-5">
+          <div class="text-center space-y-2">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 mb-1 shadow-lg shadow-emerald-500/10">
+              <i data-lucide="user-check" class="w-7 h-7"></i>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">Configure sua Carteira Inteligente</h2>
+            <p class="text-xs sm:text-sm text-slate-300">
+              Seus dados de patrimônio e investimentos ficam gravados exclusivamente no armazenamento local do seu dispositivo de forma segura.
+            </p>
+          </div>
+
+          <form id="profileForm" onsubmit="event.preventDefault(); saveUserProfile();" class="space-y-4 bg-slate-950/80 p-5 sm:p-6 rounded-2xl border border-slate-800">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Seu Nome / Apelido</label>
+                <input type="text" id="inputProfileName" placeholder="Ex: Bruno" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 font-medium">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Nome da Carteira</label>
+                <input type="text" id="inputPortfolioName" placeholder="Ex: Renda Passiva Previdência" required class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 font-medium">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-2">Perfil de Investidor em FIIs</label>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <label class="relative flex flex-col p-3 rounded-xl border border-slate-700 bg-slate-900 hover:border-emerald-500/60 cursor-pointer transition">
+                  <input type="radio" name="investorStrategy" value="conservador" checked class="accent-emerald-500 mb-2">
+                  <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Conservador
+                  </span>
+                  <span class="text-[11px] text-slate-400 mt-1 leading-snug">Papel High Grade e Tijolo seguro. Foco em estabilidade e proteção de capital.</span>
+                </label>
+
+                <label class="relative flex flex-col p-3 rounded-xl border border-slate-700 bg-slate-900 hover:border-emerald-500/60 cursor-pointer transition">
+                  <input type="radio" name="investorStrategy" value="moderado" class="accent-emerald-500 mb-2">
+                  <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-blue-400"></span> Moderado
+                  </span>
+                  <span class="text-[11px] text-slate-400 mt-1 leading-snug">Equilíbrio perfeito entre CRIs indexados à inflação (IPCA+) e Tijolo urbano.</span>
+                </label>
+
+                <label class="relative flex flex-col p-3 rounded-xl border border-slate-700 bg-slate-900 hover:border-emerald-500/60 cursor-pointer transition">
+                  <input type="radio" name="investorStrategy" value="arrojado" class="accent-emerald-500 mb-2">
+                  <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-amber-400"></span> Arrojado
+                  </span>
+                  <span class="text-[11px] text-slate-400 mt-1 leading-snug">Busca máximo Dividend Yield, Fiagros e fundos com desconto de P/VP mais agressivo.</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Meta Mensal de Renda Passiva (R$)</label>
+                <div class="relative">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-500 text-xs font-mono">R$</span>
+                  <input type="number" step="50" id="inputMonthlyGoal" value="500.00" class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-3.5 py-2.5 text-xs text-emerald-400 font-mono font-bold focus:outline-none focus:border-emerald-500">
+                </div>
+              </div>
+              <div class="flex items-end">
+                <button type="submit" class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2">
+                  <i data-lucide="check" class="w-4 h-4"></i>
+                  <span>Criar Minha Carteira</span>
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
       </section>
 
-      <!-- Painel de Backup, Exportação e Restauração -->
+      <!-- BARRA DE STATUS DO PERFIL ATIVO -->
+      <section id="profileSummaryBanner" class="hidden bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-emerald-500/20 shrink-0">
+            <i data-lucide="briefcase" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 id="displayPortfolioName" class="font-extrabold text-base text-white">Minha Carteira</h2>
+              <span id="displayProfileBadge" class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                Conservador
+              </span>
+            </div>
+            <p class="text-xs text-slate-400">
+              Titular: <span id="displayInvestorName" class="text-slate-200 font-semibold">Investidor</span> • Salvo no seu dispositivo
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+          <!-- Meta de Renda Passiva com Barra de Progresso -->
+          <div class="bg-slate-950 px-3.5 py-2 rounded-xl border border-slate-800 min-w-[200px]">
+            <div class="flex justify-between items-center text-[11px] mb-1">
+              <span class="text-slate-400">Meta: <strong id="displayGoalTarget" class="text-slate-200 font-mono">R$ 500,00</strong></span>
+              <span id="displayGoalPercent" class="font-bold text-emerald-400 font-mono">0%</span>
+            </div>
+            <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+              <div id="goalProgressBar" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="openEditProfileModal()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-semibold flex items-center gap-1.5 border border-slate-700 transition">
+              <i data-lucide="settings" class="w-3.5 h-3.5"></i>
+              <span>Editar Perfil</span>
+            </button>
+            <button onclick="openAddFiiModal()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-xs font-bold text-white transition flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-600/20">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i>
+              <span>Novo FII</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Painel de Gestão e Backup -->
       <section class="bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-800/80 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
           <div>
             <h3 class="font-bold text-sm text-white flex items-center gap-2">
               <i data-lucide="database" class="w-4 h-4 text-emerald-400"></i>
-              Gestão de Dados, Backup & Exportação
+              Gestão de Carteira & Backup
             </h3>
-            <p class="text-xs text-slate-400">Seus dados ficam gravados no iPhone. Exporte para cópia ou backup externo.</p>
+            <p class="text-xs text-slate-400">Exporte para cópia, baixe arquivo JSON ou restaure em qualquer navegador.</p>
           </div>
-          <button onclick="openAddFiiModal()" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-500 rounded-xl text-xs font-bold text-white transition flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-600/20">
-            <i data-lucide="plus-circle" class="w-4 h-4"></i>
-            <span>Adicionar Novo FII</span>
-          </button>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-3">
-          <!-- 1. Copiar Relatório -->
           <button onclick="exportPortfolioForChat()" class="w-full px-3 py-2 bg-slate-950 hover:bg-slate-800 border border-slate-700/80 rounded-xl text-xs font-semibold text-slate-200 transition flex items-center justify-center gap-2">
             <i data-lucide="copy" class="w-3.5 h-3.5 text-blue-400"></i>
-            <span>Copiar para Chat</span>
+            <span>Copiar Relatório para o Chat</span>
           </button>
-
-          <!-- 2. Baixar Backup JSON -->
           <button onclick="downloadBackupFile()" class="w-full px-3 py-2 bg-slate-950 hover:bg-slate-800 border border-slate-700/80 rounded-xl text-xs font-semibold text-slate-200 transition flex items-center justify-center gap-2">
             <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-400"></i>
             <span>Baixar Backup (JSON)</span>
           </button>
-
-          <!-- 3. Restaurar Backup -->
           <label class="w-full px-3 py-2 bg-slate-950 hover:bg-slate-800 border border-slate-700/80 rounded-xl text-xs font-semibold text-slate-200 transition flex items-center justify-center gap-2 cursor-pointer">
             <i data-lucide="upload" class="w-3.5 h-3.5 text-amber-400"></i>
             <span>Restaurar Backup</span>
@@ -159,15 +253,15 @@
         </div>
 
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
-          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Proventos / Mês</span>
-          <span id="kpiMonthlyIncome" class="text-lg sm:text-2xl font-black font-mono text-emerald-400 mt-1 block">R$ 0,00</span>
-          <span id="kpiYieldMonthly" class="text-[10px] text-emerald-500/80 block">~0.0% a.m.</span>
+          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Lucro de Valorização</span>
+          <span id="kpiCapitalGain" class="text-lg sm:text-2xl font-black font-mono text-emerald-400 mt-1 block">R$ 0,00</span>
+          <span id="kpiProfitDiff" class="text-[10px] text-slate-400 block font-mono">0.0% s/ custo</span>
         </div>
 
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
-          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Total Investido</span>
-          <span id="kpiTotalCost" class="text-lg sm:text-2xl font-black font-mono text-slate-200 mt-1 block">R$ 0,00</span>
-          <span id="kpiProfitDiff" class="text-[10px] text-slate-400 block font-mono">0.0% lucro</span>
+          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Proventos / Mês</span>
+          <span id="kpiMonthlyIncome" class="text-lg sm:text-2xl font-black font-mono text-emerald-400 mt-1 block">R$ 0,00</span>
+          <span id="kpiYieldMonthly" class="text-[10px] text-emerald-500/80 block">~0.0% a.m. (YoC)</span>
         </div>
 
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
@@ -183,26 +277,27 @@
           <div>
             <h3 class="font-bold text-base text-white flex items-center gap-2">
               <i data-lucide="layers" class="w-4 h-4 text-emerald-400"></i>
-              Seus Fundos Cadastrados
+              Detalhamento de Compra vs Mercado
             </h3>
-            <p class="text-xs text-slate-400">Histórico de aportes, valor de compra e cotação de mercado.</p>
+            <p class="text-xs text-slate-400">Comparativo do custo de aquisição, cotação atual na B3, lucro de capital e proventos gerados.</p>
           </div>
         </div>
 
-        <!-- Tabela Responsiva com Scroll Horizontal no Celular -->
+        <!-- Tabela Responsiva -->
         <div class="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
-          <table class="w-full text-left text-xs min-w-[650px]">
+          <table class="w-full text-left text-xs min-w-[760px]">
             <thead class="bg-slate-950/80 text-slate-400 font-mono text-[11px] border-b border-slate-800 uppercase">
               <tr>
                 <th class="py-2.5 px-3">Data</th>
                 <th class="py-2.5 px-2">Ticker</th>
                 <th class="py-2.5 px-2">Segmento</th>
                 <th class="py-2.5 px-2 text-right">Cotas</th>
-                <th class="py-2.5 px-2 text-right">Custo Cota</th>
-                <th class="py-2.5 px-2 text-right">Preço Atual</th>
+                <th class="py-2.5 px-2 text-right">Preço Pago (Custo)</th>
+                <th class="py-2.5 px-2 text-right">Cotação Atual</th>
                 <th class="py-2.5 px-2 text-right">Patrimônio</th>
-                <th class="py-2.5 px-2 text-right">Lucro/Prej</th>
-                <th class="py-2.5 px-2 text-right">Renda/mês</th>
+                <th class="py-2.5 px-2 text-right">Ganho Capital</th>
+                <th class="py-2.5 px-2 text-right">Provento/mês</th>
+                <th class="py-2.5 px-2 text-right">Yield s/ Custo</th>
                 <th class="py-2.5 px-3 text-center">Ações</th>
               </tr>
             </thead>
@@ -215,8 +310,8 @@
             <i data-lucide="wallet" class="w-6 h-6"></i>
           </div>
           <div class="space-y-1">
-            <p class="text-sm font-semibold text-slate-300">Sua carteira está limpa e vazia.</p>
-            <p class="text-xs text-slate-400">Adicione os fundos que você comprou para começar a acompanhar o crescimento.</p>
+            <p class="text-sm font-semibold text-slate-300">Sua carteira está sem ativos no momento.</p>
+            <p class="text-xs text-slate-400">Adicione suas compras ou use a aba de análise para avaliar e transferir novos ativos.</p>
           </div>
           <button onclick="openAddFiiModal()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-bold text-white transition shadow">
             <i data-lucide="plus" class="w-4 h-4"></i>
@@ -242,14 +337,14 @@
           <div class="flex items-center justify-between border-b border-slate-800 pb-2">
             <div class="flex items-center gap-2">
               <i data-lucide="bot" class="w-4 h-4 text-emerald-400"></i>
-              <h4 class="font-bold text-xs uppercase tracking-wider text-white">IA Rebalanceadora de Aportes</h4>
+              <h4 class="font-bold text-xs uppercase tracking-wider text-white">Recomendação Conforme Perfil</h4>
             </div>
             <button onclick="calculateAIRebalance()" class="text-xs font-semibold px-2.5 py-1 rounded bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-600/30 transition">
               Calcular Aporte
             </button>
           </div>
-          <p class="text-xs text-slate-300">
-            Simula a distribuição do seu aporte para reequilibrar seus ativos automaticamente.
+          <p id="rebalanceProfileDesc" class="text-xs text-slate-300">
+            Distribuição sugerida para atingir a meta da sua carteira.
           </p>
           <div id="rebalanceSuggestions" class="space-y-2 pt-1"></div>
         </section>
@@ -257,13 +352,29 @@
 
     </div>
 
-
     <!-- ======================================================= -->
-    <!-- ABA 2: ANALISADOR INTELIGENTE (PESQUISA E P/VP)         -->
+    <!-- ABA 2: ANALISADOR INTELIGENTE (ATUALIZAÇÃO B3 AQUI)    -->
     <!-- ======================================================= -->
     <div id="viewAnalyzer" class="hidden space-y-6">
 
-      <!-- Fast Autocomplete Bar -->
+      <!-- Status Bar & Botão de Atualização B3 na Aba de Análise -->
+      <section class="bg-gradient-to-r from-slate-900 via-slate-900/90 to-emerald-950/40 border border-slate-800/80 rounded-2xl p-3.5 sm:p-4 shadow-lg flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          <div>
+            <span id="syncStatusText" class="text-xs text-slate-200 font-semibold block">Cotações B3 Prontas para Consulta</span>
+            <span class="text-[10px] text-slate-400 block">Ao selecionar ou clicar abaixo, os dados são atualizados diretamente da B3.</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="btnFetchCurrentAnalysis" onclick="fetchLiveQuoteForCurrentAnalysis()" class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/20 flex items-center gap-1.5 transition">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-white"></i>
+            <span>Atualizar Cotação Atual</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Autocomplete & Seleção Rápida -->
       <section class="bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-800/80 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl relative z-30">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
           <div class="space-y-1">
@@ -271,7 +382,7 @@
               <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Autocomplete & Seleção Instantânea
             </span>
             <h2 class="text-base sm:text-lg font-bold text-white">Pesquise qualquer FII da Bolsa Brasileira</h2>
-            <p class="text-xs text-slate-400">Selecione para calcular Score de compra, P/VP e proventos.</p>
+            <p class="text-xs text-slate-400">Clique para carregar automaticamente a cotação ao vivo, P/VP e proventos.</p>
           </div>
 
           <div class="relative w-full lg:w-96">
@@ -306,17 +417,17 @@
         </div>
       </section>
 
-      <!-- Analysis Form + Verdict -->
+      <!-- Formulário de Análise + Veredito -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         <section class="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
           <div class="flex items-center justify-between border-b border-slate-800 pb-3">
             <h3 class="font-bold text-sm text-white flex items-center gap-2">
               <i data-lucide="sliders" class="w-4 h-4 text-emerald-400"></i>
-              Dados do Fundo
+              Dados em Análise
             </h3>
             <button onclick="addCurrentFiiToPortfolio()" class="px-2.5 py-1 rounded-lg bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 text-xs font-semibold flex items-center gap-1 transition">
               <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-              <span>Adicionar à Carteira</span>
+              <span>Comprar / Adicionar</span>
             </button>
           </div>
 
@@ -324,7 +435,12 @@
             <div class="grid grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1">Ticker</label>
-                <input type="text" id="ticker" value="KNSC11" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold uppercase text-emerald-400 focus:outline-none" required>
+                <div class="flex gap-1.5">
+                  <input type="text" id="ticker" value="KNSC11" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold uppercase text-emerald-400 focus:outline-none" required>
+                  <button type="button" onclick="fetchLiveQuoteForCurrentAnalysis()" title="Buscar cotação ao vivo" class="px-2.5 py-2 bg-slate-800 hover:bg-slate-700 text-emerald-400 rounded-xl border border-slate-700 transition">
+                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
               </div>
               <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1">Segmento</label>
@@ -343,8 +459,8 @@
               </div>
               <div class="grid grid-cols-2 gap-3">
                 <div>
-                  <label class="block text-[11px] text-slate-400">Preço Atual (R$)</label>
-                  <input type="number" step="0.01" id="price" value="9.15" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-white" oninput="updateLivePVP(); runAnalysis();">
+                  <label class="block text-[11px] text-slate-400">Preço Atual B3 (R$)</label>
+                  <input type="number" step="0.01" id="price" value="9.15" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs font-mono font-bold text-emerald-400" oninput="updateLivePVP(); runAnalysis();">
                 </div>
                 <div>
                   <label class="block text-[11px] text-slate-400">VP Cota (R$)</label>
@@ -390,15 +506,15 @@
                 <span id="verdictPill" class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 inline-flex items-center gap-1.5">
                   <i data-lucide="check-circle" class="w-4 h-4"></i> RECOMENDADO PARA COMPRA
                 </span>
-                <h3 id="verdictHeadline" class="text-base sm:text-lg font-bold text-white">Ativo defensivo para proventos</h3>
+                <h3 id="verdictHeadline" class="text-base sm:text-lg font-bold text-white">Ativo com bom equilíbrio de proventos</h3>
                 <p id="verdictSummaryText" class="text-xs text-slate-300 leading-relaxed">
-                  Negociando no preço justo sem ágio prejudicial em carteira de crédito.
+                  Negociando com cotação atrativa e dividendos saudáveis para compor renda passiva.
                 </p>
               </div>
             </div>
 
             <div class="pt-4">
-              <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">Pontos Positivos</h4>
+              <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">Pontos Positivos & Indicadores</h4>
               <ul id="whyBuyList" class="space-y-1 text-xs text-slate-200"></ul>
             </div>
           </div>
@@ -409,13 +525,56 @@
 
   </main>
 
-  <!-- MODAL: CADASTRAR / EDITAR COMPRA -->
-  <div id="fiiModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+  <!-- MODAL: EDITAR PERFIL DO USUÁRIO -->
+  <div id="profileEditModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 class="font-bold text-sm text-white flex items-center gap-2">
-          <i data-lucide="plus-circle" class="w-4 h-4 text-emerald-400"></i>
-          <span>Registrar Compra de FII</span>
+          <i data-lucide="user" class="w-4 h-4 text-emerald-400"></i>
+          <span>Editar Perfil & Estratégia</span>
+        </h3>
+        <button onclick="closeEditProfileModal()" class="text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Seu Nome / Apelido</label>
+          <input type="text" id="editProfileName" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Nome da Carteira</label>
+          <input type="text" id="editPortfolioName" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Perfil de Risco</label>
+          <select id="editInvestorStrategy" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200">
+            <option value="conservador">Conservador (Mais Papel CRI & Defensivo)</option>
+            <option value="moderado">Moderado (Equilíbrio Papel + Tijolo)</option>
+            <option value="arrojado">Arrojado (Yield Alto, Fiagros & Oportunidades)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Meta Mensal de Proventos (R$)</label>
+          <input type="number" step="50" id="editMonthlyGoal" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-emerald-400">
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
+        <button onclick="closeEditProfileModal()" class="px-4 py-2 bg-slate-800 text-slate-300 rounded-xl text-xs font-semibold hover:bg-slate-700">Cancelar</button>
+        <button onclick="updateUserProfileFromModal()" class="px-4 py-2 bg-emerald-600 text-white rounded-xl text-xs font-bold hover:bg-emerald-500 shadow">Atualizar Perfil</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: REGISTRAR COMPRA DE FII -->
+  <div id="fiiModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="font-bold text-sm text-white flex items-center gap-2">
+          <i data-lucide="shopping-cart" class="w-4 h-4 text-emerald-400"></i>
+          <span>Registrar Compra / Aporte de FII</span>
         </h3>
         <button onclick="closeAddFiiModal()" class="text-slate-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
@@ -437,22 +596,22 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-semibold text-slate-400 mb-1">Quantidade de Cotas</label>
-            <input type="number" id="modalQuantity" min="1" value="10" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white">
+            <input type="number" id="modalQuantity" min="1" value="10" oninput="updateModalLivePreview()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Custo Pago por Cota (R$)</label>
-            <input type="number" step="0.01" id="modalCostPrice" value="9.15" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white" placeholder="Preço + taxas">
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Preço Pago por Cota (R$)</label>
+            <input type="number" step="0.01" id="modalCostPrice" value="9.15" oninput="updateModalLivePreview()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-amber-300" placeholder="Seu custo real">
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Preço Atual B3 (R$)</label>
-            <input type="number" step="0.01" id="modalCurrentPrice" value="9.15" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-emerald-400">
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Cotação Atual B3 (R$)</label>
+            <input type="number" step="0.01" id="modalCurrentPrice" value="9.15" oninput="updateModalLivePreview()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-emerald-400">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Provento Médio (R$)</label>
-            <input type="number" step="0.001" id="modalDividend" value="0.09" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white">
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Provento Médio / Cota (R$)</label>
+            <input type="number" step="0.001" id="modalDividend" value="0.09" oninput="updateModalLivePreview()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white">
           </div>
         </div>
 
@@ -466,6 +625,30 @@
             <option value="Fiagro">Fiagro</option>
             <option value="Outros">Outros</option>
           </select>
+        </div>
+
+        <!-- Painel Dinâmico: Comparação Compra x Mercado -->
+        <div class="p-3 bg-slate-950/80 border border-slate-800 rounded-xl space-y-1.5 text-xs font-mono">
+          <div class="flex justify-between text-slate-400">
+            <span>Total Desembolsado (Custo):</span>
+            <span id="previewTotalCost" class="text-white font-bold">R$ 91,50</span>
+          </div>
+          <div class="flex justify-between text-slate-400">
+            <span>Valor Atual a Mercado (B3):</span>
+            <span id="previewCurrentWealth" class="text-emerald-400 font-bold">R$ 91,50</span>
+          </div>
+          <div class="flex justify-between text-slate-400">
+            <span>Ganho de Capital Imediato:</span>
+            <span id="previewCapitalGain" class="text-slate-300 font-bold">R$ 0,00 (0.0%)</span>
+          </div>
+          <div class="flex justify-between text-slate-400 border-t border-slate-800/80 pt-1.5">
+            <span>Renda Mensal Estimada:</span>
+            <span id="previewIncomeMonthly" class="text-emerald-400 font-bold">R$ 0,90 / mês</span>
+          </div>
+          <div class="flex justify-between text-slate-400">
+            <span>Yield on Cost (YoC):</span>
+            <span id="previewYieldCost" class="text-amber-300 font-bold">~0.98% a.m.</span>
+          </div>
         </div>
       </div>
 
@@ -495,17 +678,14 @@
     ];
 
     let currentPortfolio = [];
+    let userProfile = null;
     let donutChartInstance = null;
 
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
+      loadProfileFromStorage();
       loadPortfolioFromStorage();
       renderPortfolioDashboard();
-      
-      // Sincronização automática em segundo plano
-      setTimeout(() => {
-        fetchLiveMarketPrices(true);
-      }, 800);
     });
 
     function switchTab(tab) {
@@ -533,173 +713,253 @@
       lucide.createIcons();
     }
 
-    // 1. ATUALIZAÇÃO AUTOMÁTICA VIA B3 (Brapi API)
-    async function fetchLiveMarketPrices(isAuto = false) {
-      const statusEl = document.getElementById('syncStatusText');
-      if (currentPortfolio.length === 0) {
-        if (statusEl) statusEl.textContent = 'Pronto para cadastrar ativos.';
-        return;
-      }
-
-      if (statusEl) statusEl.textContent = 'Buscando cotações atualizadas na B3...';
-      let count = 0;
-
-      for (let item of currentPortfolio) {
-        try {
-          const resp = await fetch(`https://brapi.dev/api/quote/${item.ticker}?token=public`);
-          if (resp.ok) {
-            const data = await resp.json();
-            if (data.results && data.results[0] && data.results[0].regularMarketPrice) {
-              item.currentPrice = data.results[0].regularMarketPrice;
-              count++;
-            }
-          }
-        } catch (e) {
-          console.warn(`Fallback local para ${item.ticker}`);
-        }
-      }
-
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-      if (statusEl) statusEl.textContent = `● Cotações B3 sincronizadas às ${timeStr}`;
-
-      savePortfolioToStorage();
-      renderPortfolioDashboard();
-      if (!isAuto) showToast(`${count} ativo(s) sincronizados com sucesso!`);
-    }
-
-    // 2. BACKUP EM ARQUIVO (DOWNLOAD JSON)
-    function downloadBackupFile() {
-      if (currentPortfolio.length === 0) {
-        showToast('Nenhum ativo na carteira para gerar backup.');
-        return;
-      }
-
-      const backupData = {
-        app: 'FII_Master_AI',
-        exportDate: new Date().toISOString(),
-        portfolio: currentPortfolio
-      };
-
-      const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `backup_carteira_fii_${new Date().toISOString().split('T')[0]}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
-      showToast('Arquivo de backup baixado com sucesso!');
-    }
-
-    // 3. RESTAURAR BACKUP (IMPORT JSON)
-    function restoreBackupFile(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const json = JSON.parse(e.target.result);
-          if (json.portfolio && Array.isArray(json.portfolio)) {
-            currentPortfolio = json.portfolio;
-            savePortfolioToStorage();
-            renderPortfolioDashboard();
-            fetchLiveMarketPrices(true);
-            showToast('Backup restaurado com sucesso!');
-          } else {
-            alert('Formato de arquivo inválido.');
-          }
-        } catch (err) {
-          alert('Erro ao processar o arquivo de backup.');
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    // 4. COPIAR RELATÓRIO FORMATADO PARA O CHAT
-    function exportPortfolioForChat() {
-      if (currentPortfolio.length === 0) {
-        showToast('Adicione ativos antes de exportar.');
-        return;
-      }
-
-      let totalWealth = 0;
-      let totalCost = 0;
-      let totalIncome = 0;
-
-      let report = `📊 **Relatório da Minha Carteira de FIIs:**\n\n`;
-
-      currentPortfolio.forEach(item => {
-        const val = item.quantity * item.currentPrice;
-        const cost = item.quantity * (item.costPrice || item.currentPrice);
-        const inc = item.quantity * item.dividend;
-        const diff = cost > 0 ? (((val - cost) / cost) * 100).toFixed(1) : 0;
-        
-        totalWealth += val;
-        totalCost += cost;
-        totalIncome += inc;
-
-        report += `• **${item.ticker}** (${item.segment}): ${item.quantity} cotas | Compra: ${formatDateBR(item.date)} | Custo Médio: R$ ${(item.costPrice || item.currentPrice).toFixed(2)} | Cotação Atual: R$ ${item.currentPrice.toFixed(2)} | Provento/mês: R$ ${inc.toFixed(2)} (${diff >= 0 ? '+' : ''}${diff}%)\n`;
-      });
-
-      const totalDiff = totalCost > 0 ? (((totalWealth - totalCost) / totalCost) * 100).toFixed(2) : 0;
-
-      report += `\n💰 **Totais Gerais:**`;
-      report += `\n• Patrimônio Atual: R$ ${totalWealth.toFixed(2)}`;
-      report += `\n• Total Desembolsado: R$ ${totalCost.toFixed(2)}`;
-      report += `\n• Rentabilidade: ${totalDiff >= 0 ? '+' : ''}${totalDiff}%`;
-      report += `\n• Proventos Estimados/Mês: R$ ${totalIncome.toFixed(2)} (~${((totalIncome/totalWealth)*100).toFixed(2)}% a.m.)`;
-
-      navigator.clipboard.writeText(report).then(() => {
-        showToast('Relatório copiado! Cole aqui no chat para analisarmos.');
-      }).catch(() => {
-        showToast('Erro ao copiar.');
-      });
-    }
-
-    function formatDateBR(dateStr) {
-      if (!dateStr) return 'N/D';
-      const parts = dateStr.split('-');
-      if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
-      return dateStr;
-    }
-
-    // 5. BANCO DE DADOS & LOCAL STORAGE
-    function loadPortfolioFromStorage() {
-      const saved = localStorage.getItem('fii_master_portfolio');
+    // ==========================================
+    // 1. GESTÃO DE PERFIL E CARTEIRA (LOCALSTORAGE)
+    // ==========================================
+    function loadProfileFromStorage() {
+      const saved = localStorage.getItem('fii_master_user_profile');
       if (saved) {
         try {
-          currentPortfolio = JSON.parse(saved);
+          userProfile = JSON.parse(saved);
         } catch (e) {
-          currentPortfolio = [];
+          userProfile = null;
         }
-      } else {
-        currentPortfolio = []; // Inicia sempre limpo
       }
-      updateHeaderBadge();
-    }
 
-    function savePortfolioToStorage() {
-      localStorage.setItem('fii_master_portfolio', JSON.stringify(currentPortfolio));
-      updateHeaderBadge();
-    }
+      const onboardingCard = document.getElementById('profileOnboardingCard');
+      const summaryBanner = document.getElementById('profileSummaryBanner');
 
-    function updateHeaderBadge() {
-      const badge = document.getElementById('headerPortfolioBadge');
-      if (currentPortfolio.length > 0) {
-        badge.textContent = currentPortfolio.length;
-        badge.classList.remove('hidden');
+      if (!userProfile) {
+        onboardingCard.classList.remove('hidden');
+        summaryBanner.classList.add('hidden');
       } else {
-        badge.classList.add('hidden');
+        onboardingCard.classList.add('hidden');
+        summaryBanner.classList.remove('hidden');
+        applyProfileToUI();
       }
     }
 
-    // 6. MODAL E OPERAÇÕES
+    function saveUserProfile() {
+      const name = document.getElementById('inputProfileName').value.trim() || 'Investidor';
+      const portfolioName = document.getElementById('inputPortfolioName').value.trim() || 'Minha Carteira';
+      const strategyRadio = document.querySelector('input[name="investorStrategy"]:checked');
+      const strategy = strategyRadio ? strategyRadio.value : 'conservador';
+      const monthlyGoal = parseFloat(document.getElementById('inputMonthlyGoal').value) || 500;
+
+      userProfile = {
+        name,
+        portfolioName,
+        strategy,
+        monthlyGoal
+      };
+
+      localStorage.setItem('fii_master_user_profile', JSON.stringify(userProfile));
+      loadProfileFromStorage();
+      renderPortfolioDashboard();
+      showToast('Perfil criado com sucesso!');
+    }
+
+    function applyProfileToUI() {
+      if (!userProfile) return;
+      document.getElementById('displayPortfolioName').textContent = userProfile.portfolioName;
+      document.getElementById('displayInvestorName').textContent = userProfile.name;
+      
+      const badge = document.getElementById('displayProfileBadge');
+      badge.textContent = userProfile.strategy;
+      if (userProfile.strategy === 'conservador') {
+        badge.className = "text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+      } else if (userProfile.strategy === 'moderado') {
+        badge.className = "text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30";
+      } else {
+        badge.className = "text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30";
+      }
+
+      document.getElementById('displayGoalTarget').textContent = `R$ ${userProfile.monthlyGoal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+    }
+
+    function openEditProfileModal() {
+      if (!userProfile) return;
+      document.getElementById('editProfileName').value = userProfile.name;
+      document.getElementById('editPortfolioName').value = userProfile.portfolioName;
+      document.getElementById('editInvestorStrategy').value = userProfile.strategy;
+      document.getElementById('editMonthlyGoal').value = userProfile.monthlyGoal;
+      document.getElementById('profileEditModal').classList.remove('hidden');
+    }
+
+    function closeEditProfileModal() {
+      document.getElementById('profileEditModal').classList.add('hidden');
+    }
+
+    function updateUserProfileFromModal() {
+      const name = document.getElementById('editProfileName').value.trim() || 'Investidor';
+      const portfolioName = document.getElementById('editPortfolioName').value.trim() || 'Minha Carteira';
+      const strategy = document.getElementById('editInvestorStrategy').value;
+      const monthlyGoal = parseFloat(document.getElementById('editMonthlyGoal').value) || 500;
+
+      userProfile = { name, portfolioName, strategy, monthlyGoal };
+      localStorage.setItem('fii_master_user_profile', JSON.stringify(userProfile));
+      
+      closeEditProfileModal();
+      applyProfileToUI();
+      renderPortfolioDashboard();
+      showToast('Perfil atualizado!');
+    }
+
+    // ==========================================
+    // 2. BUSCA DE COTAÇÕES NA B3 (Brapi API)
+    // ==========================================
+    async function fetchLiveB3Quote(ticker) {
+      try {
+        const resp = await fetch(`https://brapi.dev/api/quote/${ticker}?token=public`);
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data.results && data.results[0] && data.results[0].regularMarketPrice) {
+            return data.results[0].regularMarketPrice;
+          }
+        }
+      } catch (err) {
+        console.warn('Erro ao consultar cotação da B3 para', ticker, err);
+      }
+      return null;
+    }
+
+    async function fetchLiveQuoteForCurrentAnalysis() {
+      const tickerInput = document.getElementById('ticker');
+      const ticker = (tickerInput.value || '').trim().toUpperCase();
+      const statusEl = document.getElementById('syncStatusText');
+
+      if (!ticker) {
+        showToast('Informe um Ticker para atualizar.');
+        return;
+      }
+
+      if (statusEl) statusEl.textContent = `Buscando cotação de ${ticker} na B3...`;
+
+      const livePrice = await fetchLiveB3Quote(ticker);
+
+      if (livePrice !== null) {
+        document.getElementById('price').value = livePrice.toFixed(2);
+        updateLivePVP();
+        runAnalysis();
+        const timeStr = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        if (statusEl) statusEl.textContent = `● ${ticker} atualizado para R$ ${livePrice.toFixed(2).replace('.', ',')} às ${timeStr}`;
+        showToast(`${ticker}: R$ ${livePrice.toFixed(2).replace('.', ',')} (B3 ao vivo)`);
+      } else {
+        if (statusEl) statusEl.textContent = `● Falha ao sincronizar com B3. Mantido valor anterior.`;
+        showToast(`Não foi possível obter cotação ao vivo para ${ticker}.`);
+      }
+    }
+
+    async function selectFII(ticker) {
+      const fii = FII_DATABASE.find(f => f.ticker === ticker);
+      
+      document.getElementById('ticker').value = ticker;
+      if (fii) {
+        document.getElementById('fundType').value = fii.fundType;
+        document.getElementById('price').value = fii.price;
+        document.getElementById('vp').value = fii.vp;
+        document.getElementById('dy').value = fii.dy;
+        document.getElementById('lastDiv').value = fii.lastDiv;
+      }
+      document.getElementById('fiiSearchInput').value = ticker;
+      document.getElementById('autocompleteDropdown').classList.add('hidden');
+      
+      updateLivePVP();
+      runAnalysis();
+
+      const livePrice = await fetchLiveB3Quote(ticker);
+      if (livePrice !== null) {
+        document.getElementById('price').value = livePrice.toFixed(2);
+        updateLivePVP();
+        runAnalysis();
+        showToast(`${ticker} atualizado para R$ ${livePrice.toFixed(2).replace('.', ',')}`);
+      }
+    }
+
+    function handleSearchInput(query) {
+      const dropdown = document.getElementById('autocompleteDropdown');
+      const q = query.trim().toUpperCase();
+
+      if (!q) {
+        dropdown.classList.add('hidden');
+        dropdown.innerHTML = '';
+        return;
+      }
+
+      const matches = FII_DATABASE.filter(f => f.ticker.includes(q) || f.name.toUpperCase().includes(q));
+      if (matches.length === 0) {
+        dropdown.innerHTML = `<div class="p-3 text-xs text-slate-400 text-center">Nenhum FII em cache com "<strong>${q}</strong>". Digite para analisar.</div>`;
+        dropdown.classList.remove('hidden');
+        return;
+      }
+
+      dropdown.innerHTML = matches.map(fii => `
+        <div onclick="selectFII('${fii.ticker}')" class="p-3 hover:bg-slate-800/80 cursor-pointer transition flex items-center justify-between">
+          <div>
+            <span class="font-mono font-bold text-sm text-emerald-400">${fii.ticker}</span>
+            <p class="text-[11px] text-slate-400">${fii.name}</p>
+          </div>
+          <span class="text-xs font-bold text-white font-mono">R$ ${fii.price.toFixed(2).replace('.', ',')}</span>
+        </div>
+      `).join('');
+      dropdown.classList.remove('hidden');
+    }
+
+    function clearSearch() {
+      document.getElementById('fiiSearchInput').value = '';
+      document.getElementById('autocompleteDropdown').classList.add('hidden');
+    }
+
+    function toggleTijoloFields() {
+      const type = document.getElementById('fundType').value;
+      const tFields = document.getElementById('tijoloFields');
+      if (type === 'tijolo') tFields.classList.remove('hidden');
+      else tFields.classList.add('hidden');
+    }
+
+    function updateLivePVP() {
+      const p = parseFloat(document.getElementById('price').value) || 0;
+      const v = parseFloat(document.getElementById('vp').value) || 0;
+      const badge = document.getElementById('badgePVP');
+      if (p > 0 && v > 0) {
+        const val = p / v;
+        badge.textContent = `P/VP: ${val.toFixed(2)}`;
+        badge.className = val <= 1.01 
+          ? 'text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+          : 'text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30';
+      }
+    }
+
+    function runAnalysis() {
+      const ticker = (document.getElementById('ticker').value || 'FII').toUpperCase();
+      const price = parseFloat(document.getElementById('price').value) || 10;
+      const vp = parseFloat(document.getElementById('vp').value) || 10;
+      const dy = parseFloat(document.getElementById('dy').value) || 10;
+      const pvp = vp > 0 ? (price / vp) : 1;
+      
+      let score = 90;
+      if (pvp > 1.05) score = 65;
+      if (pvp < 0.85) score = 70;
+      if (dy < 9.0) score -= 10;
+
+      const circ = 2 * Math.PI * 50;
+      document.getElementById('scoreGauge').style.strokeDashoffset = circ - (score / 100) * circ;
+      document.getElementById('scoreVal').textContent = score;
+
+      document.getElementById('whyBuyList').innerHTML = `
+        <li class="flex items-center gap-1.5"><span class="text-emerald-400 font-bold">✓</span> Preço Atual: R$ ${price.toFixed(2).replace('.', ',')} vs VP: R$ ${vp.toFixed(2).replace('.', ',')} (P/VP ${pvp.toFixed(2)})</li>
+        <li class="flex items-center gap-1.5"><span class="text-emerald-400 font-bold">✓</span> Dividend Yield anualizado de ${dy.toFixed(1)}% a.a.</li>
+        <li class="flex items-center gap-1.5"><span class="text-emerald-400 font-bold">✓</span> Indicado para reinvestimento de fluxo de caixa</li>
+      `;
+      lucide.createIcons();
+    }
+
+    // ==========================================
+    // 3. REGISTRO DE COMPRA & PREVIEW DINÂMICO
+    // ==========================================
     function openAddFiiModal() {
       document.getElementById('modalDate').value = new Date().toISOString().split('T')[0];
+      updateModalLivePreview();
       document.getElementById('fiiModal').classList.remove('hidden');
     }
 
@@ -707,7 +967,26 @@
       document.getElementById('fiiModal').classList.add('hidden');
     }
 
-    function autoFetchPriceOnTickerChange(ticker) {
+    function addCurrentFiiToPortfolio() {
+      const ticker = (document.getElementById('ticker').value || 'FII').toUpperCase();
+      const currentPrice = parseFloat(document.getElementById('price').value) || 10;
+      const lastDiv = parseFloat(document.getElementById('lastDiv').value) || 0.08;
+
+      document.getElementById('modalTicker').value = ticker;
+      document.getElementById('modalDate').value = new Date().toISOString().split('T')[0];
+      document.getElementById('modalCurrentPrice').value = currentPrice.toFixed(2);
+      document.getElementById('modalCostPrice').value = currentPrice.toFixed(2);
+      document.getElementById('modalDividend').value = lastDiv;
+
+      const match = FII_DATABASE.find(f => f.ticker === ticker);
+      if (match) {
+        document.getElementById('modalSegment').value = match.segment;
+      }
+
+      openAddFiiModal();
+    }
+
+    async function autoFetchPriceOnTickerChange(ticker) {
       const t = ticker.trim().toUpperCase();
       const match = FII_DATABASE.find(f => f.ticker === t);
       if (match) {
@@ -716,6 +995,35 @@
         document.getElementById('modalDividend').value = match.lastDiv;
         document.getElementById('modalSegment').value = match.segment;
       }
+      const live = await fetchLiveB3Quote(t);
+      if (live !== null) {
+        document.getElementById('modalCurrentPrice').value = live.toFixed(2);
+      }
+      updateModalLivePreview();
+    }
+
+    function updateModalLivePreview() {
+      const q = parseInt(document.getElementById('modalQuantity').value) || 1;
+      const cost = parseFloat(document.getElementById('modalCostPrice').value) || 0;
+      const cur = parseFloat(document.getElementById('modalCurrentPrice').value) || cost;
+      const div = parseFloat(document.getElementById('modalDividend').value) || 0;
+
+      const totalCost = q * cost;
+      const totalCur = q * cur;
+      const gain = totalCur - totalCost;
+      const gainPct = totalCost > 0 ? ((gain / totalCost) * 100).toFixed(1) : '0.0';
+      const monthlyIncome = q * div;
+      const yoc = totalCost > 0 ? ((monthlyIncome / totalCost) * 100).toFixed(2) : '0.00';
+
+      document.getElementById('previewTotalCost').textContent = `R$ ${totalCost.toFixed(2).replace('.', ',')}`;
+      document.getElementById('previewCurrentWealth').textContent = `R$ ${totalCur.toFixed(2).replace('.', ',')}`;
+      
+      const gainSign = gain >= 0 ? '+' : '';
+      const gainColor = gain >= 0 ? 'text-emerald-400' : 'text-rose-400';
+      document.getElementById('previewCapitalGain').innerHTML = `<span class="${gainColor}">${gainSign}R$ ${gain.toFixed(2).replace('.', ',')} (${gainSign}${gainPct}%)</span>`;
+      
+      document.getElementById('previewIncomeMonthly').textContent = `R$ ${monthlyIncome.toFixed(2).replace('.', ',')} / mês`;
+      document.getElementById('previewYieldCost').textContent = `~${yoc}% a.m.`;
     }
 
     function saveModalFii() {
@@ -734,15 +1042,15 @@
 
       const existingIndex = currentPortfolio.findIndex(f => f.ticker === ticker);
       if (existingIndex >= 0) {
-        currentPortfolio[existingIndex] = { ticker, date, quantity, costPrice, currentPrice, dividend, segment, targetWeight: 20 };
+        currentPortfolio[existingIndex] = { ticker, date, quantity, costPrice, currentPrice, dividend, segment };
       } else {
-        currentPortfolio.push({ ticker, date, quantity, costPrice, currentPrice, dividend, segment, targetWeight: 20 });
+        currentPortfolio.push({ ticker, date, quantity, costPrice, currentPrice, dividend, segment });
       }
 
       closeAddFiiModal();
       savePortfolioToStorage();
       renderPortfolioDashboard();
-      showToast(`${ticker} adicionado à sua carteira!`);
+      showToast(`${ticker} salvo com sucesso!`);
     }
 
     function removeFiiFromPortfolio(ticker) {
@@ -752,7 +1060,9 @@
       showToast(`${ticker} removido.`);
     }
 
-    // 7. RENDER DA CARTEIRA
+    // ==========================================
+    // 4. RENDERIZAÇÃO DA CARTEIRA E DASHBOARD
+    // ==========================================
     function renderPortfolioDashboard() {
       const tbody = document.getElementById('portfolioTableBody');
       const emptyMsg = document.getElementById('emptyPortfolioMsg');
@@ -787,7 +1097,8 @@
         const profit = itemWealth - itemCost;
         const profitPct = itemCost > 0 ? ((profit / itemCost) * 100).toFixed(1) : '0.0';
         const profitClass = profit >= 0 ? 'text-emerald-400' : 'text-rose-400';
-        const itemMonthlyDividend = (item.quantity * item.dividend).toFixed(2).replace('.', ',');
+        const itemMonthlyDividend = item.quantity * item.dividend;
+        const yoc = itemCost > 0 ? ((itemMonthlyDividend / itemCost) * 100).toFixed(2) : '0.00';
 
         return `
           <tr class="hover:bg-slate-800/40 transition">
@@ -795,11 +1106,12 @@
             <td class="py-2.5 px-2 font-bold text-emerald-400">${item.ticker}</td>
             <td class="py-2.5 px-2 text-slate-400 font-sans text-[11px]">${item.segment}</td>
             <td class="py-2.5 px-2 text-right font-bold text-white">${item.quantity}</td>
-            <td class="py-2.5 px-2 text-right text-slate-300">R$ ${(item.costPrice || item.currentPrice).toFixed(2).replace('.', ',')}</td>
+            <td class="py-2.5 px-2 text-right text-amber-300 font-semibold">R$ ${(item.costPrice || item.currentPrice).toFixed(2).replace('.', ',')}</td>
             <td class="py-2.5 px-2 text-right text-emerald-400 font-bold">R$ ${item.currentPrice.toFixed(2).replace('.', ',')}</td>
             <td class="py-2.5 px-2 text-right font-bold text-white">R$ ${itemWealth.toFixed(2).replace('.', ',')}</td>
-            <td class="py-2.5 px-2 text-right font-bold ${profitClass}">${profit >= 0 ? '+' : ''}${profitPct}%</td>
-            <td class="py-2.5 px-2 text-right font-bold text-emerald-400">R$ ${itemMonthlyDividend}</td>
+            <td class="py-2.5 px-2 text-right font-bold ${profitClass}">${profit >= 0 ? '+' : ''}R$ ${profit.toFixed(2).replace('.', ',')} (${profitPct}%)</td>
+            <td class="py-2.5 px-2 text-right font-bold text-emerald-400">R$ ${itemMonthlyDividend.toFixed(2).replace('.', ',')}</td>
+            <td class="py-2.5 px-2 text-right text-slate-300">${yoc}% a.m.</td>
             <td class="py-2.5 px-3 text-center">
               <button onclick="removeFiiFromPortfolio('${item.ticker}')" class="text-slate-500 hover:text-rose-400 p-1 transition" title="Remover">
                 <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
@@ -810,17 +1122,27 @@
       }).join('');
 
       document.getElementById('kpiTotalWealth').textContent = `R$ ${totalWealth.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-      document.getElementById('kpiTotalCost').textContent = `R$ ${totalCost.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
       
-      const totalProfitPct = totalCost > 0 ? (((totalWealth - totalCost) / totalCost) * 100).toFixed(1) : '0.0';
-      const profitTextClass = totalProfitPct >= 0 ? 'text-emerald-400' : 'text-rose-400';
+      const totalCapitalGain = totalWealth - totalCost;
+      const totalProfitPct = totalCost > 0 ? ((totalCapitalGain / totalCost) * 100).toFixed(1) : '0.0';
+      const profitTextClass = totalCapitalGain >= 0 ? 'text-emerald-400' : 'text-rose-400';
+      
+      document.getElementById('kpiCapitalGain').textContent = `${totalCapitalGain >= 0 ? '+' : ''}R$ ${totalCapitalGain.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      document.getElementById('kpiCapitalGain').className = `text-lg sm:text-2xl font-black font-mono mt-1 block ${profitTextClass}`;
       document.getElementById('kpiProfitDiff').innerHTML = `<span class="${profitTextClass}">${totalProfitPct >= 0 ? '+' : ''}${totalProfitPct}%</span> vs custo`;
 
       document.getElementById('kpiCotasTotal').textContent = `${totalCotas} cotas`;
       document.getElementById('kpiMonthlyIncome').textContent = `R$ ${totalMonthlyDividend.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
       
-      const monthlyYieldPct = totalWealth > 0 ? ((totalMonthlyDividend / totalWealth) * 100).toFixed(2) : '0.00';
-      document.getElementById('kpiYieldMonthly').textContent = `~${monthlyYieldPct}% a.m.`;
+      const avgYoc = totalCost > 0 ? ((totalMonthlyDividend / totalCost) * 100).toFixed(2) : '0.00';
+      document.getElementById('kpiYieldMonthly').textContent = `~${avgYoc}% a.m. (Yield s/ Custo)`;
+
+      // Atualiza Progresso da Meta do Perfil
+      if (userProfile && userProfile.monthlyGoal > 0) {
+        const goalPct = Math.min(100, Math.round((totalMonthlyDividend / userProfile.monthlyGoal) * 100));
+        document.getElementById('displayGoalPercent').textContent = `${goalPct}%`;
+        document.getElementById('goalProgressBar').style.width = `${goalPct}%`;
+      }
 
       const avgPriceAll = totalCotas > 0 ? (totalWealth / totalCotas) : 10;
       if (totalMonthlyDividend >= avgPriceAll) {
@@ -848,8 +1170,8 @@
 
     function resetKPIs() {
       document.getElementById('kpiTotalWealth').textContent = 'R$ 0,00';
-      document.getElementById('kpiTotalCost').textContent = 'R$ 0,00';
-      document.getElementById('kpiProfitDiff').textContent = '0.0% lucro';
+      document.getElementById('kpiCapitalGain').textContent = 'R$ 0,00';
+      document.getElementById('kpiProfitDiff').textContent = '0.0% s/ custo';
       document.getElementById('kpiCotasTotal').textContent = '0 cotas';
       document.getElementById('kpiMonthlyIncome').textContent = 'R$ 0,00';
       document.getElementById('kpiYieldMonthly').textContent = '~0.00% a.m.';
@@ -908,8 +1230,19 @@
 
     function calculateAIRebalance() {
       const listContainer = document.getElementById('rebalanceSuggestions');
+      const profileDesc = document.getElementById('rebalanceProfileDesc');
+      
+      const strat = userProfile ? userProfile.strategy : 'moderado';
+      if (profileDesc) {
+        profileDesc.textContent = strat === 'conservador'
+          ? 'Direcionando para ativos de dívida (CRI High Grade) para manter proventos seguros e previsíveis.'
+          : strat === 'arrojado'
+          ? 'Foco em ativos de maior Yield e oportunidades com desconto sobre valor patrimonial.'
+          : 'Distribuição equilibrada entre valorização de imóveis físicos e fluxo de papel.';
+      }
+
       if (currentPortfolio.length === 0) {
-        listContainer.innerHTML = '<p class="text-xs text-slate-500 italic">Cadastre ativos na carteira para gerar recomendações.</p>';
+        listContainer.innerHTML = '<p class="text-xs text-slate-500 italic">Cadastre ativos na carteira para gerar recomendações personalizadas.</p>';
         return;
       }
 
@@ -917,114 +1250,151 @@
         <div class="p-2.5 bg-slate-950/80 border border-emerald-900/40 rounded-xl flex items-center justify-between text-xs">
           <div>
             <span class="font-bold text-emerald-400 font-mono">${item.ticker}</span>
-            <span class="text-slate-300 ml-2">Manter aporte regular</span>
+            <span class="text-slate-300 ml-2">Manter aporte mensal alinhado ao perfil</span>
           </div>
           <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold uppercase">Aporte</span>
         </div>
       `).join('');
     }
 
-    // ANALISADOR FUNCTIONS
-    function handleSearchInput(query) {
-      const dropdown = document.getElementById('autocompleteDropdown');
-      const q = query.trim().toUpperCase();
-
-      if (!q) {
-        dropdown.classList.add('hidden');
-        dropdown.innerHTML = '';
+    // ==========================================
+    // 5. BACKUP, EXPORTAÇÃO E RESTAURAÇÃO
+    // ==========================================
+    function downloadBackupFile() {
+      if (currentPortfolio.length === 0 && !userProfile) {
+        showToast('Nenhum dado na carteira para gerar backup.');
         return;
       }
 
-      const matches = FII_DATABASE.filter(f => f.ticker.includes(q) || f.name.toUpperCase().includes(q));
-      if (matches.length === 0) {
-        dropdown.innerHTML = `<div class="p-3 text-xs text-slate-400 text-center">Nenhum FII em cache com "<strong>${q}</strong>".</div>`;
-        dropdown.classList.remove('hidden');
+      const backupData = {
+        app: 'FII_Master_AI',
+        exportDate: new Date().toISOString(),
+        profile: userProfile,
+        portfolio: currentPortfolio
+      };
+
+      const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `backup_carteira_fii_${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showToast('Arquivo de backup baixado com sucesso!');
+    }
+
+    function restoreBackupFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const json = JSON.parse(e.target.result);
+          if (json.portfolio && Array.isArray(json.portfolio)) {
+            currentPortfolio = json.portfolio;
+            savePortfolioToStorage();
+
+            if (json.profile) {
+              userProfile = json.profile;
+              localStorage.setItem('fii_master_user_profile', JSON.stringify(userProfile));
+              loadProfileFromStorage();
+            }
+
+            renderPortfolioDashboard();
+            showToast('Backup e perfil restaurados com sucesso!');
+          } else {
+            alert('Formato de arquivo inválido.');
+          }
+        } catch (err) {
+          alert('Erro ao processar o arquivo de backup.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function exportPortfolioForChat() {
+      if (currentPortfolio.length === 0) {
+        showToast('Adicione ativos antes de exportar.');
         return;
       }
 
-      dropdown.innerHTML = matches.map(fii => `
-        <div onclick="selectFII('${fii.ticker}')" class="p-3 hover:bg-slate-800/80 cursor-pointer transition flex items-center justify-between">
-          <div>
-            <span class="font-mono font-bold text-sm text-emerald-400">${fii.ticker}</span>
-            <p class="text-[11px] text-slate-400">${fii.name}</p>
-          </div>
-          <span class="text-xs font-bold text-white font-mono">R$ ${fii.price.toFixed(2).replace('.', ',')}</span>
-        </div>
-      `).join('');
-      dropdown.classList.remove('hidden');
-    }
+      let totalWealth = 0;
+      let totalCost = 0;
+      let totalIncome = 0;
 
-    function clearSearch() {
-      document.getElementById('fiiSearchInput').value = '';
-      document.getElementById('autocompleteDropdown').classList.add('hidden');
-    }
-
-    function selectFII(ticker) {
-      const fii = FII_DATABASE.find(f => f.ticker === ticker);
-      if (!fii) return;
-      document.getElementById('ticker').value = fii.ticker;
-      document.getElementById('fundType').value = fii.fundType;
-      document.getElementById('price').value = fii.price;
-      document.getElementById('vp').value = fii.vp;
-      document.getElementById('dy').value = fii.dy;
-      document.getElementById('lastDiv').value = fii.lastDiv;
-      document.getElementById('fiiSearchInput').value = fii.ticker;
-      document.getElementById('autocompleteDropdown').classList.add('hidden');
-      updateLivePVP();
-      runAnalysis();
-    }
-
-    function toggleTijoloFields() {
-      const type = document.getElementById('fundType').value;
-      const tFields = document.getElementById('tijoloFields');
-      if (type === 'tijolo') tFields.classList.remove('hidden');
-      else tFields.classList.add('hidden');
-    }
-
-    function updateLivePVP() {
-      const p = parseFloat(document.getElementById('price').value) || 0;
-      const v = parseFloat(document.getElementById('vp').value) || 0;
-      const badge = document.getElementById('badgePVP');
-      if (p > 0 && v > 0) {
-        const val = p / v;
-        badge.textContent = `P/VP: ${val.toFixed(2)}`;
-        badge.className = val <= 1.01 
-          ? 'text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-          : 'text-xs font-mono font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30';
+      let report = `📊 **Relatório da Carteira: ${userProfile ? userProfile.portfolioName : 'FII Master'}**\n`;
+      if (userProfile) {
+        report += `👤 Investidor: ${userProfile.name} | Perfil: ${userProfile.strategy.toUpperCase()} | Meta: R$ ${userProfile.monthlyGoal.toFixed(2)}/mês\n\n`;
       }
+
+      currentPortfolio.forEach(item => {
+        const val = item.quantity * item.currentPrice;
+        const cost = item.quantity * (item.costPrice || item.currentPrice);
+        const inc = item.quantity * item.dividend;
+        const diff = cost > 0 ? (((val - cost) / cost) * 100).toFixed(1) : 0;
+        const yoc = cost > 0 ? ((inc / cost) * 100).toFixed(2) : 0;
+        
+        totalWealth += val;
+        totalCost += cost;
+        totalIncome += inc;
+
+        report += `• **${item.ticker}** (${item.segment}): ${item.quantity} cotas | Compra: ${formatDateBR(item.date)} | Preço Pago: R$ ${(item.costPrice || item.currentPrice).toFixed(2)} | B3 Atual: R$ ${item.currentPrice.toFixed(2)} | Ganho de Capital: ${diff >= 0 ? '+' : ''}${diff}% | Proventos: R$ ${inc.toFixed(2)}/mês (YoC: ${yoc}% a.m.)\n`;
+      });
+
+      const totalDiff = totalCost > 0 ? (((totalWealth - totalCost) / totalCost) * 100).toFixed(2) : 0;
+      const totalYoC = totalCost > 0 ? ((totalIncome / totalCost) * 100).toFixed(2) : 0;
+
+      report += `\n💰 **Totais Consolidados:**`;
+      report += `\n• Patrimônio Atual: R$ ${totalWealth.toFixed(2)}`;
+      report += `\n• Total Desembolsado: R$ ${totalCost.toFixed(2)}`;
+      report += `\n• Rentabilidade Capital: ${totalDiff >= 0 ? '+' : ''}${totalDiff}%`;
+      report += `\n• Proventos Estimados/Mês: R$ ${totalIncome.toFixed(2)} (Yield s/ Custo: ~${totalYoC}% a.m.)`;
+
+      navigator.clipboard.writeText(report).then(() => {
+        showToast('Relatório copiado! Cole aqui no chat para analisarmos.');
+      }).catch(() => {
+        showToast('Erro ao copiar.');
+      });
     }
 
-    function runAnalysis() {
-      const ticker = (document.getElementById('ticker').value || 'FII').toUpperCase();
-      const price = parseFloat(document.getElementById('price').value) || 10;
-      const vp = parseFloat(document.getElementById('vp').value) || 10;
-      const pvp = vp > 0 ? (price / vp) : 1;
-      let score = 90;
-      if (pvp > 1.04) score = 65;
-      if (pvp < 0.85) score = 70;
-
-      const circ = 2 * Math.PI * 50;
-      document.getElementById('scoreGauge').style.strokeDashoffset = circ - (score / 100) * circ;
-      document.getElementById('scoreVal').textContent = score;
-
-      document.getElementById('whyBuyList').innerHTML = `
-        <li class="flex items-center gap-1.5"><span class="text-emerald-400 font-bold">✓</span> Preço atual em linha com o valor de mercado (P/VP ${pvp.toFixed(2)})</li>
-        <li class="flex items-center gap-1.5"><span class="text-emerald-400 font-bold">✓</span> Proventos consistentes para reinvestimento</li>
-      `;
-      lucide.createIcons();
+    function formatDateBR(dateStr) {
+      if (!dateStr) return 'N/D';
+      const parts = dateStr.split('-');
+      if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
+      return dateStr;
     }
 
-    function addCurrentFiiToPortfolio() {
-      const ticker = (document.getElementById('ticker').value || 'FII').toUpperCase();
-      const currentPrice = parseFloat(document.getElementById('price').value) || 10;
-      const lastDiv = parseFloat(document.getElementById('lastDiv').value) || 0.08;
+    function loadPortfolioFromStorage() {
+      const saved = localStorage.getItem('fii_master_portfolio');
+      if (saved) {
+        try {
+          currentPortfolio = JSON.parse(saved);
+        } catch (e) {
+          currentPortfolio = [];
+        }
+      } else {
+        currentPortfolio = [];
+      }
+      updateHeaderBadge();
+    }
 
-      document.getElementById('modalTicker').value = ticker;
-      document.getElementById('modalDate').value = new Date().toISOString().split('T')[0];
-      document.getElementById('modalCurrentPrice').value = currentPrice;
-      document.getElementById('modalCostPrice').value = currentPrice;
-      document.getElementById('modalDividend').value = lastDiv;
-      openAddFiiModal();
+    function savePortfolioToStorage() {
+      localStorage.setItem('fii_master_portfolio', JSON.stringify(currentPortfolio));
+      updateHeaderBadge();
+    }
+
+    function updateHeaderBadge() {
+      const badge = document.getElementById('headerPortfolioBadge');
+      if (currentPortfolio.length > 0) {
+        badge.textContent = currentPortfolio.length;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
     }
 
     function showToast(msg) {
