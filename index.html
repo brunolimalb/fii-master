@@ -14,7 +14,7 @@
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 
   <script>
@@ -41,15 +41,19 @@
   </script>
 
   <style>
-    /* Custom Scrollbar */
-    header {
-  padding-top: max(env(safe-area-inset-top), 24px) !important;
-}
+    /* Safe Area Insets para Notch do iPhone */
+    :root {
+      --sat: env(safe-area-inset-top, 0px);
+      --sab: env(safe-area-inset-bottom, 0px);
+    }
+    .safe-top {
+      padding-top: var(--sat);
+    }
+    .safe-bottom {
+      padding-bottom: var(--sab);
+    }
 
-body {
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-}
+    /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
     ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.3); border-radius: 999px; }
@@ -57,35 +61,41 @@ body {
     .score-gauge-transition { transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-brand-500 selection:text-white">
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans antialiased selection:bg-brand-500 selection:text-white safe-bottom">
 
-  <!-- Top Navigation Header -->
-  <header class="border-b border-slate-800/80 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+  <!-- Top Navigation Header (Ajustado para iPhone e Notch) -->
+  <header class="border-b border-slate-800/80 bg-slate-900/95 backdrop-blur-md sticky top-0 z-50 safe-top">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between gap-2">
       
       <!-- Brand Logo -->
-      <div class="flex items-center gap-3">
-        <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
-          <i data-lucide="shield-check" class="w-6 h-6 text-white"></i>
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+        <div class="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 shrink-0">
+          <i data-lucide="shield-check" class="w-5 h-5 sm:w-6 sm:h-6 text-white"></i>
         </div>
         <div>
-          <div class="flex items-center gap-2">
-            <span class="font-extrabold text-lg text-white tracking-tight">FII Master <span class="text-emerald-400">AI</span></span>
-            <span class="text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Versão 3.0</span>
+          <div class="flex items-center gap-1.5 sm:gap-2">
+            <span class="font-extrabold text-base sm:text-lg text-white tracking-tight whitespace-nowrap">
+              FII Master <span class="text-emerald-400">AI</span>
+            </span>
+            <span class="hidden md:inline-block text-[10px] uppercase font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+              Versão 3.0
+            </span>
           </div>
-          <p class="text-[11px] text-slate-400 hidden sm:block">Inteligência Analítica & Gestor de Patrimônio Perene</p>
+          <p class="text-[11px] text-slate-400 hidden sm:block">Inteligência Analítica & Gestor de Patrimônio</p>
         </div>
       </div>
 
       <!-- Mode Tabs Switcher -->
-      <nav class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800">
-        <button id="tabBtnAnalyzer" onclick="switchTab('analyzer')" class="flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-sm">
-          <i data-lucide="search" class="w-4 h-4"></i>
-          <span>Analisador & IA</span>
+      <nav class="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800 shrink-0">
+        <button id="tabBtnAnalyzer" onclick="switchTab('analyzer')" class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-sm whitespace-nowrap">
+          <i data-lucide="search" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+          <span class="hidden sm:inline">Analisador & IA</span>
+          <span class="sm:hidden">Analisar</span>
         </button>
-        <button id="tabBtnPortfolio" onclick="switchTab('portfolio')" class="flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white">
-          <i data-lucide="pie-chart" class="w-4 h-4"></i>
-          <span>Minha Carteira</span>
+        <button id="tabBtnPortfolio" onclick="switchTab('portfolio')" class="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white whitespace-nowrap">
+          <i data-lucide="pie-chart" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+          <span class="hidden sm:inline">Minha Carteira</span>
+          <span class="sm:hidden">Carteira</span>
           <span id="headerPortfolioBadge" class="hidden text-[10px] px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-400 font-mono">0</span>
         </button>
       </nav>
@@ -94,11 +104,9 @@ body {
   </header>
 
   <!-- Main Container -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-6 space-y-6">
 
-    <!-- ========================================== -->
-    <!-- VIEW 1: ANALISADOR INTELIGENTE (TAB 1)      -->
-    <!-- ========================================== -->
+    <!-- VIEW 1: ANALISADOR INTELIGENTE -->
     <div id="viewAnalyzer" class="space-y-6">
 
       <!-- Fast Autocomplete Bar -->
@@ -130,10 +138,7 @@ body {
               </button>
             </div>
 
-            <!-- Autocomplete Floating Dropdown Menu -->
-            <div id="autocompleteDropdown" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl max-h-72 overflow-y-auto divide-y divide-slate-800 z-50">
-              <!-- Injected by JS -->
-            </div>
+            <div id="autocompleteDropdown" class="hidden absolute left-0 right-0 top-full mt-1.5 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl max-h-72 overflow-y-auto divide-y divide-slate-800 z-50"></div>
           </div>
         </div>
 
@@ -155,11 +160,11 @@ body {
         </div>
       </section>
 
-      <!-- Analysis Grid (Form Left, AI Verdict Right) -->
+      <!-- Analysis Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
         <!-- Editable Metrics Form (5 cols) -->
-        <section class="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+        <section class="lg:col-span-5 bg-slate-900/90 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
           <div class="flex items-center justify-between border-b border-slate-800 pb-3">
             <div class="flex items-center gap-2">
               <i data-lucide="sliders" class="w-4 h-4 text-emerald-400"></i>
@@ -172,7 +177,6 @@ body {
           </div>
 
           <form id="fiiForm" class="space-y-3.5" onsubmit="event.preventDefault(); runAnalysis();">
-            <!-- Ticker & Segmento -->
             <div class="grid grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1">Ticker / Código</label>
@@ -222,7 +226,7 @@ body {
               </div>
             </div>
 
-            <!-- Tijolo Fields (Conditional) -->
+            <!-- Tijolo Fields -->
             <div id="tijoloFields" class="hidden space-y-2 bg-blue-950/20 border border-blue-900/40 p-3 rounded-xl">
               <span class="text-xs font-semibold text-blue-300 flex items-center gap-1">
                 <i data-lucide="building" class="w-3.5 h-3.5 text-blue-400"></i> Métricas Físicas de Tijolo
@@ -239,14 +243,14 @@ body {
               </div>
             </div>
 
-            <!-- Liquidez & Concentração -->
+            <!-- Liquidez & Diversificação -->
             <div class="grid grid-cols-2 gap-3">
               <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1">Liquidez Diária</label>
                 <select id="liquidity" onchange="runAnalysis()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-2 py-2 text-xs text-slate-200 focus:outline-none">
                   <option value="alta" selected>> R$ 2M / dia</option>
                   <option value="media">R$ 500k a R$ 2M</option>
-                  <option value="baixa">< R$ 500k / dia</option>
+                  <option value="baixa">&lt; R$ 500k / dia</option>
                 </select>
               </div>
               <div>
@@ -259,7 +263,7 @@ body {
               </div>
             </div>
 
-            <!-- Perfil de Risco da Carteira -->
+            <!-- Perfil de Risco -->
             <div>
               <label class="block text-xs font-medium text-slate-400 mb-1">Perfil de Crédito / Ativos</label>
               <select id="creditRisk" onchange="runAnalysis()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none">
@@ -274,19 +278,17 @@ body {
         <!-- AI VERDICT & DIAGNOSTIC CARD (7 cols) -->
         <section class="lg:col-span-7 space-y-5">
           
-          <!-- Master Verdict Banner -->
-          <div id="aiVerdictBox" class="rounded-2xl border p-5 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-emerald-500/30">
-            
+          <div id="aiVerdictBox" class="rounded-2xl border p-4 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-emerald-500/30">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-5 border-b border-slate-800 pb-5">
               
               <!-- Circular Score Gauge -->
-              <div class="relative w-32 h-32 flex-shrink-0 flex items-center justify-center">
+              <div class="relative w-28 h-28 sm:w-32 sm:h-32 flex-shrink-0 flex items-center justify-center">
                 <svg class="w-full h-full -rotate-90 transform" viewBox="0 0 120 120">
                   <circle cx="60" cy="60" r="50" class="text-slate-800" stroke-width="10" stroke="currentColor" fill="transparent" />
                   <circle id="scoreGauge" cx="60" cy="60" r="50" class="score-gauge-transition text-emerald-400" stroke-width="10" stroke-linecap="round" stroke="currentColor" fill="transparent" stroke-dasharray="314.16" stroke-dashoffset="40" />
                 </svg>
                 <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
-                  <span id="scoreVal" class="text-3xl font-black font-mono text-white tracking-tight">88</span>
+                  <span id="scoreVal" class="text-2xl sm:text-3xl font-black font-mono text-white tracking-tight">88</span>
                   <span class="text-[9px] uppercase font-bold tracking-widest text-slate-400">Score IA</span>
                 </div>
               </div>
@@ -301,7 +303,7 @@ body {
                     KNSC11
                   </span>
                 </div>
-                <h3 id="verdictHeadline" class="text-lg font-bold text-white">
+                <h3 id="verdictHeadline" class="text-base sm:text-lg font-bold text-white">
                   Ativo perene e altamente defensivo para proventos mensais
                 </h3>
                 <p id="verdictSummaryText" class="text-xs text-slate-300 leading-relaxed">
@@ -311,32 +313,26 @@ body {
 
             </div>
 
-            <!-- Deep Reasoning Breakdown: WHY BUY vs WHY AVOID -->
+            <!-- Deep Reasoning Breakdown -->
             <div class="pt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <!-- Why Buy -->
               <div class="bg-emerald-950/20 border border-emerald-900/40 rounded-xl p-3.5 space-y-2">
                 <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
                   <i data-lucide="thumbs-up" class="w-3.5 h-3.5"></i> Por que comprar? (Fatores Positivos)
                 </h4>
-                <ul id="whyBuyList" class="space-y-1.5 text-xs text-slate-200">
-                  <!-- JS Injected -->
-                </ul>
+                <ul id="whyBuyList" class="space-y-1.5 text-xs text-slate-200"></ul>
               </div>
 
-              <!-- Why Avoid / Caution -->
               <div class="bg-rose-950/20 border border-rose-900/40 rounded-xl p-3.5 space-y-2">
                 <h4 class="text-xs font-bold text-rose-400 uppercase tracking-wider flex items-center gap-1.5">
                   <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Riscos & Pontos de Alerta
                 </h4>
-                <ul id="whyAvoidList" class="space-y-1.5 text-xs text-slate-200">
-                  <!-- JS Injected -->
-                </ul>
+                <ul id="whyAvoidList" class="space-y-1.5 text-xs text-slate-200"></ul>
               </div>
             </div>
 
           </div>
 
-          <!-- Quick Snowball / Magic Number Calculator for Selected FII -->
+          <!-- Quick Snowball / Magic Number Calculator -->
           <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -358,14 +354,11 @@ body {
 
     </div>
 
-
-    <!-- ========================================== -->
-    <!-- VIEW 2: GESTÃO E CARTEIRA DO USUÁRIO       -->
-    <!-- ========================================== -->
+    <!-- VIEW 2: GESTÃO E CARTEIRA DO USUÁRIO -->
     <div id="viewPortfolio" class="hidden space-y-6">
 
       <!-- Profile & Goal Bar -->
-      <section class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+      <section class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
           <div>
             <label class="block text-xs font-semibold text-slate-400 mb-1">Seu Nome / Perfil</label>
@@ -397,39 +390,39 @@ body {
       </section>
 
       <!-- KPI Summary Cards -->
-      <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 text-center">
+      <section class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
           <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Patrimônio em FIIs</span>
-          <span id="kpiTotalWealth" class="text-xl sm:text-2xl font-black font-mono text-white mt-1 block">R$ 0,00</span>
+          <span id="kpiTotalWealth" class="text-lg sm:text-2xl font-black font-mono text-white mt-1 block">R$ 0,00</span>
           <span id="kpiCotasTotal" class="text-[10px] text-slate-500 block">0 cotas no total</span>
         </div>
 
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 text-center">
-          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Proventos Estimados / Mês</span>
-          <span id="kpiMonthlyIncome" class="text-xl sm:text-2xl font-black font-mono text-emerald-400 mt-1 block">R$ 0,00</span>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
+          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Proventos / Mês</span>
+          <span id="kpiMonthlyIncome" class="text-lg sm:text-2xl font-black font-mono text-emerald-400 mt-1 block">R$ 0,00</span>
           <span id="kpiYieldMonthly" class="text-[10px] text-emerald-500/80 block">~0.0% a.m.</span>
         </div>
 
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 text-center">
-          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Progresso da Meta Mensal</span>
-          <span id="kpiGoalProgress" class="text-xl sm:text-2xl font-black font-mono text-blue-400 mt-1 block">0%</span>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
+          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Progresso Meta</span>
+          <span id="kpiGoalProgress" class="text-lg sm:text-2xl font-black font-mono text-blue-400 mt-1 block">0%</span>
           <div class="w-full bg-slate-800 h-1.5 rounded-full mt-1.5 overflow-hidden">
             <div id="kpiGoalBar" class="bg-blue-500 h-full w-0 transition-all duration-500"></div>
           </div>
         </div>
 
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 text-center">
-          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Status da Bola de Neve</span>
-          <span id="kpiMagicStatus" class="text-sm sm:text-base font-bold text-amber-400 mt-1.5 block">Em Construção 🌱</span>
-          <span id="kpiMagicSubtitle" class="text-[10px] text-slate-400 block">Aportando para 1ª cota</span>
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-3.5 sm:p-4 text-center">
+          <span class="text-[11px] text-slate-400 uppercase tracking-wider block">Bola de Neve</span>
+          <span id="kpiMagicStatus" class="text-xs sm:text-base font-bold text-amber-400 mt-1.5 block">Em Construção 🌱</span>
+          <span id="kpiMagicSubtitle" class="text-[10px] text-slate-400 block truncate">Aportando 1ª cota</span>
         </div>
       </section>
 
-      <!-- Portfolio Content: Table Left + Chart Right -->
+      <!-- Portfolio Content -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        <!-- Table & Manage Section (8 cols) -->
-        <section class="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+        <!-- Table & Manage Section -->
+        <section class="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
             <div>
               <h3 class="font-bold text-base text-white flex items-center gap-2">
@@ -444,31 +437,29 @@ body {
                 <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
                 <span>Adicionar FII</span>
               </button>
-              <button onclick="loadSuggestedStarterPortfolio()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700" title="Carregar carteira defensiva com o saldo convertido">
-                <span>Carteira Base 10 (R$ 100)</span>
+              <button onclick="loadSuggestedStarterPortfolio()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition border border-slate-700" title="Carregar carteira defensiva de R$ 100">
+                <span>Carteira R$ 100</span>
               </button>
             </div>
           </div>
 
           <!-- Table Container -->
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
+          <div class="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+            <table class="w-full text-left text-xs min-w-[620px]">
               <thead class="bg-slate-950/80 text-slate-400 font-mono text-[11px] border-b border-slate-800 uppercase">
                 <tr>
                   <th class="py-2.5 px-3">Ativo</th>
                   <th class="py-2.5 px-2">Segmento</th>
                   <th class="py-2.5 px-2 text-right">Cotas</th>
-                  <th class="py-2.5 px-2 text-right">Preço Atual</th>
-                  <th class="py-2.5 px-2 text-right">Total Investido</th>
-                  <th class="py-2.5 px-2 text-right">Peso Atual</th>
-                  <th class="py-2.5 px-2 text-right">Alvo %</th>
-                  <th class="py-2.5 px-2 text-right">Proventos/mês</th>
+                  <th class="py-2.5 px-2 text-right">Preço</th>
+                  <th class="py-2.5 px-2 text-right">Total</th>
+                  <th class="py-2.5 px-2 text-right">Peso</th>
+                  <th class="py-2.5 px-2 text-right">Alvo</th>
+                  <th class="py-2.5 px-2 text-right">Renda/mês</th>
                   <th class="py-2.5 px-3 text-center">Ações</th>
                 </tr>
               </thead>
-              <tbody id="portfolioTableBody" class="divide-y divide-slate-800/60 font-mono">
-                <!-- Injected by JS -->
-              </tbody>
+              <tbody id="portfolioTableBody" class="divide-y divide-slate-800/60 font-mono"></tbody>
             </table>
           </div>
 
@@ -481,25 +472,20 @@ body {
           </div>
         </section>
 
-        <!-- Chart & Rebalance Suggestion AI (4 cols) -->
+        <!-- Chart & AI Rebalance -->
         <section class="lg:col-span-4 space-y-6">
-          
-          <!-- Allocation Donut Chart -->
-          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3">
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
             <h4 class="font-bold text-sm text-white flex items-center gap-2">
               <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-400"></i>
               Diversificação por Segmento
             </h4>
-            <div class="relative h-56 flex items-center justify-center">
+            <div class="relative h-52 sm:h-56 flex items-center justify-center">
               <canvas id="allocationChart"></canvas>
             </div>
-            <div id="chartLegend" class="flex flex-wrap gap-2 pt-2 justify-center text-[10px]">
-              <!-- Injected by JS -->
-            </div>
+            <div id="chartLegend" class="flex flex-wrap gap-2 pt-2 justify-center text-[10px]"></div>
           </div>
 
-          <!-- AI Rebalance Advisor Box -->
-          <div class="bg-gradient-to-br from-slate-900 to-emerald-950/40 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-3">
+          <div class="bg-gradient-to-br from-slate-900 to-emerald-950/40 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xl space-y-3">
             <div class="flex items-center justify-between border-b border-slate-800 pb-2">
               <div class="flex items-center gap-2">
                 <i data-lucide="bot" class="w-4 h-4 text-emerald-400"></i>
@@ -511,14 +497,11 @@ body {
             </div>
 
             <p class="text-xs text-slate-300 leading-relaxed">
-              Com base no seu aporte de <strong class="text-emerald-400" id="aiRebalanceAporteText">R$ 100,00</strong>, a IA identificou quais ativos estão abaixo do peso alvo ideal para equilibrar sem precisar vender nada.
+              Com base no seu aporte de <strong class="text-emerald-400" id="aiRebalanceAporteText">R$ 100,00</strong>, a IA prioriza ativos abaixo da meta alvo.
             </p>
 
-            <div id="rebalanceSuggestions" class="space-y-2 pt-1">
-              <!-- Rebalance list injected by JS -->
-            </div>
+            <div id="rebalanceSuggestions" class="space-y-2 pt-1"></div>
           </div>
-
         </section>
 
       </div>
@@ -529,7 +512,7 @@ body {
 
   <!-- MODAL: ADD / EDIT FII IN PORTFOLIO -->
   <div id="fiiModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-5 sm:p-6 shadow-2xl space-y-4">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <h3 class="font-bold text-sm text-white flex items-center gap-2">
           <i data-lucide="plus-circle" class="w-4 h-4 text-emerald-400"></i>
@@ -543,7 +526,7 @@ body {
       <div class="space-y-3">
         <div>
           <label class="block text-xs font-semibold text-slate-400 mb-1">Ticker</label>
-          <input type="text" id="modalTicker" uppercase class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-emerald-400 uppercase" placeholder="Ex: MXRF11">
+          <input type="text" id="modalTicker" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-emerald-400 uppercase" placeholder="Ex: MXRF11">
         </div>
         
         <div class="grid grid-cols-2 gap-3">
@@ -552,7 +535,7 @@ body {
             <input type="number" id="modalQuantity" min="1" value="10" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-400 mb-1">Preço Médio Pago (R$)</label>
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Preço Médio (R$)</label>
             <input type="number" step="0.01" id="modalAvgPrice" value="9.50" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white">
           </div>
         </div>
@@ -581,7 +564,7 @@ body {
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-400 mb-1">Peso Alvo / Desejado na Carteira (%)</label>
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Peso Alvo Desejado (%)</label>
           <input type="number" id="modalTargetWeight" min="1" max="100" value="15" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono font-bold text-emerald-400">
         </div>
       </div>
@@ -599,9 +582,8 @@ body {
     <span id="toastMsg">Operação realizada com sucesso!</span>
   </div>
 
-  <!-- COMPREHENSIVE FII DATABASE & SCRIPT ENGINE -->
+  <!-- DATABASE & ENGINE JAVASCRIPT -->
   <script>
-    // 1. EMBEDDED REALISTIC FII DATABASE (Comprehensive coverage of Brazilian market)
     const FII_DATABASE = [
       {
         ticker: 'MXRF11',
@@ -617,8 +599,7 @@ body {
         creditRisk: 'middle',
         manager: 'XP Vista Asset',
         physicalVac: 0,
-        financialVac: 0,
-        description: 'O maior FII em número de cotistas do Brasil. Portfólio focado em CRIs de médio risco com permutas financeiras.'
+        financialVac: 0
       },
       {
         ticker: 'KNSC11',
@@ -634,8 +615,7 @@ body {
         creditRisk: 'high_grade',
         manager: 'Kinea Investimentos (Itaú)',
         physicalVac: 0,
-        financialVac: 0,
-        description: 'Fundo gerido pela Kinea com crédito privado de grandes corporações (High Grade), alternando entre CDI e IPCA.'
+        financialVac: 0
       },
       {
         ticker: 'VGIR11',
@@ -651,8 +631,7 @@ body {
         creditRisk: 'high_grade',
         manager: 'Valora Gestão',
         physicalVac: 0,
-        financialVac: 0,
-        description: 'Carteira quase 100% indexada ao CDI + spread bancário. Excelente para momentos de Selic e juros elevados.'
+        financialVac: 0
       },
       {
         ticker: 'CPTS11',
@@ -668,8 +647,7 @@ body {
         creditRisk: 'high_grade',
         manager: 'Capitânia Investimentos',
         physicalVac: 0,
-        financialVac: 0,
-        description: 'Gestão ativa renomada focada em compra e venda de CRIs líquidos de excelente rating e proteção inflacionária (IPCA).'
+        financialVac: 0
       },
       {
         ticker: 'GARE11',
@@ -685,8 +663,7 @@ body {
         creditRisk: 'middle',
         manager: 'Guardian Gestora',
         physicalVac: 0.8,
-        financialVac: 0.5,
-        description: 'Fundo híbrido de renda urbana e logística com contratos de locação atípicos (longos) com Pão de Açúcar, GPA e BRF.'
+        financialVac: 0.5
       },
       {
         ticker: 'HGLG11',
@@ -702,8 +679,7 @@ body {
         creditRisk: 'high_grade',
         manager: 'Patria / Credit Suisse',
         physicalVac: 6.2,
-        financialVac: 4.5,
-        description: 'Um dos maiores e mais tradicionais fundos de galpões logísticos Triple A do Brasil com dezenas de galpões consolidados.'
+        financialVac: 4.5
       },
       {
         ticker: 'VISC11',
@@ -719,8 +695,7 @@ body {
         creditRisk: 'high_grade',
         manager: 'Vinci Real Estate',
         physicalVac: 4.8,
-        financialVac: 3.5,
-        description: 'Portfólio resiliente em mais de 20 shopping centers distribuídos nas principais capitais do país.'
+        financialVac: 3.5
       },
       {
         ticker: 'XPML11',
@@ -736,8 +711,7 @@ body {
         creditRisk: 'high_grade',
         manager: 'XP Asset Management',
         physicalVac: 4.2,
-        financialVac: 3.0,
-        description: 'Grande presença em shoppings de alto padrão com forte fluxo de vendas e recuperação de aluguéis pós-ciclos.'
+        financialVac: 3.0
       },
       {
         ticker: 'BTLG11',
@@ -753,42 +727,7 @@ body {
         creditRisk: 'high_grade',
         manager: 'BTG Pactual',
         physicalVac: 3.8,
-        financialVac: 2.1,
-        description: 'Portfólio logístico premium com alta concentração no raio de 30 a 60km da cidade de São Paulo.'
-      },
-      {
-        ticker: 'KNCR11',
-        name: 'Kinea Rendimentos Imobiliários',
-        fundType: 'papel',
-        segment: 'Papel CRI',
-        price: 101.50,
-        vp: 101.80,
-        dy: 12.1,
-        lastDiv: 1.05,
-        liquidity: 'alta',
-        diversification: 'pulverizada',
-        creditRisk: 'high_grade',
-        manager: 'Kinea Investimentos',
-        physicalVac: 0,
-        financialVac: 0,
-        description: 'O maior fundo de recebíveis com risco soberano/corporativo bancário e retorno diretamente indexado ao CDI.'
-      },
-      {
-        ticker: 'HGRU11',
-        name: 'CSHG Renda Urbana',
-        fundType: 'tijolo',
-        segment: 'Renda Urbana',
-        price: 123.00,
-        vp: 126.80,
-        dy: 8.7,
-        lastDiv: 0.88,
-        liquidity: 'alta',
-        diversification: 'pulverizada',
-        creditRisk: 'high_grade',
-        manager: 'Patria / Credit Suisse',
-        physicalVac: 1.2,
-        financialVac: 0.8,
-        description: 'Supermercados, atacarejos e faculdades com contratos de longuíssimo prazo e baixíssimo risco de vacância.'
+        financialVac: 2.1
       },
       {
         ticker: 'HCTR11',
@@ -804,33 +743,13 @@ body {
         creditRisk: 'high_yield',
         manager: 'Hectare Capital',
         physicalVac: 0,
-        financialVac: 0,
-        description: 'Caso clássico de Yield Trap: CRIs com atrasos de parcelas e recuperação judicial de empreendimentos de loteamento.'
-      },
-      {
-        ticker: 'DEVA11',
-        name: 'Devant Recebíveis FII',
-        fundType: 'papel',
-        segment: 'Papel CRI',
-        price: 38.20,
-        vp: 89.10,
-        dy: 17.5,
-        lastDiv: 0.45,
-        liquidity: 'baixa',
-        diversification: 'concentrada',
-        creditRisk: 'high_yield',
-        manager: 'Devant Asset',
-        physicalVac: 0,
-        financialVac: 0,
-        description: 'Fundo focado em CRIs High Yield com alto índice de estresse de garantias e risco elevado de descontinuidade de dividendos.'
+        financialVac: 0
       }
     ];
 
-    // 2. STATE MANAGEMENT & LOCAL STORAGE
     let currentPortfolio = [];
     let donutChartInstance = null;
 
-    // Load on start
     window.addEventListener('DOMContentLoaded', () => {
       lucide.createIcons();
       loadPortfolioFromStorage();
@@ -839,29 +758,30 @@ body {
       runAnalysis();
     });
 
-    // Switch between Analyzer and Portfolio views
     function switchTab(tab) {
       const vAnalyzer = document.getElementById('viewAnalyzer');
       const vPortfolio = document.getElementById('viewPortfolio');
       const bAnalyzer = document.getElementById('tabBtnAnalyzer');
       const bPortfolio = document.getElementById('tabBtnPortfolio');
 
+      const activeClass = "flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-sm whitespace-nowrap";
+      const inactiveClass = "flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white whitespace-nowrap";
+
       if (tab === 'analyzer') {
         vAnalyzer.classList.remove('hidden');
         vPortfolio.classList.add('hidden');
-        bAnalyzer.className = 'flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-sm';
-        bPortfolio.className = 'flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white';
+        bAnalyzer.className = activeClass;
+        bPortfolio.className = inactiveClass;
       } else {
         vAnalyzer.classList.add('hidden');
         vPortfolio.classList.remove('hidden');
-        bPortfolio.className = 'flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition bg-emerald-600 text-white shadow-sm';
-        bAnalyzer.className = 'flex items-center gap-2 px-3 sm:px-4 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white';
+        bPortfolio.className = activeClass;
+        bAnalyzer.className = inactiveClass;
         renderPortfolioDashboard();
       }
       lucide.createIcons();
     }
 
-    // 3. AUTOCOMPLETE SEARCH LOGIC
     function handleSearchInput(query) {
       const dropdown = document.getElementById('autocompleteDropdown');
       const q = query.trim().toUpperCase();
@@ -879,7 +799,7 @@ body {
       if (matches.length === 0) {
         dropdown.innerHTML = `
           <div class="p-3 text-xs text-slate-400 text-center">
-            Nenhum FII encontrado com "<strong>${q}</strong>". Você pode preencher manualmente no formulário abaixo.
+            Nenhum FII encontrado com "<strong>${q}</strong>". Preencha manualmente no formulário abaixo.
           </div>
         `;
         dropdown.classList.remove('hidden');
@@ -896,7 +816,7 @@ body {
                 <span class="font-mono font-bold text-sm text-emerald-400 group-hover:text-emerald-300">${fii.ticker}</span>
                 <span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 font-medium">${fii.segment}</span>
               </div>
-              <p class="text-[11px] text-slate-400 truncate max-w-xs">${fii.name} &bull; ${fii.manager}</p>
+              <p class="text-[11px] text-slate-400 truncate max-w-xs">${fii.name}</p>
             </div>
             <div class="text-right font-mono">
               <span class="text-xs font-bold text-white block">R$ ${fii.price.toFixed(2).replace('.', ',')}</span>
@@ -939,7 +859,7 @@ body {
       toggleTijoloFields();
       updateLivePVP();
       runAnalysis();
-      showToast(`Fundo ${fii.ticker} carregado para análise!`);
+      showToast(`Fundo ${fii.ticker} selecionado!`);
     }
 
     function toggleTijoloFields() {
@@ -965,7 +885,6 @@ body {
       }
     }
 
-    // 4. ADVANCED AI VERDICT ENGINE
     function runAnalysis() {
       const ticker = (document.getElementById('ticker').value || 'FII').toUpperCase();
       const fundType = document.getElementById('fundType').value;
@@ -973,107 +892,70 @@ body {
       const vp = parseFloat(document.getElementById('vp').value) || 10;
       const dy = parseFloat(document.getElementById('dy').value) || 0;
       const lastDiv = parseFloat(document.getElementById('lastDiv').value) || 0.08;
-      const liquidity = document.getElementById('liquidity').value;
       const diversification = document.getElementById('diversification').value;
       const creditRisk = document.getElementById('creditRisk').value;
       const physVac = fundType === 'tijolo' ? (parseFloat(document.getElementById('physicalVac').value) || 0) : 0;
-      const finVac = fundType === 'tijolo' ? (parseFloat(document.getElementById('financialVac').value) || 0) : 0;
 
       const pvp = vp > 0 ? (price / vp) : 1;
       let score = 100;
       let whyBuy = [];
       let whyAvoid = [];
 
-      // A. AVALIAÇÃO DE PREÇO / PATRIMÔNIO (P/VP)
+      // P/VP
       if (fundType === 'papel' || fundType === 'fiagro') {
         if (pvp > 1.04) {
           score -= 32;
-          whyAvoid.push(`<strong>P/VP Excessivo (${pvp.toFixed(2)}):</strong> Em fundos de papel você está pagando mais de R$ 1,04 por cada R$ 1,00 de patrimônio em dívida. Prejuízo contratado de ágio.`);
-        } else if (pvp > 1.01) {
-          score -= 12;
-          whyAvoid.push(`<strong>Leve Ágio (${pvp.toFixed(2)}):</strong> O ideal é aguardar aproximação de 1,00 para ter margem de proteção em CRIs.`);
+          whyAvoid.push(`<strong>P/VP Alto (${pvp.toFixed(2)}):</strong> Em fundos de papel há ágio prejudicial sobre títulos de dívida.`);
         } else if (pvp >= 0.94 && pvp <= 1.01) {
-          whyBuy.push(`<strong>Preço Justo (P/VP ${pvp.toFixed(2)}):</strong> Sem ágio prejudicial em recebíveis de crédito, ponto de entrada saudável.`);
+          whyBuy.push(`<strong>Preço Justo (P/VP ${pvp.toFixed(2)}):</strong> Sem ágio prejudicial em recebíveis de crédito.`);
         } else if (pvp < 0.80) {
           score -= 18;
-          whyAvoid.push(`<strong>Deságio Severo (${pvp.toFixed(2)}):</strong> Desconto muito alto costuma sinalizar que o mercado projeta calotes severos nos devedores.`);
+          whyAvoid.push(`<strong>Deságio Elevado (${pvp.toFixed(2)}):</strong> Desconto excessivo que costuma apontar calotes.`);
         } else {
-          whyBuy.push(`<strong>Desconto Patrimonial Atraente (P/VP ${pvp.toFixed(2)}):</strong> Boa margem de segurança contábil.`);
+          whyBuy.push(`<strong>Margem de Segurança (P/VP ${pvp.toFixed(2)}):</strong> Negociando com desconto atrativo.`);
         }
-      } else { // Tijolo & Misto
+      } else {
         if (pvp > 1.08) {
           score -= 22;
-          whyAvoid.push(`<strong>Cota com Ágio (${pvp.toFixed(2)}):</strong> Negociando acima da reavaliação dos imóveis físicos.`);
+          whyAvoid.push(`<strong>Cota com Ágio (${pvp.toFixed(2)}):</strong> Acima da reavaliação dos imóveis físicos.`);
         } else if (pvp >= 0.85 && pvp <= 1.05) {
-          whyBuy.push(`<strong>Equilíbrio Patrimonial (P/VP ${pvp.toFixed(2)}):</strong> Cotação condizente com a avaliação de mercado dos imóveis.`);
-        } else if (pvp < 0.75) {
-          score -= 14;
-          whyAvoid.push(`<strong>Desconto Excessivo (${pvp.toFixed(2)}):</strong> Pode apontar imóveis obsoletos ou contratos em renegociação forçada.`);
+          whyBuy.push(`<strong>Equilíbrio Patrimonial (${pvp.toFixed(2)}):</strong> Cotação justa frente aos ativos reais.`);
         }
       }
 
-      // B. DIVIDEND YIELD & YIELD TRAP DETECTOR
+      // DY
       if (dy > 15.0) {
         score -= 40;
-        whyAvoid.push(`<strong>Alerta Máximo de "Yield Trap" (${dy.toFixed(1)}% a.a.):</strong> Dividendos anormalmente inflados escondem risco iminente de colapso de crédito, garantias podres ou devolução de capital.`);
+        whyAvoid.push(`<strong>Risco de "Yield Trap" (${dy.toFixed(1)}% a.a.):</strong> Dividendos atipicamente altos com risco de corte.`);
       } else if (dy >= 9.5 && dy <= 13.5) {
-        whyBuy.push(`<strong>Yield Sustentável e Perene (${dy.toFixed(1)}% a.a.):</strong> Retorno atrativo com fluxo mensal estável condizente com juros reais.`);
-      } else if (dy < 7.0) {
-        score -= 12;
-        whyAvoid.push(`<strong>Provento abaixo do CDI (${dy.toFixed(1)}% a.a.):</strong> Rendimento menor que a taxa livre de risco em títulos públicos.`);
-      } else {
-        whyBuy.push(`<strong>Proventos Regulares (${dy.toFixed(1)}% a.a.):</strong> Boa consistência na distribuição.`);
+        whyBuy.push(`<strong>Yield Sustentável (${dy.toFixed(1)}% a.a.):</strong> Retorno defensivo e condizente com o mercado.`);
       }
 
-      // C. RISCO DE CRÉDITO & GESTORA
+      // Crédito
       if (creditRisk === 'high_grade') {
-        whyBuy.push(`<strong>Carteira High Grade:</strong> Devedores e inquilinos com excelente rating de solvência e gestoras consolidadas.`);
-      } else if (creditRisk === 'middle') {
-        whyBuy.push(`<strong>Perfil Middle Risk:</strong> Relação risco-retorno equilibrada com garantias reais.`);
-      } else {
+        whyBuy.push(`<strong>Carteira High Grade:</strong> Devedores sólidos com blindagem contra inadimplência.`);
+      } else if (creditRisk === 'high_yield') {
         score -= 30;
-        whyAvoid.push(`<strong>Risco High Yield / Especulativo:</strong> Foco em taxas altas que colocam o capital investido em risco severo de calote.`);
+        whyAvoid.push(`<strong>Risco High Yield:</strong> Operações de dívida de alto risco de crédito.`);
       }
 
-      // D. DIVERSIFICAÇÃO & CONCENTRAÇÃO
+      // Diversificação
       if (diversification === 'mono') {
         score -= 35;
-        whyAvoid.push(`<strong>Risco Mono-Ativo / Mono-Inquilino:</strong> Se houver inadimplência ou vacância deste único participante, os proventos desabam a zero.`);
+        whyAvoid.push(`<strong>Mono-ativo / Mono-inquilino:</strong> Alta concentração de risco.`);
       } else if (diversification === 'pulverizada') {
-        whyBuy.push(`<strong>Alta Pulverização (>20 contratos):</strong> Diluição eficiente de riscos de calote individual.`);
+        whyBuy.push(`<strong>Alta Pulverização:</strong> Risco diluído em mais de 20 participantes.`);
       }
 
-      // E. LIQUIDEZ DIÁRIA
-      if (liquidity === 'baixa') {
-        score -= 15;
-        whyAvoid.push(`<strong>Baixa Liquidez de Negociação:</strong> Dificuldade para vender cotas rapidamente sem aceitar deságio de preço no Home Broker.`);
-      } else {
-        whyBuy.push(`<strong>Excelente Liquidez de Mercado:</strong> Facilidade para comprar e vender lotes sem distorcer o preço.`);
-      }
-
-      // F. VACÂNCIA (SE TIJOLO)
-      if (fundType === 'tijolo') {
-        if (physVac > 12) {
-          score -= 20;
-          whyAvoid.push(`<strong>Vacância Física Alta (${physVac.toFixed(1)}%):</strong> Espaços desocupados gerando despesa de condomínio e IPTU.`);
-        } else if (physVac <= 5) {
-          whyBuy.push(`<strong>Baixa Vacância (${physVac.toFixed(1)}%):</strong> Quase a totalidade da área construída gerando renda ativa.`);
-        }
+      // Vacância
+      if (fundType === 'tijolo' && physVac > 10) {
+        score -= 20;
+        whyAvoid.push(`<strong>Vacância Física Elevada (${physVac.toFixed(1)}%):</strong> Espaços desocupados gerando custos.`);
       }
 
       score = Math.max(10, Math.min(100, Math.round(score)));
 
-      // Render Visual Feedback
-      renderVerdictUI({
-        ticker,
-        score,
-        pvp,
-        dy,
-        price,
-        lastDiv,
-        whyBuy,
-        whyAvoid
-      });
+      renderVerdictUI({ ticker, score, pvp, dy, price, lastDiv, whyBuy, whyAvoid });
     }
 
     function renderVerdictUI(res) {
@@ -1092,60 +974,50 @@ body {
 
       if (res.score >= 75) {
         gauge.className = 'score-gauge-transition text-emerald-400';
-        box.className = 'rounded-2xl border p-5 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-emerald-500/40 shadow-emerald-950/20';
+        box.className = 'rounded-2xl border p-4 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-emerald-500/40';
         pill.className = 'px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1.5';
         pill.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4"></i> RECOMENDADO PARA COMPRA';
-        headline.textContent = 'Ativo perene e altamente seguro para viver de renda';
-        summary.textContent = 'O fundo cumpre todos os filtros de disciplina: P/VP sem ágio prejudicial, taxa de dividendo sustentável e carteira blindada contra colapsos.';
+        headline.textContent = 'Ativo perene e seguro para renda passiva mensal';
+        summary.textContent = 'O fundo atende aos critérios de disciplina: P/VP saudável, dividendo sustentável e carteira blindada.';
       } else if (res.score >= 50) {
         gauge.className = 'score-gauge-transition text-amber-400';
-        box.className = 'rounded-2xl border p-5 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-amber-500/40 shadow-amber-950/20';
+        box.className = 'rounded-2xl border p-4 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-amber-500/40';
         pill.className = 'px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1.5';
-        pill.innerHTML = '<i data-lucide="alert-circle" class="w-4 h-4"></i> COMPRA COM RESSALVA / AGUARDAR OPORTUNIDADE';
-        headline.textContent = 'Aprovado com ressalvas — Monitore antes de aportar forte';
-        summary.textContent = 'Apresenta qualidades, porém há pontos que exigem cautela (leve ágio, vacância moderada ou concentração que limita a segurança do iniciante).';
+        pill.innerHTML = '<i data-lucide="alert-circle" class="w-4 h-4"></i> COMPRA COM RESSALVA';
+        headline.textContent = 'Aprovado com ressalvas — Monitore antes de aportar';
+        summary.textContent = 'Apresenta boa qualidade mas há fatores para acompanhar antes de aumentar a exposição.';
       } else {
         gauge.className = 'score-gauge-transition text-rose-500';
-        box.className = 'rounded-2xl border p-5 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-rose-500/40 shadow-rose-950/20';
+        box.className = 'rounded-2xl border p-4 sm:p-6 shadow-2xl transition-all duration-300 relative overflow-hidden bg-slate-900 border-rose-500/40';
         pill.className = 'px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide bg-rose-500/20 text-rose-300 border border-rose-500/40 flex items-center gap-1.5';
-        pill.innerHTML = '<i data-lucide="shield-alert" class="w-4 h-4"></i> NÃO RECOMENDADO / ALTO RISCO (YIELD TRAP)';
-        headline.textContent = 'Risco elevado de perda patrimonial ou calote';
-        summary.textContent = 'Sinais clássicos de risco excessivo: dividendos insustentáveis, ágio em créditos problemáticos ou crédito High Yield com alta chance de corte brusco de proventos.';
+        pill.innerHTML = '<i data-lucide="shield-alert" class="w-4 h-4"></i> ALTO RISCO / YIELD TRAP';
+        headline.textContent = 'Risco elevado de perda patrimonial ou corte nos proventos';
+        summary.textContent = 'Sinais claros de risco excessivo: dividendos insustentáveis ou devedores com problemas de liquidez.';
       }
 
-      // Lists
-      const buyList = document.getElementById('whyBuyList');
-      buyList.innerHTML = res.whyBuy.length 
+      document.getElementById('whyBuyList').innerHTML = res.whyBuy.length 
         ? res.whyBuy.map(item => `<li class="flex items-start gap-1.5 leading-snug"><span class="text-emerald-400 font-bold">✓</span><span>${item}</span></li>`).join('')
-        : '<li class="text-slate-500 italic">Nenhum catalisador positivo marcante encontrado.</li>';
+        : '<li class="text-slate-500 italic">Nenhum ponto de destaque positivo identificado.</li>';
 
-      const avoidList = document.getElementById('whyAvoidList');
-      avoidList.innerHTML = res.whyAvoid.length
+      document.getElementById('whyAvoidList').innerHTML = res.whyAvoid.length
         ? res.whyAvoid.map(item => `<li class="flex items-start gap-1.5 leading-snug"><span class="text-rose-400 font-bold">⚠️</span><span>${item}</span></li>`).join('')
         : '<li class="text-emerald-400 italic flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5"></i> Nenhum risco grave identificado neste momento.</li>';
 
-      // Magic Number for single FII
       const magicCotas = Math.ceil(res.price / res.lastDiv);
       const magicCapital = magicCotas * res.price;
       document.getElementById('magicFiiCotas').textContent = `${magicCotas} cotas`;
       document.getElementById('magicFiiExplanation').innerHTML = `
-        Ao atingir <strong>${magicCotas} cotas</strong> (~R$ ${magicCapital.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}), os dividendos mensais deste FII pagarão <strong>1 nova cota todo mês 100% de graça</strong>.
+        Ao atingir <strong>${magicCotas} cotas</strong> (~R$ ${magicCapital.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}), os proventos mensais pagarão <strong>1 nova cota todo mês sem tirar do seu bolso</strong>.
       `;
 
       lucide.createIcons();
     }
 
-    // 5. PORTFOLIO & REBALANCING LOGIC
     function loadPortfolioFromStorage() {
       const saved = localStorage.getItem('fii_master_portfolio');
       if (saved) {
-        try {
-          currentPortfolio = JSON.parse(saved);
-        } catch (e) {
-          currentPortfolio = [];
-        }
+        try { currentPortfolio = JSON.parse(saved); } catch (e) { currentPortfolio = []; }
       }
-
       const savedName = localStorage.getItem('fii_investor_name');
       if (savedName) document.getElementById('investorName').value = savedName;
 
@@ -1180,7 +1052,6 @@ body {
       }
     }
 
-    // Starter suggested portfolio (matches the user's R$ 100 conversion from Inter Global Account)
     function loadSuggestedStarterPortfolio() {
       currentPortfolio = [
         { ticker: 'KNSC11', quantity: 2, avgPrice: 9.15, currentPrice: 9.15, dividend: 0.09, segment: 'Papel CRI', targetWeight: 20 },
@@ -1191,7 +1062,7 @@ body {
       ];
       savePortfolioToStorage();
       renderPortfolioDashboard();
-      showToast('Carteira Inicial de R$ 100 carregada com sucesso!');
+      showToast('Carteira de R$ 100 carregada com sucesso!');
     }
 
     function addCurrentFiiToPortfolio() {
@@ -1258,7 +1129,6 @@ body {
       showToast(`${ticker} removido da carteira.`);
     }
 
-    // Render Full Dashboard
     function renderPortfolioDashboard() {
       const tbody = document.getElementById('portfolioTableBody');
       const emptyMsg = document.getElementById('emptyPortfolioMsg');
@@ -1273,20 +1143,16 @@ body {
 
       emptyMsg.classList.add('hidden');
 
-      // Calculations
       let totalWealth = 0;
       let totalMonthlyDividend = 0;
       let totalCotas = 0;
 
       currentPortfolio.forEach(item => {
-        const itemWealth = item.quantity * item.currentPrice;
-        const itemDividend = item.quantity * item.dividend;
-        totalWealth += itemWealth;
-        totalMonthlyDividend += itemDividend;
+        totalWealth += item.quantity * item.currentPrice;
+        totalMonthlyDividend += item.quantity * item.dividend;
         totalCotas += item.quantity;
       });
 
-      // Render Table Rows
       tbody.innerHTML = currentPortfolio.map(item => {
         const itemWealth = item.quantity * item.currentPrice;
         const currentWeight = totalWealth > 0 ? ((itemWealth / totalWealth) * 100).toFixed(1) : '0.0';
@@ -1303,7 +1169,7 @@ body {
             <td class="py-2.5 px-2 text-right text-emerald-400">${item.targetWeight}%</td>
             <td class="py-2.5 px-2 text-right font-bold text-emerald-400">R$ ${itemMonthlyDividend}</td>
             <td class="py-2.5 px-3 text-center">
-              <button onclick="removeFiiFromPortfolio('${item.ticker}')" class="text-slate-500 hover:text-rose-400 p-1 transition" title="Remover da carteira">
+              <button onclick="removeFiiFromPortfolio('${item.ticker}')" class="text-slate-500 hover:text-rose-400 p-1 transition" title="Remover">
                 <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
               </button>
             </td>
@@ -1311,40 +1177,35 @@ body {
         `;
       }).join('');
 
-      // Update KPIs
       document.getElementById('kpiTotalWealth').textContent = `R$ ${totalWealth.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-      document.getElementById('kpiCotasTotal').textContent = `${totalCotas} cotas acumuladas`;
+      document.getElementById('kpiCotasTotal').textContent = `${totalCotas} cotas no total`;
       document.getElementById('kpiMonthlyIncome').textContent = `R$ ${totalMonthlyDividend.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
       
       const monthlyYieldPct = totalWealth > 0 ? ((totalMonthlyDividend / totalWealth) * 100).toFixed(2) : '0.00';
       document.getElementById('kpiYieldMonthly').textContent = `~${monthlyYieldPct}% a.m.`;
 
-      // Goal Progress
       const goal = parseFloat(document.getElementById('monthlyGoal').value) || 1000;
       const progressPct = Math.min(100, Math.round((totalMonthlyDividend / goal) * 100));
       document.getElementById('kpiGoalProgress').textContent = `${progressPct}%`;
       document.getElementById('kpiGoalBar').style.width = `${progressPct}%`;
 
-      // Magic Status
       const avgPriceAll = totalCotas > 0 ? (totalWealth / totalCotas) : 10;
       if (totalMonthlyDividend >= avgPriceAll) {
         const freeCotas = Math.floor(totalMonthlyDividend / avgPriceAll);
         document.getElementById('kpiMagicStatus').textContent = 'Bola de Neve Ativa! ❄️';
-        document.getElementById('kpiMagicStatus').className = 'text-sm sm:text-base font-bold text-emerald-400 mt-1.5 block';
+        document.getElementById('kpiMagicStatus').className = 'text-xs sm:text-base font-bold text-emerald-400 mt-1.5 block';
         document.getElementById('kpiMagicSubtitle').textContent = `+${freeCotas} cota(s) grátis/mês`;
       } else {
         const needed = avgPriceAll - totalMonthlyDividend;
         document.getElementById('kpiMagicStatus').textContent = 'Em Construção 🌱';
-        document.getElementById('kpiMagicStatus').className = 'text-sm sm:text-base font-bold text-amber-400 mt-1.5 block';
-        document.getElementById('kpiMagicSubtitle').textContent = `Faltam R$ ${needed.toFixed(2).replace('.', ',')} para 1ª cota`;
+        document.getElementById('kpiMagicStatus').className = 'text-xs sm:text-base font-bold text-amber-400 mt-1.5 block';
+        document.getElementById('kpiMagicSubtitle').textContent = `Faltam R$ ${needed.toFixed(2).replace('.', ',')}`;
       }
 
-      // Segment aggregation for Chart
       const segmentTotals = {};
       currentPortfolio.forEach(item => {
         const seg = item.segment || 'Outros';
-        const val = item.quantity * item.currentPrice;
-        segmentTotals[seg] = (segmentTotals[seg] || 0) + val;
+        segmentTotals[seg] = (segmentTotals[seg] || 0) + (item.quantity * item.currentPrice);
       });
 
       renderDonutChart(segmentTotals);
@@ -1363,25 +1224,14 @@ body {
       document.getElementById('kpiMagicSubtitle').textContent = 'Adicione cotas';
     }
 
-    // Chart.js Donut Chart
     function renderDonutChart(segments) {
       const ctx = document.getElementById('allocationChart').getContext('2d');
       const labels = Object.keys(segments);
       const data = Object.values(segments);
 
-      const colorPalette = [
-        '#10b981', // emerald
-        '#3b82f6', // blue
-        '#f59e0b', // amber
-        '#8b5cf6', // purple
-        '#ec4899', // pink
-        '#06b6d4', // cyan
-        '#64748b'  // slate
-      ];
+      const colorPalette = ['#10b981', '#3b82f6', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4'];
 
-      if (donutChartInstance) {
-        donutChartInstance.destroy();
-      }
+      if (donutChartInstance) donutChartInstance.destroy();
 
       if (labels.length === 0) {
         donutChartInstance = new Chart(ctx, {
@@ -1392,7 +1242,7 @@ body {
           },
           options: { cutout: '75%', plugins: { legend: { display: false } } }
         });
-        document.getElementById('chartLegend').innerHTML = '<span class="text-slate-500">Nenhum dado</span>';
+        document.getElementById('chartLegend').innerHTML = '<span class="text-slate-500 text-xs">Nenhum dado</span>';
         return;
       }
 
@@ -1416,8 +1266,7 @@ body {
             tooltip: {
               callbacks: {
                 label: function(context) {
-                  const val = context.raw || 0;
-                  return ` R$ ${val.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+                  return ` R$ ${(context.raw || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
                 }
               }
             }
@@ -1425,9 +1274,7 @@ body {
         }
       });
 
-      // Custom Legend
-      const legendEl = document.getElementById('chartLegend');
-      legendEl.innerHTML = labels.map((l, i) => `
+      document.getElementById('chartLegend').innerHTML = labels.map((l, i) => `
         <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-950 border border-slate-800 text-slate-300">
           <span class="w-2 h-2 rounded-full" style="background-color: ${colorPalette[i]}"></span>
           <span>${l}</span>
@@ -1435,50 +1282,42 @@ body {
       `).join('');
     }
 
-    // AI Rebalance Recommender
     function calculateAIRebalance() {
       const aporte = parseFloat(document.getElementById('monthlyContribution').value) || 100;
       document.getElementById('aiRebalanceAporteText').textContent = `R$ ${aporte.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
       const listContainer = document.getElementById('rebalanceSuggestions');
-
       if (currentPortfolio.length === 0) {
         listContainer.innerHTML = '<p class="text-xs text-slate-500 italic">Adicione ativos à carteira para gerar recomendações.</p>';
         return;
       }
 
-      let totalWealth = currentPortfolio.reduce((sum, item) => sum + (item.quantity * item.currentPrice), 0);
-      let futureWealth = totalWealth + aporte;
+      const totalWealth = currentPortfolio.reduce((sum, item) => sum + (item.quantity * item.currentPrice), 0);
+      const futureWealth = totalWealth + aporte;
 
-      // Calculate gap for each FII: targetValue - currentValue
       const gaps = currentPortfolio.map(fii => {
         const currentVal = fii.quantity * fii.currentPrice;
         const targetVal = (fii.targetWeight / 100) * futureWealth;
-        const gapVal = targetVal - currentVal;
         return {
           ticker: fii.ticker,
           currentPrice: fii.currentPrice,
-          gapVal: Math.max(0, gapVal),
+          gapVal: Math.max(0, targetVal - currentVal),
           dividend: fii.dividend
         };
       });
 
-      // Filter who needs buying
       const needsBuying = gaps.filter(g => g.gapVal > 0);
-
       if (needsBuying.length === 0) {
         listContainer.innerHTML = `
           <div class="p-3 bg-emerald-950/20 border border-emerald-900/30 rounded-xl text-xs text-emerald-300">
-            ✓ Sua carteira já está perfeitamente equilibrada de acordo com seus pesos alvo!
+            ✓ Sua carteira já está equilibrada de acordo com suas metas!
           </div>
         `;
         return;
       }
 
-      // Sort by highest gap
       needsBuying.sort((a, b) => b.gapVal - a.gapVal);
 
-      // Simulate purchasing cotas with the aporte budget
       let remainingBudget = aporte;
       const suggestions = [];
 
@@ -1498,7 +1337,6 @@ body {
         }
       });
 
-      // If budget still has change, put into the most underweight
       if (remainingBudget >= needsBuying[0].currentPrice) {
         const extra = Math.floor(remainingBudget / needsBuying[0].currentPrice);
         if (extra > 0) {
@@ -1522,7 +1360,7 @@ body {
       if (suggestions.length === 0) {
         listContainer.innerHTML = `
           <div class="p-3 bg-amber-950/20 border border-amber-900/30 rounded-xl text-xs text-amber-300">
-            O aporte de R$ ${aporte.toFixed(2)} é inferior ao preço unitário das cotas que mais precisam de rebalanceamento. Acumule para comprar cotas de <strong>${needsBuying[0].ticker}</strong>.
+            O aporte de R$ ${aporte.toFixed(2)} é inferior ao valor da cota que mais precisa de equilíbrio. Acumule para comprar cotas de <strong>${needsBuying[0].ticker}</strong>.
           </div>
         `;
         return;
@@ -1539,11 +1377,7 @@ body {
           </div>
           <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold uppercase">Equilibrar</span>
         </div>
-      `).join('') + `
-        <p class="text-[10px] text-slate-500 italic mt-1 text-right">
-          Troco restante estimado: R$ ${remainingBudget.toFixed(2).replace('.', ',')}
-        </p>
-      `;
+      `).join('');
     }
 
     function applyProfileAllocationTemplate() {
@@ -1551,17 +1385,14 @@ body {
       if (currentPortfolio.length === 0) return;
 
       if (prof === 'conservador') {
-        // Papel 60%, Tijolo 40%
         currentPortfolio.forEach(item => {
           if (item.segment.includes('Papel')) item.targetWeight = Math.round(60 / currentPortfolio.filter(x => x.segment.includes('Papel')).length);
           else item.targetWeight = Math.round(40 / currentPortfolio.filter(x => !x.segment.includes('Papel')).length);
         });
       } else if (prof === 'moderado') {
-        // 50% / 50%
         const equal = Math.round(100 / currentPortfolio.length);
         currentPortfolio.forEach(item => item.targetWeight = equal);
       } else {
-        // Arrojado: Tijolo 65%, Papel 35%
         currentPortfolio.forEach(item => {
           if (item.segment.includes('Papel')) item.targetWeight = Math.round(35 / currentPortfolio.filter(x => x.segment.includes('Papel')).length);
           else item.targetWeight = Math.round(65 / currentPortfolio.filter(x => !x.segment.includes('Papel')).length);
@@ -1569,7 +1400,7 @@ body {
       }
 
       renderPortfolioDashboard();
-      showToast(`Pesos alvo ajustados para perfil ${prof.toUpperCase()}!`);
+      showToast(`Pesos ajustados para perfil ${prof.toUpperCase()}!`);
     }
 
     function showToast(msg) {
